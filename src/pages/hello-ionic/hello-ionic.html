@@ -9,17 +9,24 @@
 
 
 <ion-content padding>
+  <form [formGroup]="todo" (ngSubmit)="logForm()">
+    <ion-item>
+      <ion-label>用户</ion-label>
+      <ion-input type="text" formControlName="userId"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>密码</ion-label>
+      <ion-input type="password" placeholder="请输入密码" value="" formControlName="password" clearInput=true></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>mi</ion-label>
+      <ion-textarea formControlName="description"></ion-textarea>
+    </ion-item>
+    <button ion-button type="submit" [disabled]="!todo.valid">Submit</button>
+  </form>
 
-  <h3>Welcome to your first Ionic app!</h3>
-
   <p>
-    This starter project is our way of helping you get a functional app running in record time.
-  </p>
-  <p>
-    Follow along on the tutorial section of the Ionic docs!
-  </p>
-  <p>
-    <button ion-button color="primary" menuToggle>Toggle Menu</button>
+    <button ion-button block="true" color="primary" menuToggle>Toggle Menu</button>
   </p>
 
 </ion-content>
