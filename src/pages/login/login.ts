@@ -29,7 +29,7 @@ export class LoginPage {
     this.showLoading();
     this.auth.login(this.registerCredentials).subscribe(allowed => {
       if (allowed) {
-        this.navCtrl.setRoot('HelloIonicPage');
+        this.navCtrl.setRoot('HomePage');
       } else {
         this.showError('Access Denied');
       }

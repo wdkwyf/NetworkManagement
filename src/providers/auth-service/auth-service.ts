@@ -1,6 +1,7 @@
 import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
-import {Observable} from "rxjs/Observable";
+// import {Observable} from "rxjs/Observable";
+import {Observable} from 'rxjs/Rx';
 
 export class User {
   name: string;
@@ -21,20 +22,19 @@ export class User {
 @Injectable()
 export class AuthServiceProvider {
   currentUser: User;
+  private getUserURL: string = "http://120.79.42.137:8080/Entity/Ud7adca934ab4e/Card/User/?User.name=";
 
   public login(credentials) {
     if (credentials.email === null || credentials.password === null) {
       return Observable.throw('Please insert credentials');
     } else {
       return Observable.create(observer => {
-        new Promise(() => {
-          this.http.get("http://120.79.42.137:8080/Entity/Ud7adca934ab4e/Card/User/?User.name=" + credentials.email).subscribe(data => {
-            let access = credentials.password === data['User'][0]['password'];
-            this.currentUser = new User("name", credentials.email);
-            observer.next(access);
-            observer.complete();
-          })
-        });
+        this.http.get(this.getUserURL + credentials.email).subscribe(data => {
+          let access = credentials.password === data['User'][0]['password'];
+          this.currentUser = new User("name", credentials.email);
+          observer.next(access);
+          observer.complete();
+        })
       })
     }
   }
