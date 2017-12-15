@@ -2,17 +2,16 @@ import {BrowserModule} from '@angular/platform-browser';
 import {NgModule, ErrorHandler} from '@angular/core';
 import {IonicApp, IonicModule, IonicErrorHandler} from 'ionic-angular';
 import {MyApp} from './app.component';
-
-import {HomePage} from '../pages/home/home';
-import {ItemDetailsPage} from '../pages/item-details/item-details';
-import {ListPage} from '../pages/list/list';
-
 import {StatusBar} from '@ionic-native/status-bar';
 import {SplashScreen} from '@ionic-native/splash-screen';
-import {LoginPage} from "../pages/login/login";
 import {AuthServiceProvider} from "../providers/auth-service/auth-service";
-import {HttpModule} from "@angular/http";
 import {HttpClientModule} from "@angular/common/http";
+import {Camera} from "@ionic-native/camera";
+import {FileOpener} from '@ionic-native/file-opener';
+import {HTTP} from '@ionic-native/http';
+import {FileChooser} from "@ionic-native/file-chooser";
+import {File} from '@ionic-native/file';
+import {FileTransfer} from "@ionic-native/file-transfer";
 
 @NgModule({
   declarations: [
@@ -37,7 +36,13 @@ import {HttpClientModule} from "@angular/common/http";
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    AuthServiceProvider
+    AuthServiceProvider,
+    Camera,
+    FileOpener,
+    HTTP,
+    FileChooser,
+    File,
+    FileTransfer
   ]
 })
 export class AppModule {
