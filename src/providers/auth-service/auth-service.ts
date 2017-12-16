@@ -1,6 +1,7 @@
 import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Rx';
+import {isUndefined} from "ionic-angular/util/util";
 
 export class User {
   name: string;
@@ -21,16 +22,17 @@ export class User {
 @Injectable()
 export class AuthServiceProvider {
   currentUser: User;
-  private getUserURL: string = "http://120.79.42.137:8080/Entity/Ud7adca934ab4e/Card/User/?User.name=";
+  private getSomeUserURL: string = 'http://120.79.42.137:8080/Entity/Ud7adca934ab4e/Card/User/?User.name=';
+  private postSomeUserURL: string = 'http://120.79.42.137:8080/Entity/Ud7adca934ab4e/Card/User/';
 
   public login(credentials) {
-    if (credentials.email === null || credentials.password === null) {
+    if (credentials.name === null || credentials.password === null) {
       return Observable.throw('Please insert credentials');
     } else {
       return Observable.create(observer => {
-        this.http.get(this.getUserURL + credentials.email).subscribe(data => {
+        this.http.get(this.getSomeUserURL + credentials.name).subscribe(data => {
           let access = credentials.password === data['User'][0]['password'];
-          this.currentUser = new User("name", credentials.email);
+          this.currentUser = new User(credentials.name, credentials.email);
           observer.next(access);
           observer.complete();
         })
@@ -39,14 +41,24 @@ export class AuthServiceProvider {
   }
 
   public register(credentials) {
-    if (credentials.email === null || credentials.password === null) {
-      return Observable.throw('Please insert credentials');
-    } else {
-      return Observable.create(observer => {
-        observer.next(true);
-        observer.complete();
+    return Observable.create(observer => {
+      this.http.get(this.getSomeUserURL + credentials.name).subscribe(data => {
+        // user name is not reduplicated
+        if (isUndefined(data['User'])) {
+          let body = {
+            'name': credentials.name,
+            'password': credentials.password,
+            'email': credentials.email
+          };
+          this.http.post(this.postSomeUserURL, body).subscribe(data => {
+            console.log(data);
+          });
+        }
       });
-    }
+      observer.next(false);
+      observer.complete();
+    });
+
   }
 
   public getUserInfo(): User {

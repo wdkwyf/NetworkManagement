@@ -40,8 +40,7 @@ export class HomePage {
   }
 
   public scanCard() {
-    var timeNow = new Date().getTime();
-    const url: string = "http://bcr2.intsig.net/BCRService/BCR_VCF2?user=wuyufei@sjtu.edu.cn&pass=TC6ELKF3HMKCCCBL&lang=15";
+    const cardScannerURL: string = "http://bcr2.intsig.net/BCRService/BCR_VCF2?user=wuyufei@sjtu.edu.cn&pass=TC6ELKF3HMKCCCBL&lang=15";
     const options: CameraOptions = {
       quality: 100,
       destinationType: this.camera.DestinationType.FILE_URI,
@@ -50,13 +49,14 @@ export class HomePage {
     };
     this.camera.getPicture(options).then(imageData => {
       const fileTransfer: FileTransferObject = this.transfer.create();
-      fileTransfer.upload(imageData, url).then(data => {
+      fileTransfer.upload(imageData, cardScannerURL).then(data => {
         let timeNow = new Date().getTime();
         console.log(timeNow);
         let VCFName = this.username + timeNow + '.vcf';
         this.file.writeFile(this.file.externalDataDirectory, VCFName, data.response).then((success) => {
           console.log('write vcf file success: ' + VCFName);
           console.log(this.file.externalDataDirectory +VCFName);
+          // open and add system contacts
           this.fileOpener.open((this.file.externalDataDirectory +VCFName), 'text/x-vcard').then(() => {
               console.log('file is opened');
             }
