@@ -1,7 +1,6 @@
 import {Component} from '@angular/core';
 import {AlertController, IonicPage, Loading, LoadingController, NavController, NavParams} from 'ionic-angular';
 import {AuthServiceProvider} from "../../providers/auth-service/auth-service";
-import {Camera, CameraOptions} from "@ionic-native/camera";
 import {FileOpener} from "@ionic-native/file-opener";
 
 /**
@@ -32,6 +31,7 @@ export class LoginPage {
       .then(() => console.log('File is opened'))
       .catch(e => console.log('Error openening file', e));
     this.navCtrl.push('RegisterPage');
+
   }
 
   public login() {

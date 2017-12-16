@@ -12,6 +12,9 @@ import {HTTP} from '@ionic-native/http';
 import {FileChooser} from "@ionic-native/file-chooser";
 import {File} from '@ionic-native/file';
 import {FileTransfer} from "@ionic-native/file-transfer";
+import {Contacts} from "@ionic-native/contacts";
+import { CardServiceProvider } from '../providers/card-service/card-service';
+
 
 @NgModule({
   declarations: [
@@ -28,9 +31,6 @@ import {FileTransfer} from "@ionic-native/file-transfer";
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    // HelloIonicPage,
-    // ItemDetailsPage,
-    // ListPage
   ],
   providers: [
     StatusBar,
@@ -42,7 +42,9 @@ import {FileTransfer} from "@ionic-native/file-transfer";
     HTTP,
     FileChooser,
     File,
-    FileTransfer
+    FileTransfer,
+    Contacts,
+    CardServiceProvider
   ]
 })
 export class AppModule {

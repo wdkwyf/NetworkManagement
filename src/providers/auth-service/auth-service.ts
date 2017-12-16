@@ -31,6 +31,7 @@ export class AuthServiceProvider {
     } else {
       return Observable.create(observer => {
         this.http.get(this.getSomeUserURL + credentials.name).subscribe(data => {
+          console.log('data'+data);
           let access = credentials.password === data['User'][0]['password'];
           this.currentUser = new User(credentials.name, credentials.email);
           observer.next(access);
