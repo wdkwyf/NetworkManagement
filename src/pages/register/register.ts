@@ -16,9 +16,12 @@ import {AuthServiceProvider} from "../../providers/auth-service/auth-service";
 })
 export class RegisterPage {
   createSuccess = false;
-  registerCredentials = {email: '', password: ''};
+  registerCredentials = {name: '', email: '', password: ''};
 
-  constructor(public navCtrl: NavController, private auth: AuthServiceProvider, private alertCtrl: AlertController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController,
+              private auth: AuthServiceProvider,
+              private alertCtrl: AlertController,
+              public navParams: NavParams) {
   }
 
   public register() {
@@ -26,22 +29,22 @@ export class RegisterPage {
       if (success) {
         this.createSuccess = true;
       } else {
-
+        this.showPopup("Error", "Problem creating account.");
       }
     }, error => {
-
+      this.showPopup("Error", error);
     });
   }
 
   showPopup(title, text) {
     let alert = this.alertCtrl.create({
-      title:title,
-      subTitle:text,
-      buttons:[
+      title: title,
+      subTitle: text,
+      buttons: [
         {
-          text:'OK',
-          handler:data=>{
-            if(this.createSuccess){
+          text: 'OK',
+          handler: data => {
+            if (this.createSuccess) {
               this.navCtrl.popToRoot();
             }
           }

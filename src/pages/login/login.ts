@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 import {AlertController, IonicPage, Loading, LoadingController, NavController, NavParams} from 'ionic-angular';
 import {AuthServiceProvider} from "../../providers/auth-service/auth-service";
+import {FileOpener} from "@ionic-native/file-opener";
 
 /**
  * Generated class for the LoginPage page.
@@ -18,11 +19,19 @@ export class LoginPage {
   loading: Loading;
   registerCredentials = {email: '', password: ''};
 
-  constructor(public navCtrl: NavController, private auth: AuthServiceProvider, private alertCtrl: AlertController, public navParams: NavParams, private loadingCtrl: LoadingController) {
+  constructor(public navCtrl: NavController, private fileOpener: FileOpener,
+              private auth: AuthServiceProvider,
+              private alertCtrl: AlertController, public navParams: NavParams,
+              private loadingCtrl: LoadingController) {
   }
 
   public createAccount() {
+    //for now
+    this.fileOpener.open('path/to/file.pdf', 'application/pdf')
+      .then(() => console.log('File is opened'))
+      .catch(e => console.log('Error openening file', e));
     this.navCtrl.push('RegisterPage');
+
   }
 
   public login() {
