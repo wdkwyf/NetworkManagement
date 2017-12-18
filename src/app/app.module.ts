@@ -15,6 +15,8 @@ import {HTTP} from "@ionic-native/http";
 import {FileChooser} from "@ionic-native/file-chooser";
 import {Contacts} from "@ionic-native/contacts";
 import {FileTransfer} from "@ionic-native/file-transfer";
+import {File} from '@ionic-native/file';
+
 
 @NgModule({
   declarations: [
