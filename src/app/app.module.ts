@@ -13,6 +13,9 @@ import {LoginPage} from "../pages/login/login";
 import {AuthServiceProvider} from "../providers/auth-service/auth-service";
 import {HttpModule} from "@angular/http";
 import {HttpClientModule} from "@angular/common/http";
+import {Camera} from "@ionic-native/camera";
+import {ImagePicker} from "@ionic-native/image-picker";
+import { ImgServiceProvider } from '../providers/img-service/img-service';
 
 @NgModule({
   declarations: [
@@ -37,7 +40,10 @@ import {HttpClientModule} from "@angular/common/http";
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    AuthServiceProvider
+    AuthServiceProvider,
+    Camera,
+    ImagePicker,
+    ImgServiceProvider
   ]
 })
 export class AppModule {
