@@ -9,7 +9,6 @@ import {FileOpener} from "@ionic-native/file-opener";
 import {FileTransfer, FileTransferObject} from "@ionic-native/file-transfer";
 import {File} from '@ionic-native/file';
 import {CardServiceProvider} from "../../providers/card-service/card-service";
-import {isSuccess} from "@angular/http/src/http_utils";
 
 @IonicPage()
 @Component({
@@ -18,8 +17,6 @@ import {isSuccess} from "@angular/http/src/http_utils";
 })
 export class HomePage {
   username = '';
-  email = '';
-  readonly unlogin = 'Guest';
 
 
   constructor(private camera: Camera,
@@ -28,19 +25,24 @@ export class HomePage {
               private transfer: FileTransfer,
               private fileOpener: FileOpener,
               private file: File,
-              private alertCtrl:AlertController,
+              private alertCtrl: AlertController,
               private fileChooser: FileChooser,
               private card: CardServiceProvider,
               private auth: AuthServiceProvider) {
-    let info = this.auth.getUserInfo();
-    if (isUndefined(info)) {
-      this.username = this.unlogin;
-      this.email = this.unlogin;
+    this.auth.getUserName().subscribe(name => {
+      console.log(name, 'name');
+      this.username = name;
+    });
 
-    } else {
-      this.username = info['name'];
-      this.email = info['email'];
-    }
+  }
+
+  public viewCloudCards() {
+    this.navCtrl.push('CloudCardListPage');
+
+  }
+
+  public login() {
+    this.navCtrl.setRoot('LoginPage');
   }
 
   public scanCard() {
@@ -49,8 +51,9 @@ export class HomePage {
       this.showConfirm();
 
     });
-
   }
+
+
   showConfirm() {
     let confirm = this.alertCtrl.create({
       title: '搜索人脉',

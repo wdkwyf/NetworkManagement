@@ -1,18 +1,30 @@
 <ion-header>
-  <ion-navbar>
-    <button menuToggle *ngIf="!selectedItem">
-      <ion-icon name="menu"></ion-icon>
-    </button>
-    <ion-title>Item Details</ion-title>
-  </ion-navbar>
+  <ion-toolbar>
+    <ion-title>
+      Description
+    </ion-title>
+    <ion-buttons start>
+      <button ion-button (click)="dismiss()">
+        <span ion-text color="primary" showWhen="ios">Cancel</span>
+        <ion-icon name="md-close" showWhen="android, windows"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
 </ion-header>
-
 <ion-content>
-  <h3 text-center *ngIf="selectedItem">
-    {{selectedItem.title}}
-    <ion-icon [name]="selectedItem.icon"></ion-icon>
-  </h3>
-  <h4 text-center *ngIf="selectedItem">
-    You navigated here from <b>{{selectedItem.title}}</b>
-  </h4>
+  <ion-list>
+    <ion-item>
+      <ion-avatar item-start>
+        <!--<img src="{{character.image}}">-->
+      </ion-avatar>
+      <h2>{{selectedItem.title}}</h2>
+      <p>{{selectedItem.title}}</p>
+    </ion-item>
+    <!--<ion-item *ngFor="let item of character['items']">-->
+      <!--{{item.name}}-->
+      <!--<ion-note item-end>-->
+        <!--{{item.note}}-->
+      <!--</ion-note>-->
+    <!--</ion-item>-->
+  </ion-list>
 </ion-content>

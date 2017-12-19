@@ -92,4 +92,5 @@
     <plugin name="cordova-plugin-statusbar" spec="^2.3.0" />
     <plugin name="cordova-plugin-file" spec="^5.0.0" />
     <plugin name="cordova-plugin-contacts" spec="^3.0.0" />
+    <plugin name="cordova-plugin-nativestorage" spec="^2.2.2" />
 </widget>

@@ -16,13 +16,13 @@ import {Observable} from "rxjs/Observable";
 */
 @Injectable()
 export class CardServiceProvider {
+  private readonly getAllFriendNames: string = 'http://120.79.42.137:8080/Entity/Ud7adca934ab4e/Card/Cards/?Cards.username=';
 
   constructor(public http: HttpClient,
               private camera: Camera,
               private transfer: FileTransfer,
               private fileOpener: FileOpener,
-              private file: File,
-              public alertCtrl: AlertController,) {
+              private file: File,) {
     console.log('Hello CardServiceProvider Provider');
   }
 
@@ -71,7 +71,22 @@ export class CardServiceProvider {
     //   this.showConfirm();
     // }
   }
-  public uploadCard(userName,friendName) {
+
+  public uploadCard(userName, friendName) {
+
+  }
+
+  public viewCloudCardName(username) {
+    let list: Array<string>=[];
+    return Observable.create(observer=>{
+      this.http.get(this.getAllFriendNames + username).subscribe(data => {
+        data['Cards'].forEach(value => {
+          list.push(value['friendname']);
+        });
+        observer.next(list);
+        observer.complete();
+      });
+    });
 
   }
 

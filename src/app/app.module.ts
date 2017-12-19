@@ -14,14 +14,12 @@ import {File} from '@ionic-native/file';
 import {FileTransfer} from "@ionic-native/file-transfer";
 import {Contacts} from "@ionic-native/contacts";
 import { CardServiceProvider } from '../providers/card-service/card-service';
+import {NativeStorage} from "@ionic-native/native-storage";
 
 
 @NgModule({
   declarations: [
     MyApp,
-    // HelloIonicPage,
-    // ItemDetailsPage,
-    // ListPage
   ],
   imports: [
     BrowserModule,
@@ -44,7 +42,8 @@ import { CardServiceProvider } from '../providers/card-service/card-service';
     File,
     FileTransfer,
     Contacts,
-    CardServiceProvider
+    CardServiceProvider,
+    NativeStorage
   ]
 })
 export class AppModule {

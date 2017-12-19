@@ -2,16 +2,7 @@ import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Rx';
 import {isUndefined} from "ionic-angular/util/util";
-
-export class User {
-  name: string;
-  email: string;
-
-  constructor(name: string, email: string) {
-    this.name = name;
-    this.email = email;
-  }
-}
+import {NativeStorage} from "@ionic-native/native-storage";
 
 /*
   Generated class for the AuthServiceProvider provider.
@@ -21,9 +12,10 @@ export class User {
 */
 @Injectable()
 export class AuthServiceProvider {
-  currentUser: User;
-  private getSomeUserURL: string = 'http://120.79.42.137:8080/Entity/Ud7adca934ab4e/Card/User/?User.name=';
-  private postSomeUserURL: string = 'http://120.79.42.137:8080/Entity/Ud7adca934ab4e/Card/User/';
+  private readonly getSomeUserURL: string = 'http://120.79.42.137:8080/Entity/Ud7adca934ab4e/Card/User/?User.name=';
+  private readonly postSomeUserURL: string = 'http://120.79.42.137:8080/Entity/Ud7adca934ab4e/Card/User/';
+  private readonly s_username: string = 'userName';
+  public readonly unlogin = 'Guest';
 
   public login(credentials) {
     if (credentials.name === null || credentials.password === null) {
@@ -31,9 +23,12 @@ export class AuthServiceProvider {
     } else {
       return Observable.create(observer => {
         this.http.get(this.getSomeUserURL + credentials.name).subscribe(data => {
-          console.log('data'+data);
           let access = credentials.password === data['User'][0]['password'];
-          this.currentUser = new User(credentials.name, credentials.email);
+          if (access) {
+            this.nativeStorage.setItem(this.s_username, credentials.name).then(() => {
+              console.log('stored item:', credentials.name);
+            });
+          }
           observer.next(access);
           observer.complete();
         })
@@ -62,20 +57,30 @@ export class AuthServiceProvider {
 
   }
 
-  public getUserInfo(): User {
-    return this.currentUser;
-  }
-
   public logout() {
     return Observable.create(observer => {
-      this.currentUser = null;
+      this.nativeStorage.remove(this.s_username).then(() => {
+        console.log('remove item: username');
+      });
       observer.next(true);
       observer.complete();
     });
   }
 
+  public getUserName() {
+    return Observable.create(observer => {
+      this.nativeStorage.getItem(this.s_username).then(value => {
+        console.log('success');
+        observer.next(value);
+        observer.complete();
+      }, ()=> {
+        observer.next(this.unlogin);
+        observer.complete();
+      })
+    });
+  }
 
-  constructor(public http: HttpClient) {
+  constructor(public http: HttpClient, private nativeStorage: NativeStorage) {
     console.log('Hello AuthServiceProvider Provider');
   }
 
