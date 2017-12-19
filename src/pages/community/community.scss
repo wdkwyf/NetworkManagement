@@ -1,0 +1,118 @@
+page-community {
+  .background{
+    background-color: #f5f5f5;
+  }
+  .avatar{
+    height: 50px;
+    width: 50px;
+    float:left;
+    margin-right:5px;
+    border-radius: 5px;
+  }
+
+  .postButton{
+    background-color: transparent;
+    float: right;
+    position: relative;
+    //right: -4px;
+    //margin-right: 6px;
+    font-size: 20px;
+  }
+
+  ion-card > img{
+    padding: 10px;
+  }
+
+  .col{
+    text-align: center;
+  }
+
+  .upper{
+    margin-bottom: 5px;
+    height: 60px;
+    padding: 10px;
+  }
+
+
+  .upper span{
+
+    display:flex;
+    flex-direction:column;
+  }
+
+  .upper span:nth-child(2){
+    font-size:15px;
+    padding-top: 8px;
+  }
+
+  .upper span:last-child{
+    font-size:12px;
+    color: #9E9E9E;
+  }
+
+  .commentDiv{
+    padding-left: 10px;
+    display: flex;
+    justify-items: center;
+  }
+
+  .commentInput{
+    border-radius: 10px;
+    border: 1px solid gray;
+    padding-left: 8px;
+    font-size: 15px;
+  }
+  .commentList .commentItem{
+    border-bottom: 1px solid lightgray;
+  }
+
+  .commentItem{
+    //margin-top: 10px;
+    padding:4px 10px;
+  }
+
+
+  .commentItemContent{
+    display: flex;
+    flex-direction: column;
+  }
+
+  p.postContent{
+    font-size: 18px;
+  }
+
+  .info{
+    display: flex;
+    margin-bottom: 10px;
+  }
+
+  .infoContent{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    justify-content: center;
+    //padding: 5px;
+  }
+
+  .infoContent span:first-child{
+    font-size: 12px;
+  }
+
+  .infoContent span:last-child{
+    font-size: 15px;
+  }
+
+  .levelNum{
+    //margin-left: 5px;
+    color: #9E9E9E;
+  }
+
+
+
+
+
+
+
+}
+
+

@@ -16,7 +16,6 @@ import {FileChooser} from "@ionic-native/file-chooser";
 import {Contacts} from "@ionic-native/contacts";
 import {FileTransfer} from "@ionic-native/file-transfer";
 import {File} from '@ionic-native/file';
-import {FileTransfer} from "@ionic-native/file-transfer";
 import {Contacts} from "@ionic-native/contacts";
 import { CardServiceProvider } from '../providers/card-service/card-service';
 import {NativeStorage} from "@ionic-native/native-storage";

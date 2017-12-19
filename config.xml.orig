@@ -107,9 +107,5 @@
     <plugin name="cordova-plugin-statusbar" spec="^2.3.0" />
     <plugin name="cordova-plugin-file" spec="^5.0.0" />
     <plugin name="cordova-plugin-contacts" spec="^3.0.0" />
-<<<<<<< .merge_file_pfASm0
     <plugin name="cordova-plugin-nativestorage" spec="^2.2.2" />
-=======
->>>>>>> abb2d05675fe1494ddab6a38b86e68b9894a50bd
->>>>>>> .merge_file_58qGSS
 </widget>
