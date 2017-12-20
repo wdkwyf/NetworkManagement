@@ -14,11 +14,23 @@
 
 
 <ion-content padding>
-  <div>
-      <ion-avatar>
-        <img src="img/avatar-cher.png">
-      </ion-avatar>
-  </div>
+  <div tappable="true" (tap)="changeAvatar()" class="avatar">
 
+    <img height="80px" width="80px" src="{{avatar}}">
+
+  </div>
+    <ion-item>
+      <ion-icon name="briefcase" item-start></ion-icon>
+      <ion-label>职业</ion-label>
+      <ion-multi-picker [(ngModel)]="job" id="jobs" item-content [multiPickerColumns]="jobColumns" [cancelText]="'取消'" [doneText]="'完成'"></ion-multi-picker>
+    </ion-item>
+    <ion-item>
+      <ion-icon name="pin" item-start></ion-icon>
+      <ion-label>工作地</ion-label>
+      <ion-multi-picker [(ngModel)]="workplace" id="cities" item-content [multiPickerColumns]="cityColumns" [cancelText]="'取消'" [doneText]="'完成'"></ion-multi-picker>
+    </ion-item>
+
+  <button (click)="saveBtnClicked()">aaa</button>
+  <p>{{workplace}}</p>
 
 </ion-content>

@@ -15,13 +15,15 @@
 
 <ion-content padding>
 
-  <ion-list>
-    <ion-item *ngFor="let contact of contactsList">
+  <ion-searchbar (ionInput)="getItems($event)"></ion-searchbar>
+
+  <!--<ion-list>-->
+    <ion-item class="contactItem" tappable="true" (tap)="contactTapped(contact)" *ngFor="let contact of contactsList">
       <ion-avatar item-left>
         <img src="{{contact.avatar}}">
       </ion-avatar>
       <h2>{{contact.name}}</h2>
     </ion-item>
-  </ion-list>
+  <!--</ion-list>-->
 
 </ion-content>
