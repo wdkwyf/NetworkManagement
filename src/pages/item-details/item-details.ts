@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {IonicPage, NavController, NavParams, ViewController} from 'ionic-angular';
 import {vcf} from 'vcf';
-import lodash from 'lodash';
+import {CardServiceProvider} from "../../providers/card-service/card-service";
 
 @IonicPage()
 @Component({
@@ -10,17 +10,27 @@ import lodash from 'lodash';
 })
 export class ItemDetailsPage {
   selectedItem: any;
+  cardInfo: { title: string, email: string, workphone: string, mobilephone: string, address: string } = {
+    title: '',
+    email: '',
+    workphone: '',
+    mobilephone: '',
+    address: ''
+  };
 
-  constructor(public navCtrl: NavController, public navParams: NavParams,private viewCtrl:ViewController) {
+  constructor(public navCtrl: NavController,
+              public navParams: NavParams,
+              private cardService: CardServiceProvider,
+              private viewCtrl: ViewController) {
     // If we navigated to this page, we will have an item available as a nav param
-    this.selectedItem = navParams.get('item');
-    console.log('selected item',this.selectedItem);
-    console.log(Component);
-    lodash.capitalize('hurray, the lib works!');
+    let username = this.navParams.get('name');
+    let friendname = this.navParams.get('item');
+    this.selectedItem = friendname;
+    this.cardService.viewDetailCard(username, friendname).subscribe(cardInfo => {
+      this.cardInfo = cardInfo;
+    });
   }
-  sdk(){
-    console.log()
-  }
+
   dismiss() {
     this.viewCtrl.dismiss();
   }

@@ -27,7 +27,7 @@ export class HomePage {
               private file: File,
               private alertCtrl: AlertController,
               private fileChooser: FileChooser,
-              private card: CardServiceProvider,
+              private cardService: CardServiceProvider,
               private auth: AuthServiceProvider) {
     this.auth.getUserName().subscribe(name => {
       console.log(name, 'name');
@@ -42,32 +42,61 @@ export class HomePage {
   }
 
   public login() {
+
     this.navCtrl.setRoot('LoginPage');
   }
 
   public scanCard() {
-    this.card.scanCard(this.username).subscribe(isSuccess => {
-      console.log(isSuccess);
-      this.showConfirm();
-
+    this.cardService.scanCard().subscribe(vcfName => {
+      if (vcfName === '') {
+        console.log('vcfName is null');
+      }
+      if (vcfName != '') {
+        // ask if user want to search user according to this business card.
+        this.showSearchConfirm(vcfName);
+      }
     });
   }
 
-
-  showConfirm() {
+  showSyncConfirm(vcfName) {
     let confirm = this.alertCtrl.create({
-      title: '搜索人脉',
-      message: '你想要根据名片扫描信息搜索人脉吗？',
+      title: '同步名片',
+      message: '你想要在云端同步扫描名片信息嘛？',
       buttons: [
         {
           text: '不用了',
           handler: () => {
+            console.log('disagree clicked');
+          }
+        },
+        {
+          text: '好的',
+          handler: () => {
+            this.cardService.syncCard(this.username, vcfName);
+            console.log('Agree Clicked');
+          }
+        }
+      ]
+    });
+    confirm.present();
+  }
+
+  showSearchConfirm(vcfName) {
+    let confirm = this.alertCtrl.create({
+      title: '搜索人脉',
+      message: '你想要根据扫描名片信息搜索人脉吗？',
+      buttons: [
+        {
+          text: '不用了',
+          handler: () => {
+            this.showSyncConfirm(vcfName);
             console.log('Disagree clicked');
           }
         },
         {
           text: '好的',
           handler: () => {
+            this.showSyncConfirm(vcfName);
             console.log('Agree clicked');
           }
         }

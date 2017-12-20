@@ -42,7 +42,7 @@ export class LoginPage {
       if (allowed) {
         this.navCtrl.setRoot('HomePage');
       } else {
-        this.showError('Access Denied');
+        this.showError('登录失败');
       }
     });
 
@@ -61,7 +61,7 @@ export class LoginPage {
 
   showLoading() {
     this.loading = this.loadingCtrl.create({
-      content: 'Please wait...',
+      content: '登录中，请稍后',
       dismissOnPageChange: true
     });
     this.loading.present();

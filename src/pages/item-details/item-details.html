@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>
-      Description
+      详细信息
     </ion-title>
     <ion-buttons start>
       <button ion-button (click)="dismiss()">
@@ -11,20 +11,33 @@
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
-<ion-content>
-  <ion-list>
-    <ion-item>
-      <ion-avatar item-start>
-        <!--<img src="{{character.image}}">-->
-      </ion-avatar>
-      <h2>{{selectedItem.title}}</h2>
-      <p>{{selectedItem.title}}</p>
-    </ion-item>
-    <!--<ion-item *ngFor="let item of character['items']">-->
-      <!--{{item.name}}-->
-      <!--<ion-note item-end>-->
-        <!--{{item.note}}-->
-      <!--</ion-note>-->
-    <!--</ion-item>-->
-  </ion-list>
+<ion-content class="card-background-page">
+  <ion-card>
+    <img src="assets/imgs/card-background.jpg">
+    <div class="card-content">
+      <ion-list>
+        <ion-item id="name">
+          {{selectedItem}} <span item-end>{{cardInfo.title}}</span>
+        </ion-item>
+        <ion-item>
+          <ion-icon name="mail" item-left></ion-icon>
+          {{cardInfo.email}}
+        </ion-item>
+        <ion-item>
+          <ion-icon name="call" item-left></ion-icon>
+          {{cardInfo.workphone}}
+        </ion-item>
+        <ion-item>
+          <ion-icon name="phone-portrait" item-left></ion-icon>
+          {{cardInfo.mobilephone}}
+        </ion-item>
+        <ion-item class="item-text-wrap" >
+          <ion-icon name="pin" item-left></ion-icon>
+          <p>{{cardInfo.address}}</p>
+        </ion-item>
+      </ion-list>
+    </div>
+
+  </ion-card>
+
 </ion-content>
