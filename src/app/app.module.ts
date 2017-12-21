@@ -17,7 +17,8 @@ import {Contacts} from "@ionic-native/contacts";
 import {FileTransfer} from "@ionic-native/file-transfer";
 import {File} from '@ionic-native/file';
 import {NativeStorage} from "@ionic-native/native-storage";
-
+import {QQSDK} from "@ionic-native/qqsdk";
+import {NgxQRCodeModule} from "ngx-qrcode2";
 
 @NgModule({
   declarations: [
@@ -47,7 +48,9 @@ import {NativeStorage} from "@ionic-native/native-storage";
     FileTransfer,
     Contacts,
     CardServiceProvider,
-    NativeStorage
+    NativeStorage,
+    QQSDK,
+    NgxQRCodeModule
   ]
 })
 export class AppModule {

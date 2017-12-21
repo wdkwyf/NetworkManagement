@@ -77,6 +77,17 @@ export class CardServiceProvider {
     })
   }
 
+  public downloadCard(friendname) {
+    return Observable.create(observer => {
+      this.fileOpener.open((this.file.externalCacheDirectory + 'tmp-' + friendname + '.vcf'), 'text/x-vcard').then(() => {
+          observer.next();
+          observer.complete();
+        }
+      ).catch(e => console.log('file not open', e.message));
+    });
+
+  }
+
   public viewDetailCard(username, friendname) {
     return Observable.create(observer => {
       let cardInfo = null;
@@ -85,9 +96,10 @@ export class CardServiceProvider {
         let id = data["Cards"][0]['id'];
         const fileTransfer: FileTransferObject = this.transfer.create();
         console.log('id', id);
-        fileTransfer.download(this.getVcfURL + id, this.file.externalCacheDirectory + 'tmp.vcf').then(entry => {
+        let filename = 'tmp-' + friendname + '.vcf';
+        fileTransfer.download(this.getVcfURL + id, this.file.externalCacheDirectory+filename).then(entry => {
           console.log('download complete', entry.toURL());
-          this.file.readAsText(this.file.externalCacheDirectory, 'tmp.vcf').then(content => {
+          this.file.readAsText(this.file.externalCacheDirectory, filename).then(content => {
             console.log('content', content);
             let card = new vcf().parse(content);
             cardInfo = {
@@ -95,7 +107,8 @@ export class CardServiceProvider {
               email: card["data"]["email"]._data,
               workphone: card["data"]['tel'][1]._data,
               mobilephone: card["data"]['tel'][0]._data,
-              address: card["data"]["label"]._data
+              address: card["data"]["label"]._data,
+              id: id
             };
             observer.next(cardInfo);
             observer.complete();

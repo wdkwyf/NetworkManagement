@@ -31,10 +31,24 @@
           <ion-icon name="phone-portrait" item-left></ion-icon>
           {{cardInfo.mobilephone}}
         </ion-item>
-        <ion-item class="item-text-wrap" >
+        <ion-item class="item-text-wrap">
           <ion-icon name="pin" item-left></ion-icon>
           <p>{{cardInfo.address}}</p>
         </ion-item>
+        <ion-row>
+          <ion-col>
+            <button ion-button icon-left clear (click)="downloadCard()">
+              <ion-icon name="sync"></ion-icon>
+              <div>同步</div>
+            </button>
+          </ion-col>
+          <ion-col>
+            <button ion-button icon-left clear (click)="shareQQ()">
+              <ion-icon name="share"></ion-icon>
+              <div>分享</div>
+            </button>
+          </ion-col>
+        </ion-row>
       </ion-list>
     </div>
 

@@ -78,8 +78,8 @@
     </platform>
     <allow-navigation href="http://192.168.31.89:8100" />
     <engine name="ios" spec="~4.5.4" />
-    <engine name="android" spec="6.3.0" />
     <engine name="browser" spec="5.0.1" />
+    <engine name="android" spec="6.3.0" />
     <plugin name="cordova-plugin-camera" spec="^3.0.0" />
     <plugin name="com.synconset.imagepicker" spec="~2.1.8">
         <variable name="PHOTO_LIBRARY_USAGE_DESCRIPTION" value="your usage message" />
@@ -97,4 +97,7 @@
     <plugin name="cordova-plugin-file" spec="^5.0.0" />
     <plugin name="cordova-plugin-contacts" spec="^3.0.0" />
     <plugin name="cordova-plugin-nativestorage" spec="^2.2.2" />
+    <plugin name="cordova-plugin-qqsdk" spec="^0.9.6">
+        <variable name="QQ_APP_ID" value="1106629552" />
+    </plugin>
 </widget>

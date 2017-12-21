@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {AlertController, IonicPage, NavController} from 'ionic-angular';
+import {AlertController, IonicPage, NavController, Platform} from 'ionic-angular';
 import {AuthServiceProvider} from "../../providers/auth-service/auth-service";
 import {CameraOptions, Camera} from "@ionic-native/camera";
 import {HttpClient} from '@angular/common/http';
@@ -9,6 +9,10 @@ import {FileOpener} from "@ionic-native/file-opener";
 import {FileTransfer, FileTransferObject} from "@ionic-native/file-transfer";
 import {File} from '@ionic-native/file';
 import {CardServiceProvider} from "../../providers/card-service/card-service";
+import {BarcodeScanner} from "@ionic-native/barcode-scanner";
+
+declare var qrcode;
+declare var window;
 
 @IonicPage()
 @Component({
@@ -17,7 +21,9 @@ import {CardServiceProvider} from "../../providers/card-service/card-service";
 })
 export class HomePage {
   username = '';
-
+  qrData = null;
+  createdCode = null;
+  scannedCode = null;
 
   constructor(private camera: Camera,
               private navCtrl: NavController,
@@ -25,6 +31,7 @@ export class HomePage {
               private transfer: FileTransfer,
               private fileOpener: FileOpener,
               private file: File,
+              private plt: Platform,
               private alertCtrl: AlertController,
               private fileChooser: FileChooser,
               private cardService: CardServiceProvider,
@@ -33,6 +40,8 @@ export class HomePage {
       console.log(name, 'name');
       this.username = name;
     });
+
+
 
   }
 
@@ -58,10 +67,32 @@ export class HomePage {
     });
   }
 
+  createCode() {
+    this.createdCode = this.qrData;
+  }
+
+  scanCode() {
+    qrcode.callback = function (data) {
+      console.error(data);
+    };
+    let url = this.file.externalCacheDirectory + 'a.png';
+    console.log('url',url);
+    window.resolveLocalFileSystemURL(this.file.externalCacheDirectory + 'a.png', (entry) => {
+      console.log('------------'+entry.toInternalURL());
+    });
+    // cdvfile://
+    qrcode.decode('cdvfile://localhost/cache-external/a.png');
+    // this.barcodeScanner.scan().then(barcodeData => {
+    //   this.scannedCode = barcodeData.text;
+    // }, (err) => {
+    //   console.log('Error: ', err);
+    // });
+  }
+
   showSyncConfirm(vcfName) {
     let confirm = this.alertCtrl.create({
-      title: '同步名片',
-      message: '你想要在云端同步扫描名片信息嘛？',
+      title: '名片备份',
+      message: '你想要在云端备份该名片嘛？',
       buttons: [
         {
           text: '不用了',
