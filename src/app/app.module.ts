@@ -19,6 +19,7 @@ import {File} from '@ionic-native/file';
 import {NativeStorage} from "@ionic-native/native-storage";
 import {QQSDK} from "@ionic-native/qqsdk";
 import {NgxQRCodeModule} from "ngx-qrcode2";
+import {Toast} from "@ionic-native/toast";
 
 @NgModule({
   declarations: [
@@ -50,7 +51,8 @@ import {NgxQRCodeModule} from "ngx-qrcode2";
     CardServiceProvider,
     NativeStorage,
     QQSDK,
-    NgxQRCodeModule
+    NgxQRCodeModule,
+    Toast
   ]
 })
 export class AppModule {
