@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import {App, IonicPage, NavController, NavParams} from 'ionic-angular';
 
 /**
  * Generated class for the MessagePage page.
@@ -17,7 +17,7 @@ export class MessagePage {
 
   toUser:Object;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(private app:App,public navCtrl: NavController, public navParams: NavParams) {
     this.toUser = {
       id:'2',
       name:'haha',
@@ -48,6 +48,10 @@ export class MessagePage {
       "status":"success"
     }]
     }
+  }
+
+  itemClicked(){
+    this.app.getRootNav().push('ChatPage',this.toUser);
   }
   ionViewDidLoad() {
     console.log('ionViewDidLoad MessagePage');

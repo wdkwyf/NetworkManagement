@@ -6,31 +6,38 @@
 -->
 <ion-header>
 
-  <ion-navbar>
-    <ion-title>editInfo</ion-title>
-  </ion-navbar>
+  <!--<ion-navbar>-->
+    <!--<ion-title>editInfo</ion-title>-->
+  <!--</ion-navbar>-->
+  <ion-toolbar>
+    <button class="cancelBtn" (click)="closeModal()">取消</button>
+    <button (click)="saveBtnClicked()" class="saveBtn">保存</button>
+  </ion-toolbar>
 
 </ion-header>
 
 
 <ion-content padding>
-  <div tappable="true" (tap)="changeAvatar()" class="avatar">
+  <!--<button class="editBtn" (click)="editInfo()"><ion-icon name="create"></ion-icon>-->
+  <!--</button>-->
 
-    <img height="80px" width="80px" src="{{avatar}}">
-
+  <div class="avatar">
+    <img (click)="changeAvatar()" id='avatarDiv' height="80px" width="80px" src="{{data.avatar}}">
   </div>
-    <ion-item>
-      <ion-icon name="briefcase" item-start></ion-icon>
-      <ion-label>职业</ion-label>
-      <ion-multi-picker [(ngModel)]="job" id="jobs" item-content [multiPickerColumns]="jobColumns" [cancelText]="'取消'" [doneText]="'完成'"></ion-multi-picker>
-    </ion-item>
-    <ion-item>
-      <ion-icon name="pin" item-start></ion-icon>
-      <ion-label>工作地</ion-label>
-      <ion-multi-picker [(ngModel)]="workplace" id="cities" item-content [multiPickerColumns]="cityColumns" [cancelText]="'取消'" [doneText]="'完成'"></ion-multi-picker>
-    </ion-item>
+  <ion-item>
+    <ion-icon name="briefcase" item-start></ion-icon>
+    <ion-label>职业</ion-label>
+    <ion-multi-picker placeholder="{{data.jobStr}}" [(ngModel)]="job" id="jobs" item-content
+                      [multiPickerColumns]="jobColumns" [cancelText]="'取消'" [doneText]="'完成'"></ion-multi-picker>
+  </ion-item>
+  <ion-item>
+    <ion-icon name="pin" item-start></ion-icon>
+    <ion-label>工作地</ion-label>
+    <ion-multi-picker placeholder="{{data.workPlaceStr}}" [(ngModel)]="workplace" id="cities" item-content
+                      [multiPickerColumns]="cityColumns" [cancelText]="'取消'" [doneText]="'完成'"></ion-multi-picker>
+  </ion-item>
 
-  <button (click)="saveBtnClicked()">aaa</button>
+  <!--<button (click)="saveBtnClicked()">aaa</button>-->
   <p>{{workplace}}</p>
 
 </ion-content>

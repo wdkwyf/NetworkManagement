@@ -6,4 +6,19 @@ page-edit-info {
     }
   }
 
+
+  button.saveBtn,button.cancelBtn{
+    background-color: transparent;
+
+    position: relative;
+    font-size: 20px;
+    color: #488aff;
+  }
+
+  button.saveBtn{
+    float: right;
+  }
+
+
+
 }

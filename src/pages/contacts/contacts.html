@@ -6,9 +6,12 @@
 -->
 <ion-header>
 
-  <ion-toolbar>
-    <button (click)="addContact()" class="postButton"><ion-icon name="md-add"></ion-icon></button>
-  </ion-toolbar>
+  <ion-navbar>
+    <ion-title>Contacts</ion-title>
+    <button (click)="addContact()" class="postButton">
+      <ion-icon name="md-add"></ion-icon>
+    </button>
+  </ion-navbar>
 
 </ion-header>
 
@@ -17,13 +20,29 @@
 
   <ion-searchbar (ionInput)="getItems($event)"></ion-searchbar>
 
-  <!--<ion-list>-->
-    <ion-item class="contactItem" tappable="true" (tap)="contactTapped(contact)" *ngFor="let contact of contactsList">
-      <ion-avatar item-left>
-        <img src="{{contact.avatar}}">
-      </ion-avatar>
-      <h2>{{contact.name}}</h2>
-    </ion-item>
-  <!--</ion-list>-->
+  <ion-list>
+
+    <ion-item-group style="margin-top: 5px">
+      <ion-item-divider color="light">H</ion-item-divider>
+      <ion-item-sliding class="contactItem"
+                        *ngFor="let contact of contactsList">
+        <ion-item tappable="true" (tap)="contactTapped(contact)">
+          <ion-avatar item-left>
+            <img src="{{contact.avatar}}">
+          </ion-avatar>
+          <h2>{{contact.name}}</h2>
+        </ion-item>
+        <ion-item-options side="right">
+          <button (click)="addGroup()" ion-button color="primary">
+            <ion-icon name="pricetag"></ion-icon>
+            分组
+          </button>
+
+        </ion-item-options>
+
+      </ion-item-sliding>
+
+    </ion-item-group>
+  </ion-list>
 
 </ion-content>

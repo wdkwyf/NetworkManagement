@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import {App, IonicPage, NavController, NavParams} from 'ionic-angular';
 import {ChatPage} from "../chat/chat";
 
 /**
@@ -18,7 +18,7 @@ export class ContactsPage {
 
   contactsList; //= [{id:'3',name:'haha',avatar:'./assets/imgs/to-user.jpg'},{id:'4',name:'hhh',avatar:'./assets/imgs/to-user.jpg'},{id:'5',name:'haha',avatar:'./assets/imgs/to-user.jpg'}]
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(private app:App,public navCtrl: NavController, public navParams: NavParams) {
     this.initializeItems();
   }
 
@@ -36,8 +36,14 @@ export class ContactsPage {
 
   contactTapped(contact){
     console.log('contact');
-    this.navCtrl.push('ChatPage',contact);
+    //todo 新建笔
+    this.app.getRootNav().push('PersonalInfoPage',contact);
 
+  }
+
+  addGroup(){
+    console.log("addGroupClicked");
+    this.app.getRootNav().push('AddGroupPage');
   }
 
   imgTapped(){

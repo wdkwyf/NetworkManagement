@@ -15,8 +15,7 @@
 
 <ion-content padding>
   <ion-list>
-    <ion-item navPush="ChatPage"
-              [navParams]="toUser">
+    <ion-item (click)="itemClicked()">
       <ion-avatar item-left>
         <img src="./assets/imgs/to-user.jpg">
       </ion-avatar>

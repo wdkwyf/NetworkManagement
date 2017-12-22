@@ -1,3 +1,83 @@
 page-personal-info {
 
+  div.avatar{
+    text-align: center;
+    img{
+      border-radius: 50%;
+    }
+  }
+
+
+  button.editBtn:hover{
+    color: #77969a;
+
+  }
+
+
+  .detailList{
+    margin: 0;
+  }
+
+
+  .infoDetail{
+    //font-size: 20px;
+    margin-top: 15px;
+    color:black;
+  }
+
+  div.nameDiv{
+    text-align: center;
+    font-size: 20px;
+    color: grey;
+    margin-bottom: 20px;
+  }
+
+  .myBtn{
+    padding: 11px;
+    width: 100%;
+    font-size: 15px;
+
+  }
+
+  .funcBtn{
+    background-color: #488aff;
+    color: white;
+    border-radius: 3px;
+    margin-bottom: 10px;
+  }
+  .detailBtn{
+    background-color: #f5f5f5;
+
+    color: black;
+    margin-bottom: 0;
+  }
+
+  .myCard{
+    margin: 12px 0;
+    width: 100%;
+  }
+
+  .showDetailBtn{
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+  }
+
+
+  .hideDetailBtn{
+
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+  }
+
+
+  .editBtn{
+    background-color: transparent;
+    float: right;
+    position: relative;
+    //right: -4px;
+    //margin-right: 6px;
+    font-size: 20px;
+  }
+
+
 }

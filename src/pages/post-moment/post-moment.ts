@@ -18,6 +18,7 @@ import {ImgServiceProvider} from "../../providers/img-service/img-service";
 export class PostMomentPage {
 
   avatar:string = '';
+  data;
 
   constructor(public navCtrl: NavController,private imgservice: ImgServiceProvider,  public navParams: NavParams,private view: ViewController, public actionSheetCtrl: ActionSheetController, public alertCtrl: AlertController) {
   }
@@ -26,8 +27,8 @@ export class PostMomentPage {
     console.log('ionViewDidLoad PostMomentPage');
   }
   ionViewWillLoad() {
-    const data = this.navParams.get('data');
-    console.log(data);
+    this.data = this.navParams.get('data');
+    console.log(this.data);
   }
 
   closeModal() {
