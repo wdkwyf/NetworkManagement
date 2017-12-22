@@ -6,7 +6,7 @@ import {File} from "@ionic-native/file";
 import {FileOpener} from "@ionic-native/file-opener";
 import {Observable} from "rxjs/Observable";
 import vcf from 'vcf';
-import {Loading, LoadingController} from "ionic-angular";
+import {AlertController, Loading, LoadingController} from "ionic-angular";
 import {isUndefined} from "ionic-angular/util/util";
 
 /*
@@ -26,6 +26,7 @@ export class CardServiceProvider {
 
   constructor(public http: HttpClient,
               private camera: Camera,
+              private alertCtrl: AlertController,
               private transfer: FileTransfer,
               private fileOpener: FileOpener,
               private loadingCtrl: LoadingController,
@@ -78,7 +79,18 @@ export class CardServiceProvider {
     })
   }
 
-  public downloadCard(friendname) {
+  public downloadCard(url) {
+    const fileTransfer: FileTransferObject = this.transfer.create();
+    let timeNow = new Date().getTime();
+    fileTransfer.download(url, this.file.externalCacheDirectory + 'shareCard' + timeNow + '.vcf').then(entry => {
+      console.log('download complete', entry.toURL());
+      this.fileOpener.open(entry.toURL(), 'text/x-vcard').then(() => {
+        }
+      ).catch(e => console.log('file not open', e.message));
+    })
+  }
+
+  public saveCard(friendname) {
     return Observable.create(observer => {
       this.fileOpener.open((this.file.externalCacheDirectory + 'tmp-' + friendname + '.vcf'), 'text/x-vcard').then(() => {
           observer.next();
@@ -94,10 +106,10 @@ export class CardServiceProvider {
       this.http.get(this.getIdByNamesURL + 'Cards.username=' +
         username + '&Cards.friendname=' + friendname).subscribe(data => {
         let id = data["Cards"][0]['id'];
-        const fileTransfer: FileTransferObject = this.transfer.create();
         console.log('id', id);
         let filename = 'tmp-' + friendname + '.vcf';
         this.shareCardURL = this.getVcfURL + id;
+        const fileTransfer: FileTransferObject = this.transfer.create();
         fileTransfer.download(this.shareCardURL, this.file.externalCacheDirectory + filename).then(entry => {
           console.log('download complete', entry.toURL());
           this.file.readAsText(this.file.externalCacheDirectory, filename).then(content => {
@@ -120,7 +132,6 @@ export class CardServiceProvider {
           })
         })
       });
-
     });
   }
 
@@ -173,6 +184,55 @@ export class CardServiceProvider {
       });
     });
 
+  }
+
+  public showSearchConfirm(vcfName, username) {
+    let confirm = this.alertCtrl.create({
+      title: '搜索人脉',
+      message: '你想要根据扫描名片信息搜索人脉吗？',
+      buttons: [
+        {
+          text: '不用了',
+          handler: () => {
+            this.showSyncConfirm(vcfName, username);
+            console.log('Disagree clicked');
+          }
+        },
+        {
+          text: '好的',
+          handler: () => {
+            this.showSyncConfirm(vcfName, username);
+            console.log('Agree clicked');
+          }
+        }
+      ]
+    });
+    confirm.present();
+    this.loading.dismiss();
+  }
+
+  // ask if user want to sync user according to this business card.
+  public showSyncConfirm(vcfName, username) {
+    let confirm = this.alertCtrl.create({
+      title: '名片备份',
+      message: '你想要在云端备份该名片嘛？',
+      buttons: [
+        {
+          text: '不用了',
+          handler: () => {
+            console.log('disagree clicked');
+          }
+        },
+        {
+          text: '好的',
+          handler: () => {
+            this.syncCard(username, vcfName);
+            console.log('Agree Clicked');
+          }
+        }
+      ]
+    });
+    confirm.present();
   }
 
 

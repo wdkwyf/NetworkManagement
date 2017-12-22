@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {IonicPage, ModalController, NavController, NavParams, ViewController} from 'ionic-angular';
-import {ItemDetailsPage} from '../item-details/item-details';
+import {ItemDetailsPage} from '../card-details/item-details';
 import {CardServiceProvider} from "../../providers/card-service/card-service";
 import {AuthServiceProvider} from "../../providers/auth-service/auth-service";
 

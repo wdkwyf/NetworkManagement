@@ -23,7 +23,7 @@ import {NativeStorage} from "@ionic-native/native-storage";
 import {QQSDK} from "@ionic-native/qqsdk";
 import {NgxQRCodeModule} from "ngx-qrcode2";
 import {Toast} from "@ionic-native/toast";
-import {Screenshot} from '@ionic-native/screenshot';
+import {BarcodeScanner} from "@ionic-native/barcode-scanner";
 
 @NgModule({
   declarations: [
@@ -60,7 +60,7 @@ import {Screenshot} from '@ionic-native/screenshot';
     QQSDK,
     NgxQRCodeModule,
     Toast,
-    Screenshot
+    BarcodeScanner
   ]
 })
 export class AppModule {

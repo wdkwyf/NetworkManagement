@@ -1,13 +1,18 @@
-import { Component } from '@angular/core';
-import {App, IonicPage, NavController, NavParams} from 'ionic-angular';
+import {Component, ElementRef, ViewChild} from '@angular/core';
+import {
+  AlertController, App, IonicPage, MenuController, NavController, NavParams,
+  PopoverController
+} from 'ionic-angular';
 import {ChatPage} from "../chat/chat";
-
-/**
- * Generated class for the ContactsPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+import {PopoverPage} from "./popover";
+import {HttpClient} from "@angular/common/http";
+import {FileOpener} from "@ionic-native/file-opener";
+import {Camera} from "@ionic-native/camera";
+import {File} from "@ionic-native/file";
+import {FileTransfer} from "@ionic-native/file-transfer";
+import {CardServiceProvider} from "../../providers/card-service/card-service";
+import {FileChooser} from "@ionic-native/file-chooser";
+import {AuthServiceProvider} from "../../providers/auth-service/auth-service";
 
 @IonicPage()
 @Component({
@@ -15,38 +20,69 @@ import {ChatPage} from "../chat/chat";
   templateUrl: 'contacts.html',
 })
 export class ContactsPage {
-
+  @ViewChild('popoverContent', {read: ElementRef}) content: ElementRef;
+  @ViewChild('popoverText', {read: ElementRef}) text: ElementRef;
   contactsList; //= [{id:'3',name:'haha',avatar:'./assets/imgs/to-user.jpg'},{id:'4',name:'hhh',avatar:'./assets/imgs/to-user.jpg'},{id:'5',name:'haha',avatar:'./assets/imgs/to-user.jpg'}]
+  username = '';
 
-  constructor(private app:App,public navCtrl: NavController, public navParams: NavParams) {
+  constructor(private app: App,
+              private popoverCtrl: PopoverController,
+              private camera: Camera,
+              public menu: MenuController,
+              private navCtrl: NavController,
+              private http: HttpClient,
+              private transfer: FileTransfer,
+              private fileOpener: FileOpener,
+              private file: File,
+              private alertCtrl: AlertController,
+              private fileChooser: FileChooser,
+              private cardService: CardServiceProvider,
+              private auth: AuthServiceProvider,
+              public navParams: NavParams) {
     this.initializeItems();
+    this.auth.getUserName().subscribe(name => {
+      console.log(name, 'name');
+      this.username = name;
+    });
+  }
+
+  presentPopover(ev) {
+
+    let popover = this.popoverCtrl.create('PopoverPage', {
+      username: this.username,
+    });
+
+    popover.present({
+      ev: ev
+    });
   }
 
   initializeItems() {
-    this.contactsList = [{id:'3',name:'haha',avatar:'./assets/imgs/user.jpg'},{id:'4',name:'hhh',avatar:'./assets/imgs/avatar.jpg'},{id:'5',name:'haha',avatar:'./assets/imgs/to-user.jpg'}]
+    this.contactsList = [{id: '3', name: 'haha', avatar: './assets/imgs/user.jpg'}, {
+      id: '4',
+      name: 'hhh',
+      avatar: './assets/imgs/avatar.jpg'
+    }, {id: '5', name: 'haha', avatar: './assets/imgs/to-user.jpg'}]
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad ContactsPage');
   }
 
-  addContact(){
-    console.log("添加人脉");
-  }
 
-  contactTapped(contact){
+  contactTapped(contact) {
     console.log('contact');
     //todo 新建笔
-    this.app.getRootNav().push('PersonalInfoPage',contact);
+    this.app.getRootNav().push('PersonalInfoPage', contact);
 
   }
 
-  addGroup(){
+  addGroup() {
     console.log("addGroupClicked");
     this.app.getRootNav().push('AddGroupPage');
   }
 
-  imgTapped(){
+  imgTapped() {
     console.log('imgTapped');
   }
 
