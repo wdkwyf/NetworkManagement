@@ -24,6 +24,7 @@ import {QQSDK} from "@ionic-native/qqsdk";
 import {NgxQRCodeModule} from "ngx-qrcode2";
 import {Toast} from "@ionic-native/toast";
 import {Screenshot} from '@ionic-native/screenshot';
+import { PhotoViewer } from '@ionic-native/photo-viewer';
 
 @NgModule({
   declarations: [
@@ -60,7 +61,8 @@ import {Screenshot} from '@ionic-native/screenshot';
     QQSDK,
     NgxQRCodeModule,
     Toast,
-    Screenshot
+    Screenshot,
+    PhotoViewer
   ]
 })
 export class AppModule {
