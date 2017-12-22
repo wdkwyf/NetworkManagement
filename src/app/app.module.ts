@@ -16,17 +16,14 @@ import {FileChooser} from "@ionic-native/file-chooser";
 import {Contacts} from "@ionic-native/contacts";
 import {FileTransfer} from "@ionic-native/file-transfer";
 import {File} from '@ionic-native/file';
-<<<<<<< HEAD
 import {MultiPickerModule} from 'ion-multi-picker';
 import { SelectorDataProvider } from '../providers/selector-data/selector-data';
 import {ChartsModule} from "ng2-charts";
-=======
 import {NativeStorage} from "@ionic-native/native-storage";
 import {QQSDK} from "@ionic-native/qqsdk";
 import {NgxQRCodeModule} from "ngx-qrcode2";
 import {Toast} from "@ionic-native/toast";
 import {Screenshot} from '@ionic-native/screenshot';
->>>>>>> 68b75f05b02be8c1003a6c9cc7b31c669a0c97c9
 
 @NgModule({
   declarations: [
@@ -58,15 +55,12 @@ import {Screenshot} from '@ionic-native/screenshot';
     FileTransfer,
     Contacts,
     CardServiceProvider,
-<<<<<<< HEAD
-    SelectorDataProvider
-=======
+    SelectorDataProvider,
     NativeStorage,
     QQSDK,
     NgxQRCodeModule,
     Toast,
     Screenshot
->>>>>>> 68b75f05b02be8c1003a6c9cc7b31c669a0c97c9
   ]
 })
 export class AppModule {
