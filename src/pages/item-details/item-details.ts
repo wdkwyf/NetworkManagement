@@ -1,13 +1,18 @@
 import {Component} from '@angular/core';
-import {IonicPage, NavController, NavParams, ViewController} from 'ionic-angular';
+import {IonicPage, NavController, NavParams, Platform, ViewController} from 'ionic-angular';
 import {vcf} from 'vcf';
 import {CardServiceProvider} from "../../providers/card-service/card-service";
 import {QQSDK, QQShareOptions} from "@ionic-native/qqsdk";
+import {File} from "@ionic-native/file";
+import {Toast} from "@ionic-native/toast";
+import {Screenshot} from '@ionic-native/screenshot';
+
+declare var qrcode;
 
 @IonicPage()
 @Component({
   selector: 'page-item-details',
-  templateUrl: 'item-details.html'
+  templateUrl: 'item-details.html',
 })
 export class ItemDetailsPage {
   selectedItem: any;
@@ -19,11 +24,17 @@ export class ItemDetailsPage {
     address: '',
     id: '',
   };
+  createdCode = null;
+  scannedCode = null;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               private cardService: CardServiceProvider,
               private qq: QQSDK,
+              private plt: Platform,
+              private screenshot: Screenshot,
+              private toast: Toast,
+              private file: File,
               private viewCtrl: ViewController) {
     // If we navigated to this page, we will have an item available as a nav param
     let username = this.navParams.get('name');
@@ -39,20 +50,49 @@ export class ItemDetailsPage {
     this.cardService.downloadCard(this.selectedItem).subscribe();
   }
 
+  /*
+  Generate QR scan and share with QQ
+  */
   public shareQQ() {
+    // let url = this.file.externalCacheDirectory + 'tmp-' + this.selectedItem + '.vcf';
+    let img = document.evaluate('//ngx-qrcode/div/img', document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue
+    let base64 = img['src'].split(',')[1];
     const clientOptions: QQShareOptions = {
       client: this.qq.ClientType.QQ,
       scene: this.qq.Scene.QQ,
       title: '分享名片',
-      url: 'http://120.79.42.137:8080/file/Ud7adca934ab4e/Card/Cards/1513695710642',
-      image: 'https://cordova.apache.org/static/img/cordova_bot.png',
-      description: 'This is  Cordova QQ share description',
-      flashUrl:  'http://stream20.qqmusic.qq.com/30577158.mp3',
+      image: base64,
+      description: '向您分享了一张名片：'+this.selectedItem,
     };
-    this.qq.shareNews(clientOptions).then(() => {
-      console.log('shareNews success');
+    this.qq.shareImage(clientOptions).then(() => {
+      console.log('share image success');
     })
+  }
 
+  createCode() {
+    this.createdCode = this.cardService.shareCardURL;
+    console.log(this.createdCode);
+  }
+
+  scanCode() {
+
+    let url = this.file.externalCacheDirectory + 'a.png';
+    console.log('url', url);
+    qrcode.callback = (data) => {
+      console.log(data);
+      this.toast.show(`I'm a toast`, '5000', 'center').subscribe(
+        toast => {
+          console.log(toast);
+        }
+      );
+    };
+    // 'cdvfile://localhost/cache-external/a.png'
+    qrcode.decode(url);
+    // this.barcodeScanner.scan().then(barcodeData => {
+    //   this.scannedCode = barcodeData.text;
+    // }, (err) => {
+    //   console.log('Error: ', err);
+    // });
   }
 
   dismiss() {

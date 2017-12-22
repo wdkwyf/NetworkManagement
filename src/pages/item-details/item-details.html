@@ -43,6 +43,12 @@
             </button>
           </ion-col>
           <ion-col>
+            <button ion-button icon-left clear (click)="createCode()">
+              <ion-icon name="barcode"></ion-icon>
+              <div>生成二维码</div>
+            </button>
+          </ion-col>
+          <ion-col>
             <button ion-button icon-left clear (click)="shareQQ()">
               <ion-icon name="share"></ion-icon>
               <div>分享</div>
@@ -51,7 +57,20 @@
         </ion-row>
       </ion-list>
     </div>
-
   </ion-card>
+  <!--<button ion-button full icon-left (click)="scanCode()" color="secondary">-->
+    <!--<ion-icon name="qr-scanner"></ion-icon>-->
+    <!--Scan Code-->
+  <!--</button>-->
+
+  <ion-card *ngIf="createdCode">
+    <ngx-qrcode id="qrcode" [qrc-value]="createdCode" [qrc-element-type]="url"></ngx-qrcode>
+  </ion-card>
+
+  <!--<ion-card *ngIf="scannedCode">-->
+    <!--<ion-card-content>-->
+      <!--Result from Scan: {{ scannedCode }}-->
+    <!--</ion-card-content>-->
+  <!--</ion-card>-->
 
 </ion-content>

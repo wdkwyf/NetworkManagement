@@ -22,6 +22,7 @@ export class CardServiceProvider {
   private readonly getVcfURL: string = 'http://120.79.42.137:8080/file/Ud7adca934ab4e/Card/Cards/';
   private readonly postCardURL: string = 'http://120.79.42.137:8080/Entity/Ud7adca934ab4e/Card/Cards/';
   loading: Loading;
+  shareCardURL: string = null;
 
   constructor(public http: HttpClient,
               private camera: Camera,
@@ -85,7 +86,6 @@ export class CardServiceProvider {
         }
       ).catch(e => console.log('file not open', e.message));
     });
-
   }
 
   public viewDetailCard(username, friendname) {
@@ -97,7 +97,8 @@ export class CardServiceProvider {
         const fileTransfer: FileTransferObject = this.transfer.create();
         console.log('id', id);
         let filename = 'tmp-' + friendname + '.vcf';
-        fileTransfer.download(this.getVcfURL + id, this.file.externalCacheDirectory+filename).then(entry => {
+        this.shareCardURL = this.getVcfURL + id;
+        fileTransfer.download(this.shareCardURL, this.file.externalCacheDirectory + filename).then(entry => {
           console.log('download complete', entry.toURL());
           this.file.readAsText(this.file.externalCacheDirectory, filename).then(content => {
             console.log('content', content);
@@ -121,8 +122,6 @@ export class CardServiceProvider {
       });
 
     });
-
-
   }
 
   public syncCard(userName, vcfName) {
@@ -148,6 +147,10 @@ export class CardServiceProvider {
         });
       });
     });
+  }
+
+  public shareCard() {
+
   }
 
   showLoading(text) {

@@ -1,6 +1,7 @@
 import {NgModule} from '@angular/core';
 import {IonicPageModule} from 'ionic-angular';
 import {ItemDetailsPage} from "./item-details";
+import {NgxQRCodeModule} from "ngx-qrcode2";
 
 @NgModule({
   declarations: [
@@ -8,6 +9,7 @@ import {ItemDetailsPage} from "./item-details";
   ],
   imports: [
     IonicPageModule.forChild(ItemDetailsPage),
+    NgxQRCodeModule,
   ],
 })
 export class ItemDetailsPageModule {

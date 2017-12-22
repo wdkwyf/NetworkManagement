@@ -13,7 +13,6 @@ import {BarcodeScanner} from "@ionic-native/barcode-scanner";
 import {Toast} from "@ionic-native/toast";
 
 declare var qrcode;
-declare var window;
 
 @IonicPage()
 @Component({
@@ -22,9 +21,6 @@ declare var window;
 })
 export class HomePage {
   username = '';
-  qrData = null;
-  createdCode = null;
-  scannedCode = null;
 
   constructor(private camera: Camera,
               private navCtrl: NavController,
@@ -32,8 +28,6 @@ export class HomePage {
               private transfer: FileTransfer,
               private fileOpener: FileOpener,
               private file: File,
-              private toast: Toast,
-              private plt: Platform,
               private alertCtrl: AlertController,
               private fileChooser: FileChooser,
               private cardService: CardServiceProvider,
@@ -68,31 +62,7 @@ export class HomePage {
     });
   }
 
-  createCode() {
-    this.createdCode = this.qrData;
-  }
-  test(data){
-    console.log(data);
-  }
-  scanCode() {
-    let url = this.file.externalCacheDirectory + 'a.png';
-    console.log('url', url);
-    qrcode.callback = (data)=>{
-      console.log(data);
-      this.toast.show(`I'm a toast`, '5000', 'center').subscribe(
-        toast => {
-          console.log(toast);
-        }
-      );
-    };
-    // 'cdvfile://localhost/cache-external/a.png'
-    qrcode.decode(url);
-    // this.barcodeScanner.scan().then(barcodeData => {
-    //   this.scannedCode = barcodeData.text;
-    // }, (err) => {
-    //   console.log('Error: ', err);
-    // });
-  }
+
 
   showSyncConfirm(vcfName) {
     let confirm = this.alertCtrl.create({

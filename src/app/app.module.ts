@@ -8,8 +8,8 @@ import {AuthServiceProvider} from "../providers/auth-service/auth-service";
 import {HttpClientModule} from "@angular/common/http";
 import {Camera} from "@ionic-native/camera";
 import {ImagePicker} from "@ionic-native/image-picker";
-import { ImgServiceProvider } from '../providers/img-service/img-service';
-import { CardServiceProvider } from '../providers/card-service/card-service';
+import {ImgServiceProvider} from '../providers/img-service/img-service';
+import {CardServiceProvider} from '../providers/card-service/card-service';
 import {FileOpener} from "@ionic-native/file-opener";
 import {HTTP} from "@ionic-native/http";
 import {FileChooser} from "@ionic-native/file-chooser";
@@ -20,6 +20,7 @@ import {NativeStorage} from "@ionic-native/native-storage";
 import {QQSDK} from "@ionic-native/qqsdk";
 import {NgxQRCodeModule} from "ngx-qrcode2";
 import {Toast} from "@ionic-native/toast";
+import {Screenshot} from '@ionic-native/screenshot';
 
 @NgModule({
   declarations: [
@@ -52,7 +53,8 @@ import {Toast} from "@ionic-native/toast";
     NativeStorage,
     QQSDK,
     NgxQRCodeModule,
-    Toast
+    Toast,
+    Screenshot
   ]
 })
 export class AppModule {
