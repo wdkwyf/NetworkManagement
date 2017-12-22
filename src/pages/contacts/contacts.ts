@@ -22,6 +22,9 @@ export class ContactsPage {
     this.initializeItems();
   }
 
+  showGroupList(){
+    this.app.getRootNav().push("GroupListPage");
+  }
   initializeItems() {
     this.contactsList = [{id:'3',name:'haha',avatar:'./assets/imgs/user.jpg'},{id:'4',name:'hhh',avatar:'./assets/imgs/avatar.jpg'},{id:'5',name:'haha',avatar:'./assets/imgs/to-user.jpg'}]
   }
@@ -36,7 +39,6 @@ export class ContactsPage {
 
   contactTapped(contact){
     console.log('contact');
-    //todo 新建笔
     this.app.getRootNav().push('PersonalInfoPage',contact);
 
   }

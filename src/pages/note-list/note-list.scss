@@ -1,11 +1,21 @@
 page-note-list {
   .createNoteBtn{
-    background-color: transparent;
-    float: right;
-    position: relative;
-    //right: -4px;
-    //margin-right: 6px;
-    font-size: 20px;
+    background-color: #488aff;
+    color: white;
+    border-radius: 3px;
+    margin: 10px;
+    padding: 11px;
+    width: calc(100% - 20px);
+    font-size: 15px;
   }
+  .noteItem span{
+    font-size: 10px;
+    color: gray;
+  }
+
+  .noteContent{
+    color: #000;
+  }
+
 
 }

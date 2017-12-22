@@ -3,10 +3,21 @@ page-contacts {
   .postButton{
     background-color: transparent;
     float: right;
-    position: relative;
+    //position: relative;
     //right: -4px;
     //margin-right: 6px;
     font-size: 20px;
+  }
+
+  .showGroupBtn{
+    padding: 10px;
+    width: 100%;
+    text-align: left;
+    font-size: 15px;
+    background-color: rgb(244,244,244);
+    ion-icon{
+      margin-right: 5px;
+    }
   }
 
 

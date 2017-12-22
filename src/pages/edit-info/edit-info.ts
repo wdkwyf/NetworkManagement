@@ -66,7 +66,7 @@ export class EditInfoPage {
         text: '拍照',
         role: 'takePhoto',
         handler: () => {
-          this.data.avatar = this.imgservice.takePhoto();
+          this.data.avatar = this.imgservice.takePicture();
         }
       }, {
         text: '从相册选择',

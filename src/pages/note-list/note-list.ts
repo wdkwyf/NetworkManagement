@@ -23,6 +23,7 @@ export class NoteListPage {
   }
 
   createNoteClicked(){
+    this.navCtrl.push('AddNotePage')
 
   }
 

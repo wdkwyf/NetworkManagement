@@ -14,7 +14,16 @@
 
 
 <ion-content padding>
-  <div class="header-image" style="height: 50px;border: #9E9E9E 1px solid;border-radius:2px " tappable [ngStyle]="{'background-image': 'url('+avatar+')'}" (click)="presentActionSheet()">上传图片</div>
+  <div *ngIf="imgs.length!=0">
+    <ion-img style="margin-right: 2px;" *ngFor="let img of imgs;let i = index" width="150" src={{img}} (click)="viewPhoto(i)"></ion-img>
+  </div>
+  <button class="addPhotoBtn" (click)="addPhoto()"><ion-icon name="add"></ion-icon></button>
+
+  <ion-textarea class="noteContentTextArea" #note_input
+                placeholder="添加动态..."
+                [(ngModel)]="postContent"
+                (focus)="onFocus()">
+  </ion-textarea>
   <button ion-button (click)="closeModal()">Close</button>
   <button ion-button (click)="closeModal()">Create</button>
 </ion-content>

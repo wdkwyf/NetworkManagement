@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import {App, IonicPage, NavController, NavParams} from 'ionic-angular';
 
 /**
  * Generated class for the GroupDetailPage page.
@@ -15,11 +15,20 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class GroupDetailPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  contactsList:any[];
+
+  constructor(private app:App,public navCtrl: NavController, public navParams: NavParams) {
+    this.contactsList = [{id:'3',name:'haha',avatar:'./assets/imgs/user.jpg'},{id:'4',name:'hhh',avatar:'./assets/imgs/avatar.jpg'},{id:'5',name:'haha',avatar:'./assets/imgs/to-user.jpg'}]
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad GroupDetailPage');
+  }
+
+  contactTapped(contact){
+    console.log('contact');
+    this.app.getRootNav().push('PersonalInfoPage',contact);
+
   }
 
 }

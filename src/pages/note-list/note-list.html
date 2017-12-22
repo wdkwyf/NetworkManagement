@@ -8,7 +8,6 @@
 
   <ion-navbar>
     <ion-title>noteList</ion-title>
-    <button class="createNoteBtn" (click)="createNoteClicked()"><ion-icon name="md-add"></ion-icon></button>
 
   </ion-navbar>
 
@@ -17,4 +16,15 @@
 
 <ion-content padding>
 
+  <ion-list>
+    <ion-item class="noteItem">
+      <h2>hhhh</h2>
+      <span>2017-10-12</span>
+      <p class="noteContent">I've had a pretty messed up day. If we just...</p>
+      <img src="../assets/imgs/avatar.jpg">
+    </ion-item>
+  </ion-list>
 </ion-content>
+<ion-footer>
+  <button class="createNoteBtn" (click)="createNoteClicked()">添加笔记</button>
+</ion-footer>
