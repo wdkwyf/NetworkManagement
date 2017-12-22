@@ -25,6 +25,7 @@ import {NgxQRCodeModule} from "ngx-qrcode2";
 import {Toast} from "@ionic-native/toast";
 import {Screenshot} from '@ionic-native/screenshot';
 import { PhotoViewer } from '@ionic-native/photo-viewer';
+import {BarcodeScanner} from "@ionic-native/barcode-scanner";
 
 @NgModule({
   declarations: [
@@ -62,7 +63,8 @@ import { PhotoViewer } from '@ionic-native/photo-viewer';
     NgxQRCodeModule,
     Toast,
     Screenshot,
-    PhotoViewer
+    PhotoViewer,
+    BarcodeScanner
   ]
 })
 export class AppModule {

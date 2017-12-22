@@ -5,7 +5,6 @@ import {CardServiceProvider} from "../../providers/card-service/card-service";
 import {QQSDK, QQShareOptions} from "@ionic-native/qqsdk";
 import {File} from "@ionic-native/file";
 import {Toast} from "@ionic-native/toast";
-import {Screenshot} from '@ionic-native/screenshot';
 
 declare var qrcode;
 
@@ -32,7 +31,6 @@ export class ItemDetailsPage {
               private cardService: CardServiceProvider,
               private qq: QQSDK,
               private plt: Platform,
-              private screenshot: Screenshot,
               private toast: Toast,
               private file: File,
               private viewCtrl: ViewController) {
@@ -45,9 +43,9 @@ export class ItemDetailsPage {
     });
   }
 
-  public downloadCard() {
+  public saveCard() {
     // open a vcf file means save the card to user
-    this.cardService.downloadCard(this.selectedItem).subscribe();
+    this.cardService.saveCard(this.selectedItem).subscribe();
   }
 
   /*
@@ -72,27 +70,6 @@ export class ItemDetailsPage {
   createCode() {
     this.createdCode = this.cardService.shareCardURL;
     console.log(this.createdCode);
-  }
-
-  scanCode() {
-
-    let url = this.file.externalCacheDirectory + 'a.png';
-    console.log('url', url);
-    qrcode.callback = (data) => {
-      console.log(data);
-      this.toast.show(`I'm a toast`, '5000', 'center').subscribe(
-        toast => {
-          console.log(toast);
-        }
-      );
-    };
-    // 'cdvfile://localhost/cache-external/a.png'
-    qrcode.decode(url);
-    // this.barcodeScanner.scan().then(barcodeData => {
-    //   this.scannedCode = barcodeData.text;
-    // }, (err) => {
-    //   console.log('Error: ', err);
-    // });
   }
 
   dismiss() {
