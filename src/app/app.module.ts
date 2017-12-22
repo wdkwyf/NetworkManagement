@@ -16,7 +16,9 @@ import {FileChooser} from "@ionic-native/file-chooser";
 import {Contacts} from "@ionic-native/contacts";
 import {FileTransfer} from "@ionic-native/file-transfer";
 import {File} from '@ionic-native/file';
-
+import {MultiPickerModule} from 'ion-multi-picker';
+import { SelectorDataProvider } from '../providers/selector-data/selector-data';
+import {ChartsModule} from "ng2-charts";
 
 @NgModule({
   declarations: [
@@ -29,6 +31,8 @@ import {File} from '@ionic-native/file';
     BrowserModule,
     IonicModule.forRoot(MyApp),
     HttpClientModule,
+    MultiPickerModule,
+    ChartsModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -48,7 +52,8 @@ import {File} from '@ionic-native/file';
     File,
     FileTransfer,
     Contacts,
-    CardServiceProvider
+    CardServiceProvider,
+    SelectorDataProvider
   ]
 })
 export class AppModule {
