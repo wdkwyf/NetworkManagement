@@ -1,3 +1,23 @@
 page-item-details {
-
+  .card-background-page {
+    ion-card {
+      position: relative;
+    }
+    .card-content {
+      position: absolute;
+      top: 6%;
+      width: 100%;
+      color: #fff;
+    }
+    ion-item {
+      border-color: rgba(0, 0, 0, 0);
+      background-color: rgba(0, 0, 0, 0);
+      font-size: 1.2em;
+    }
+    #name {
+      font-size: 2em;
+    }
+  }
 }
+
+

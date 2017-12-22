@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {AlertController, IonicPage, NavController} from 'ionic-angular';
+import {AlertController, IonicPage, NavController, Platform} from 'ionic-angular';
 import {AuthServiceProvider} from "../../providers/auth-service/auth-service";
 import {CameraOptions, Camera} from "@ionic-native/camera";
 import {HttpClient} from '@angular/common/http';
@@ -9,7 +9,10 @@ import {FileOpener} from "@ionic-native/file-opener";
 import {FileTransfer, FileTransferObject} from "@ionic-native/file-transfer";
 import {File} from '@ionic-native/file';
 import {CardServiceProvider} from "../../providers/card-service/card-service";
-import {isSuccess} from "@angular/http/src/http_utils";
+import {BarcodeScanner} from "@ionic-native/barcode-scanner";
+import {Toast} from "@ionic-native/toast";
+
+declare var qrcode;
 
 @IonicPage()
 @Component({
@@ -18,9 +21,6 @@ import {isSuccess} from "@angular/http/src/http_utils";
 })
 export class HomePage {
   username = '';
-  email = '';
-  readonly unlogin = 'Guest';
-
 
   constructor(private camera: Camera,
               private navCtrl: NavController,
@@ -28,43 +28,81 @@ export class HomePage {
               private transfer: FileTransfer,
               private fileOpener: FileOpener,
               private file: File,
-              private alertCtrl:AlertController,
+              private alertCtrl: AlertController,
               private fileChooser: FileChooser,
-              private card: CardServiceProvider,
+              private cardService: CardServiceProvider,
               private auth: AuthServiceProvider) {
-    let info = this.auth.getUserInfo();
-    if (isUndefined(info)) {
-      this.username = this.unlogin;
-      this.email = this.unlogin;
+    this.auth.getUserName().subscribe(name => {
+      console.log(name, 'name');
+      this.username = name;
+    });
 
-    } else {
-      this.username = info['name'];
-      this.email = info['email'];
-    }
+
+  }
+
+  public viewCloudCards() {
+    this.navCtrl.push('CloudCardListPage');
+
+  }
+
+  public login() {
+
+    this.navCtrl.setRoot('LoginPage');
   }
 
   public scanCard() {
-    this.card.scanCard(this.username).subscribe(isSuccess => {
-      console.log(isSuccess);
-      this.showConfirm();
-
+    this.cardService.scanCard().subscribe(vcfName => {
+      if (vcfName === '') {
+        console.log('vcfName is null');
+      }
+      if (vcfName != '') {
+        // ask if user want to search user according to this business card.
+        this.showSearchConfirm(vcfName);
+      }
     });
-
   }
-  showConfirm() {
+
+
+
+  showSyncConfirm(vcfName) {
     let confirm = this.alertCtrl.create({
-      title: '搜索人脉',
-      message: '你想要根据名片扫描信息搜索人脉吗？',
+      title: '名片备份',
+      message: '你想要在云端备份该名片嘛？',
       buttons: [
         {
           text: '不用了',
           handler: () => {
+            console.log('disagree clicked');
+          }
+        },
+        {
+          text: '好的',
+          handler: () => {
+            this.cardService.syncCard(this.username, vcfName);
+            console.log('Agree Clicked');
+          }
+        }
+      ]
+    });
+    confirm.present();
+  }
+
+  showSearchConfirm(vcfName) {
+    let confirm = this.alertCtrl.create({
+      title: '搜索人脉',
+      message: '你想要根据扫描名片信息搜索人脉吗？',
+      buttons: [
+        {
+          text: '不用了',
+          handler: () => {
+            this.showSyncConfirm(vcfName);
             console.log('Disagree clicked');
           }
         },
         {
           text: '好的',
           handler: () => {
+            this.showSyncConfirm(vcfName);
             console.log('Agree clicked');
           }
         }

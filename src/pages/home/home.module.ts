@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { IonicPageModule } from 'ionic-angular';
 import { HomePage } from './home';
+import {NgxQRCodeModule} from "ngx-qrcode2";
 
 @NgModule({
   declarations: [
@@ -10,4 +11,4 @@ import { HomePage } from './home';
     IonicPageModule.forChild(HomePage),
   ],
 })
-export class LoginPageModule {}
+export class HomePageModule {}
