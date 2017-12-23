@@ -25,8 +25,7 @@ export class ContactsPage {
   contactsList; //= [{id:'3',name:'haha',avatar:'./assets/imgs/to-user.jpg'},{id:'4',name:'hhh',avatar:'./assets/imgs/to-user.jpg'},{id:'5',name:'haha',avatar:'./assets/imgs/to-user.jpg'}]
   username = '';
 
-  constructor(private app: App,
-              private popoverCtrl: PopoverController,
+  constructor(private popoverCtrl: PopoverController,
               private camera: Camera,
               public menu: MenuController,
               private navCtrl: NavController,
@@ -57,9 +56,16 @@ export class ContactsPage {
     });
   }
 
-  showGroupList(){
-    this.app.getRootNav().push("GroupListPage");
+  public logout() {
+    this.auth.logout().subscribe(success => {
+      this.navCtrl.setRoot('LoginPage');
+    })
   }
+
+  showGroupList() {
+    this.navCtrl.push("GroupListPage");
+  }
+
   initializeItems() {
     this.contactsList = [{id: '3', name: 'haha', avatar: './assets/imgs/user.jpg'}, {
       id: '4',
@@ -75,13 +81,13 @@ export class ContactsPage {
 
   contactTapped(contact) {
     console.log('contact');
-    this.app.getRootNav().push('PersonalInfoPage',contact);
+    this.navCtrl.push('PersonalInfoPage', contact);
 
   }
 
   addGroup() {
     console.log("addGroupClicked");
-    this.app.getRootNav().push('AddGroupPage');
+    this.navCtrl.push('AddGroupPage');
   }
 
   imgTapped() {

@@ -28,11 +28,12 @@ export class RegisterPage {
     this.auth.register(this.registerCredentials).subscribe(success => {
       if (success) {
         this.createSuccess = true;
+        this.showPopup('注册成功','恭喜你创建用户成功!');
       } else {
-        this.showPopup("Error", "Problem creating account.");
+        this.showPopup("注册失败", "创建用户失败");
       }
     }, error => {
-      this.showPopup("Error", error);
+      this.showPopup("注册失败", error);
     });
   }
 
@@ -45,12 +46,12 @@ export class RegisterPage {
           text: 'OK',
           handler: data => {
             if (this.createSuccess) {
-              this.navCtrl.popToRoot();
+              this.navCtrl.setRoot('LoginPage');
             }
           }
         }
       ]
-    })
+    });
     alert.present();
   }
 
