@@ -74,8 +74,7 @@
     "rxjs": "5.5.2",
     "sw-toolbox": "3.6.0",
     "vcf": "^2.0.1",
-    "zone.js": "0.8.18",
-    "@ionic-native": "latest"
+    "zone.js": "0.8.18"
   },
   "devDependencies": {
     "@ionic/app-scripts": "3.1.5",

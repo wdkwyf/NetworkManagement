@@ -39,20 +39,28 @@ export class AuthServiceProvider {
   public register(credentials) {
     return Observable.create(observer => {
       this.http.get(this.getSomeUserURL + credentials.name).subscribe(data => {
+        console.log(new Date().getTime());
         // user name is not reduplicated
         if (isUndefined(data['User'])) {
           let body = {
             'name': credentials.name,
             'password': credentials.password,
-            'email': credentials.email
+            'email': credentials.email,
+            'createtime': new Date().getTime(),
+            'cardid': '1',
+            'flag': 1,
+            'reason': ''
           };
           this.http.post(this.postSomeUserURL, body).subscribe(data => {
+            observer.next(true);
+            observer.complete();
             console.log(data);
           });
+        } else {
+          observer.next(false);
+          observer.complete();
         }
       });
-      observer.next(false);
-      observer.complete();
     });
 
   }
@@ -73,7 +81,7 @@ export class AuthServiceProvider {
         console.log('success');
         observer.next(value);
         observer.complete();
-      }, ()=> {
+      }, () => {
         observer.next(this.unlogin);
         observer.complete();
       })
