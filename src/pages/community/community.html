@@ -10,7 +10,12 @@
   <!--</ion-navbar>-->
   <ion-navbar>
     <ion-title>Community</ion-title>
-    <button (click)="postButtonClicked()" class="postButton"><ion-icon name="md-add"></ion-icon></button>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="postButtonClicked()">
+        <ion-icon name="md-add"></ion-icon>
+      </button>
+    </ion-buttons>
+    <!--<button (click)="postButtonClicked()" class="postButton"><ion-icon name="md-add"></ion-icon></button>-->
   </ion-navbar>
 
 

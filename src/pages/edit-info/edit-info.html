@@ -6,13 +6,24 @@
 -->
 <ion-header>
 
-  <!--<ion-navbar>-->
-    <!--<ion-title>editInfo</ion-title>-->
-  <!--</ion-navbar>-->
-  <ion-toolbar>
-    <button class="cancelBtn" (click)="closeModal()">取消</button>
-    <button (click)="saveBtnClicked()" class="saveBtn">保存</button>
-  </ion-toolbar>
+  <ion-navbar>
+    <ion-title>editInfo</ion-title>
+    <ion-buttons start>
+      <button (click)="closeModal()" ion-button icon-only>
+        取消
+      </button>
+    </ion-buttons>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="saveBtnClicked()">
+        保存
+      </button>
+    </ion-buttons>
+
+  </ion-navbar>
+  <!--<ion-toolbar>-->
+    <!--<button class="cancelBtn" (click)="closeModal()">取消</button>-->
+    <!--<button (click)="saveBtnClicked()" class="saveBtn">保存</button>-->
+  <!--</ion-toolbar>-->
 
 </ion-header>
 
