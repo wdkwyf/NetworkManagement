@@ -1,5 +1,5 @@
 import {Component} from "@angular/core";
-import {AlertController, IonicPage, NavController, NavParams} from "ionic-angular";
+import {AlertController, App, IonicPage, NavController, NavParams, ViewController} from "ionic-angular";
 import {HttpClient} from "@angular/common/http";
 import {FileOpener} from "@ionic-native/file-opener";
 import {Camera} from "@ionic-native/camera";
@@ -33,7 +33,8 @@ declare var qrcode;
 export class PopoverPage {
   username: string = '';
 
-  constructor(private navParams: NavParams,
+  constructor(private app:App,
+              private navParams: NavParams,
               private camera: Camera,
               private navCtrl: NavController,
               private http: HttpClient,
@@ -43,13 +44,16 @@ export class PopoverPage {
               private imagePicker: ImagePicker,
               private alertCtrl: AlertController,
               private barcodeScanner: BarcodeScanner,
-              private cardService: CardServiceProvider,) {
+              private cardService: CardServiceProvider,
+              private view: ViewController) {
     this.username = this.navParams.data.username;
   }
 
   /* ------------- Popover action -------------- */
   public addContact() {
+    this.app.getRootNav().push("SearchUserPage");
     console.log("添加人脉");
+    this.view.dismiss();
   }
 
   public scanCard() {

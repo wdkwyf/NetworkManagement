@@ -74,6 +74,9 @@ export class AddNotePage {
     this.photoViewer.show(this.imgs[i], '拍摄照片')
   }
 
+  postButtonClicked(){
+    this.navCtrl.pop();
+  }
   presentActionSheet() {
     let actionSheet = this.actionSheetCtrl.create({
       buttons: [{

@@ -15,13 +15,18 @@ import {AlertController, IonicPage, NavController, NavParams} from 'ionic-angula
 })
 export class AddGroupPage {
 
-  groupList = [{name:"同事"},{name:"同学"}];
+  groupList;
 
   constructor(private alertCtrl: AlertController,public navCtrl: NavController, public navParams: NavParams) {
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad AddGroupPage');
+  }
+
+  ionViewWillLoad(){
+    this.groupList = [{name:"同事"},{name:"同学"}];
+
   }
 
   conformBtnClicked(){
