@@ -16,6 +16,21 @@ page-note-list {
   .noteContent{
     color: #000;
   }
+  .noteContentTextArea{
+    textarea{
+      height: 200px;
 
+    }
 
+  }
+
+  .addPhotoBtn{
+    border: 1px dashed;
+    font-size: 20px;
+    background-color: transparent;
+    height: 45px;
+    width: 60px;
+    border-radius: 5px;
+    color: gray;
+  }
 }

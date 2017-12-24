@@ -63,7 +63,7 @@ export class ItemDetailsPage {
       description: '向您分享了一张名片：'+this.selectedItem,
     };
     this.qq.shareImage(clientOptions).then(() => {
-      console.log('share image success');
+      console.log('share QR Code success');
     })
   }
 

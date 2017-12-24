@@ -1,13 +1,12 @@
 import {Component, ElementRef, ViewChild} from '@angular/core';
 import {
   AlertController, App, IonicPage, MenuController, NavController, NavParams,
-  PopoverController
+  PopoverController, ToastController
 } from 'ionic-angular';
 import {ChatPage} from "../chat/chat";
 import {PopoverPage} from "./popover";
 import {HttpClient} from "@angular/common/http";
 import {FileOpener} from "@ionic-native/file-opener";
-import {Camera} from "@ionic-native/camera";
 import {File} from "@ionic-native/file";
 import {FileTransfer} from "@ionic-native/file-transfer";
 import {CardServiceProvider} from "../../providers/card-service/card-service";
@@ -26,13 +25,13 @@ export class ContactsPage {
   username = '';
 
   constructor(private popoverCtrl: PopoverController,
-              private camera: Camera,
               public menu: MenuController,
               private navCtrl: NavController,
               private http: HttpClient,
               private transfer: FileTransfer,
               private fileOpener: FileOpener,
               private file: File,
+              private toastCtrl: ToastController,
               private alertCtrl: AlertController,
               private fileChooser: FileChooser,
               private cardService: CardServiceProvider,
@@ -42,11 +41,13 @@ export class ContactsPage {
     this.auth.getUserName().subscribe(name => {
       console.log(name, 'name');
       this.username = name;
+      if (name == 'Guest') {
+        this.navCtrl.setRoot('LoginPage');
+      }
     });
   }
 
   presentPopover(ev) {
-
     let popover = this.popoverCtrl.create('PopoverPage', {
       username: this.username,
     });
