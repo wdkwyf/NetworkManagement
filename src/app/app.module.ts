@@ -26,6 +26,10 @@ import {Toast} from "@ionic-native/toast";
 import {Screenshot} from '@ionic-native/screenshot';
 import { PhotoViewer } from '@ionic-native/photo-viewer';
 import {BarcodeScanner} from "@ionic-native/barcode-scanner";
+import { ContactServiceProvider } from '../providers/contact-service/contact-service';
+import { GroupServiceProvider } from '../providers/group-service/group-service';
+import { NoteServiceProvider } from '../providers/note-service/note-service';
+import { MomentServiceProvider } from '../providers/moment-service/moment-service';
 
 @NgModule({
   declarations: [
@@ -64,7 +68,11 @@ import {BarcodeScanner} from "@ionic-native/barcode-scanner";
     Toast,
     Screenshot,
     PhotoViewer,
-    BarcodeScanner
+    BarcodeScanner,
+    ContactServiceProvider,
+    GroupServiceProvider,
+    NoteServiceProvider,
+    MomentServiceProvider
   ]
 })
 export class AppModule {

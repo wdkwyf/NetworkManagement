@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import {ActionSheetController, IonicPage, NavController, NavParams, ViewController} from 'ionic-angular';
 import {SelectorDataProvider} from "../../providers/selector-data/selector-data";
 import {ImgServiceProvider} from "../../providers/img-service/img-service";
+import {ContactServiceProvider} from "../../providers/contact-service/contact-service";
 
 
 
@@ -26,17 +27,16 @@ export class EditInfoPage {
   jobColumns;//用于构造 selector
   jobStr = "服务业 市场销售";
   // editing = false;
-  data;
+  user;
 
-  constructor(public navCtrl: NavController,private view: ViewController, public navParams: NavParams,private selectorData:SelectorDataProvider,private imgservice: ImgServiceProvider, public actionSheetCtrl: ActionSheetController) {
+  constructor(private contactService:ContactServiceProvider,public navCtrl: NavController,private view: ViewController, public navParams: NavParams,private selectorData:SelectorDataProvider,private imgservice: ImgServiceProvider, public actionSheetCtrl: ActionSheetController) {
     this.cityColumns = this.selectorData.cities;
     this.jobColumns = this.selectorData.jobs;
 
   }
 
   closeModal() {
-
-    this.view.dismiss(this.data);
+    this.view.dismiss(this.user);
   }
 
   ionViewDidLoad() {
@@ -45,7 +45,7 @@ export class EditInfoPage {
   }
 
   ionViewWillLoad(){
-    this.data = this.navParams.get('user');
+    this.user = this.navParams.get('user');
   }
 
   // editInfo(){
@@ -66,13 +66,13 @@ export class EditInfoPage {
         text: '拍照',
         role: 'takePhoto',
         handler: () => {
-          this.data.avatar = this.imgservice.takePicture();
+          this.user.avatar = this.imgservice.takePicture();
         }
       }, {
         text: '从相册选择',
         role: 'chooseFromAlbum',
         handler: () => {
-          this.data.avatar = this.imgservice.chooseFromAlbum();
+          this.user.avatar = this.imgservice.chooseFromAlbum();
         }
       }, {
         text: '取消',
@@ -93,7 +93,7 @@ export class EditInfoPage {
       return;
     }
     // this.workPlaceArr = "";
-    this.data.workPlaceStr = "";
+    this.user.workplace = "";
     let workplaceArrTmp = this.workplace.split(' ');
     for(let k =0;k<workplaceArrTmp.length;k++){
       let j = 0;
@@ -103,10 +103,11 @@ export class EditInfoPage {
             break;
           }
         }
-      this.data.workPlaceStr = this.data.workPlaceStr + " " + (a[k].options[j].text);
-      console.log(this.data.workPlaceStr);
+      this.user.workplace = this.user.workPlaceStr + " " + (a[k].options[j].text);
+      console.log(this.user.workPlaceStr);
     }
     //todo 更新数据库
+    this.contactService.updateUserInfo(this.user).subscribe(data=>{});
     this.closeModal();
 
 

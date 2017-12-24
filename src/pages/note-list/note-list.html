@@ -17,10 +17,10 @@
 <ion-content padding>
 
   <ion-list>
-    <ion-item class="noteItem">
-      <h2>hhhh</h2>
-      <span>2017-10-12</span>
-      <p class="noteContent">I've had a pretty messed up day. If we just...</p>
+    <ion-item *ngFor="let note of noteList" class="noteItem">
+      <h2>{{note.title}}</h2>
+      <span>{{note.createTime}}</span>
+      <p class="noteContent">{{note.content}}</p>
       <img src="../assets/imgs/avatar.jpg">
     </ion-item>
   </ion-list>

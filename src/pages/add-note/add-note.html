@@ -8,6 +8,11 @@
 
   <ion-navbar>
     <ion-title>addNote</ion-title>
+    <ion-buttons start>
+      <button ion-button icon-only (click)="closeModal()">
+        取消
+      </button>
+    </ion-buttons>
     <ion-buttons end>
       <button ion-button icon-only (click)="postButtonClicked()">
         确认
@@ -20,15 +25,25 @@
 
 <ion-content padding>
   <div *ngIf="imgs.length!=0">
-  <ion-img style="margin-right: 2px;" *ngFor="let img of imgs;let i = index" width="150" src={{img}} (click)="viewPhoto(i)"></ion-img>
+    <ion-img style="margin-right: 2px;" *ngFor="let img of imgs;let i = index" width="150" src={{img}}
+             (click)="viewPhoto(i)"></ion-img>
   </div>
-  <button class="addPhotoBtn" (click)="addPhoto()"><ion-icon name="add"></ion-icon></button>
-
-  <ion-textarea class="noteContentTextArea" #note_input
-                placeholder="新建笔记..."
-                [(ngModel)]="noteContent"
-                (keyup.enter)="postNote()"
-                (focus)="onFocus()">
-  </ion-textarea>
+  <button class="addPhotoBtn" (click)="addPhoto()">
+    <ion-icon name="add"></ion-icon>
+  </button>
+  <ion-list class="noteList">
+    <ion-item>
+      <ion-label>标题</ion-label>
+      <ion-input class="noteTitleInput" [(ngModel)]="noteTitle" placeholder="标题"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>内容</ion-label>
+      <ion-textarea class="noteContentTextArea" #note_input
+                    placeholder="新建笔记..."
+                    [(ngModel)]="noteContent"
+                    (focus)="onFocus()">
+      </ion-textarea>
+    </ion-item>
+  </ion-list>
 
 </ion-content>

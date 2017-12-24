@@ -51,7 +51,8 @@ export class MessagePage {
   }
 
   itemClicked(){
-    this.app.getRootNav().push('ChatPage',this.toUser);
+    // this.app.getRootNav().push('ChatPage',this.toUser);
+    this.navCtrl.push('ChatPage',this.toUser);
   }
   ionViewDidLoad() {
     console.log('ionViewDidLoad MessagePage');

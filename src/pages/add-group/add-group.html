@@ -26,7 +26,7 @@
   <ion-list class="groupList">
     <ion-item *ngFor="let group of groupList">
       <ion-label>{{group.name}}</ion-label>
-      <ion-checkbox color="dark" checked="true"></ion-checkbox>
+      <ion-checkbox color="dark" [(ngModel)]="group.checked"></ion-checkbox>
     </ion-item>
   </ion-list>
 

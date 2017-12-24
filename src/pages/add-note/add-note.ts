@@ -1,8 +1,12 @@
 import { Component } from '@angular/core';
-import {ActionSheet, ActionSheetController, IonicPage, NavController, NavParams} from 'ionic-angular';
+import {
+  ActionSheet, ActionSheetController, IonicPage, Loading, LoadingController, NavController, NavParams,
+  ViewController
+} from 'ionic-angular';
 import {PhotoViewer} from "@ionic-native/photo-viewer";
 import {Camera} from "@ionic-native/camera";
 import {ImgServiceProvider} from "../../providers/img-service/img-service";
+import {NoteServiceProvider} from "../../providers/note-service/note-service";
 
 /**
  * Generated class for the AddNotePage page.
@@ -19,9 +23,15 @@ import {ImgServiceProvider} from "../../providers/img-service/img-service";
 export class AddNotePage {
 
   noteContent = "";
+  noteTitle = "";
   public imgs = [];
+  username;
+  contactName;
+  loading:Loading;
 
-  constructor(private imgService:ImgServiceProvider,private actionSheetCtrl:ActionSheetController,private photoViewer: PhotoViewer,private camera:Camera,public navCtrl: NavController, public navParams: NavParams) {
+  constructor(private loadingCtrl:LoadingController,public view:ViewController,private noteService:NoteServiceProvider,private imgService:ImgServiceProvider,private actionSheetCtrl:ActionSheetController,private photoViewer: PhotoViewer,private camera:Camera,public navCtrl: NavController, public navParams: NavParams) {
+    this.username = navParams.get('username');
+    this.contactName = navParams.get('contactName');
   }
 
   addPhoto(){
@@ -32,7 +42,11 @@ export class AddNotePage {
     console.log('ionViewDidLoad AddNotePage');
   }
 
-  postNote(){}
+  closeModal() {
+    this.view.dismiss();
+  }
+
+  // postNote(){}
 
   onFocus(){
     console.log("input focused");
@@ -42,8 +56,20 @@ export class AddNotePage {
     this.photoViewer.show(this.imgs[i], '拍摄照片')
   }
 
+  showLoading() {
+    this.loading = this.loadingCtrl.create({
+      content: '请稍后',
+      dismissOnPageChange: true
+    });
+    this.loading.present();
+  }
+
   postButtonClicked(){
-    this.navCtrl.pop();
+    this.showLoading();
+    this.noteService.postNote(this.imgs,this.noteTitle,this.noteContent,this.username,this.contactName).subscribe(data=>{
+      this.loading.dismiss();
+      this.view.dismiss(data);
+    });
   }
   presentActionSheet() {
     let actionSheet = this.actionSheetCtrl.create({
