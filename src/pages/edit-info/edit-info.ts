@@ -88,11 +88,15 @@ export class EditInfoPage {
   }
 
   saveBtnClicked() {
-    if(this.workplace==null){
-      alert("请选择工作地");
+    // if(this.workplace==null){
+    //   alert("请选择工作地");
+    //   return;
+    // }
+    // this.workPlaceArr = "";
+    if(!this.workplace){
+      this.closeModal();
       return;
     }
-    // this.workPlaceArr = "";
     this.user.workplace = "";
     let workplaceArrTmp = this.workplace.split(' ');
     for(let k =0;k<workplaceArrTmp.length;k++){
@@ -103,12 +107,11 @@ export class EditInfoPage {
             break;
           }
         }
-      this.user.workplace = this.user.workPlaceStr + " " + (a[k].options[j].text);
-      console.log(this.user.workPlaceStr);
+      this.user.workplace = this.user.workplace + " " + (a[k].options[j].text);
+      console.log(this.user.workplace);
     }
     //todo 更新数据库
     this.contactService.updateUserInfo(this.user).subscribe(data=>{});
-    this.closeModal();
 
 
       //  a.forEachItem((level) => {level.options.filter((item) =>{

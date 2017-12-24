@@ -72,6 +72,7 @@ export class GroupServiceProvider {
     return Observable.create(observer => {
       observer.next(true);
       observer.complete();
+      //要更新AppConfig
     })
 
   }
