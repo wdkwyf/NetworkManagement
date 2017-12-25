@@ -13,14 +13,15 @@ import {Camera, CameraOptions} from "@ionic-native/camera";
 export class ImgServiceProvider {
 
   // avatar = '';
-  imgs = [];
+  // imgs = [];
 
   constructor(public http: HttpClient, public imagePicker: ImagePicker, public camera: Camera) {
     console.log('Hello ImgServiceProvider Provider');
   }
 
 
-  public takePicture(){
+  public takePicture():string[]{
+    let imgs = [];
     //相机参数配置
     const options = {
       quality: 50,  //照片质量，1-100，默认50
@@ -33,15 +34,18 @@ export class ImgServiceProvider {
     this.camera.getPicture(options).then((imageData) => {
       // imageData is either a base64 encoded string or a file URI
       // If it's base64:
-      this.imgs.push('data:image/jpeg;base64,' + imageData);
-      console.log(this.imgs)
+      imgs.push('data:image/jpeg;base64,' + imageData);
+      console.log(imgs);
     }, (err) => {
       // Handle error
       console.log(err)
     });
-    return this.imgs;
+    return imgs;
+
+
   }
-  public chooseFromAlbum(){
+  public chooseFromAlbum():string[]{
+    let imgs = [];
     //相机参数配置
     const options = {
       quality: 50,  //照片质量，1-100，默认50
@@ -54,13 +58,14 @@ export class ImgServiceProvider {
     this.camera.getPicture(options).then((imageData) => {
       // imageData is either a base64 encoded string or a file URI
       // If it's base64:
-      this.imgs.push( 'data:image/jpeg;base64,' + imageData);
-      console.log(this.imgs)
+      imgs.push( 'data:image/jpeg;base64,' + imageData);
+      console.log(imgs)
     }, (err) => {
       // Handle error
-      console.log(err)
+      console.log(err);
     });
-    return this.imgs;
+    return imgs;
+
   }
 
   // takePhoto():string{

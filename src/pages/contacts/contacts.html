@@ -23,19 +23,19 @@
   <ion-searchbar (ionInput)="getItems($event)"></ion-searchbar>
   <button class="showGroupBtn" (click)="showGroupList()"><ion-icon name="people"></ion-icon>分组</button>
 
-  <ion-list>
-    <ion-item-group style="margin-top: 5px">
-      <ion-item-divider color="light">H</ion-item-divider>
+  <ion-list style="margin-top: 5px">
+    <!--<ion-item-group style="margin-top: 5px">-->
+      <!--<ion-item-divider color="light">H</ion-item-divider>-->
       <ion-item-sliding class="contactItem"
                         *ngFor="let contact of contactsList">
-        <ion-item tappable="true" (tap)="contactTapped(contact)">
+        <ion-item tappable="true" (tap)="contactTapped(contact.include.name)">
           <ion-avatar item-left>
             <img src="{{contact.avatar}}">
           </ion-avatar>
-          <h2>{{contact.name}}</h2>
+          <h2>{{contact.include.name}}</h2>
         </ion-item>
         <ion-item-options side="right">
-          <button (click)="addGroup()" ion-button color="primary">
+          <button (click)="addGroup(contact.include.name)" ion-button color="primary">
             <ion-icon name="pricetag"></ion-icon>
             分组
           </button>
@@ -44,7 +44,7 @@
 
       </ion-item-sliding>
 
-    </ion-item-group>
+    <!--</ion-item-group>-->
   </ion-list>
 
 </ion-content>

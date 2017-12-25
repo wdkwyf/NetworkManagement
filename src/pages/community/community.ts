@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams,Modal, ModalController, ModalOptions  } from 'ionic-angular';
+import {MomentServiceProvider} from "../../providers/moment-service/moment-service";
 
 /**
  * Generated class for the CommunityPage page.
@@ -17,32 +18,26 @@ export class CommunityPage {
   showComments = {};
   commentContent="";
   placeholder={};
+  posts;
 
-  posts = [
-    {id:1,user:{id:'1',name:'anna'},
-    content:'Wait a minute. Wait a minute, Doc. Uhhh... Are you telling me that you built a time machine... out of a DeLorean?! Whoa. This is heavy.',
-    likeNum:5,
-    commentNum:10,
-    postTime:'2017-10-12 08:00',
-      // comments:[{id:1,content:'hhh',commenter:{id:1,name:'anna',avatar:'../assets/imgs/avatar.jpg'},subComments:[{id:2,content:'ooo',commenter:{id:2,name:'ann'},subComments:[]}]}]
-      comments:[{id:1,level_num:0,target_level_num:-1,target_user:null,content:'hhh',commenter:{id:1,name:'anna',avatar:'../assets/imgs/avatar.jpg'}},{id:2,level_num:1,target_level_num:0,target_user:{id:1,name:'anna'},content:'ooo',commenter:{id:2,name:'ann'}}]
-  },{id:2,user:{id:'1',name:'anna'},
-      content:'Wait a minute. Wait a minute, Doc. Uhhh... Are you telling me that you built a time machine... out of a DeLorean?! Whoa. This is heavy.',
-      likeNum:5,
-      commentNum:10,
-      postTime:'2017-10-12 08:00',
-      // comments:[{id:1,content:'hhh',commenter:{id:1,name:'anna',avatar:'../assets/imgs/avatar.jpg'},subComments:[{id:2,content:'ooo',commenter:{id:2,name:'ann'},subComments:[]}]}]
-      comments:[{id:1,level_num:0,target_level_num:-1,target_user:null,content:'hhh',commenter:{id:1,name:'anna',avatar:'../assets/imgs/avatar.jpg'}},{id:2,level_num:1,target_level_num:0,target_user:{id:1,name:'anna'},content:'ooo',commenter:{id:2,name:'ann',avatar:'../assets/imgs/avatar.jpg'}}]
-    }];
   // commentListDiv = null;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams,private modal: ModalController) {
+  constructor(private momentService:MomentServiceProvider,public navCtrl: NavController, public navParams: NavParams,private modal: ModalController) {
+    momentService.getMomentList().subscribe(data=>{
+      this.posts = data;
+    });
+    this.updateArrs();
+
+  }
+
+  updateArrs(){
     for(let i in this.posts){
       let postId = this.posts[i].id;
       this.showComments[postId] = false;
       this.placeholder[postId] = 'comment';
     }
   }
+
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad CommunityPage');
@@ -66,6 +61,12 @@ export class CommunityPage {
       myModal.onDidDismiss((data) => {
         console.log("I have dismissed.");
         console.log(data);
+
+        if(data){
+          this.posts.push(data);
+          this.updateArrs();
+        }
+
       });
 
       myModal.onWillDismiss((data) => {
@@ -78,8 +79,9 @@ export class CommunityPage {
   }
 
 
-  like(){
-    console.log("like");
+  like(post){
+    this.momentService.updateMoment(post,'likeNum',post.likeNum+1)
+    console.log("like "+post.id);
 
   }
   viewComments(post){

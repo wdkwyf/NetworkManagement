@@ -15,7 +15,7 @@
 
 <ion-content padding>
   <ion-list>
-    <button *ngFor="let group of groupLists" ion-item (click)="showGroupDetails()">
+    <button *ngFor="let group of groupLists" ion-item (click)="showGroupDetails(group.id)">
       <ion-icon style="margin-right: 10px" name="people"></ion-icon>{{group.name}}({{group.count}})
     </button>
   </ion-list>

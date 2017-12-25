@@ -13,7 +13,6 @@ import {CardServiceProvider} from '../providers/card-service/card-service';
 import {FileOpener} from "@ionic-native/file-opener";
 import {HTTP} from "@ionic-native/http";
 import {Geolocation} from '@ionic-native/geolocation';
-import {SQLitePorter} from '@ionic-native/sqlite-porter';
 import {Contacts} from "@ionic-native/contacts";
 import {FileTransfer} from "@ionic-native/file-transfer";
 import {File} from '@ionic-native/file';
@@ -27,7 +26,10 @@ import {Toast} from "@ionic-native/toast";
 import {Screenshot} from '@ionic-native/screenshot';
 import {PhotoViewer} from '@ionic-native/photo-viewer';
 import {BarcodeScanner} from "@ionic-native/barcode-scanner";
-import {SQLite} from "@ionic-native/sqlite";
+import { ContactServiceProvider } from '../providers/contact-service/contact-service';
+import { GroupServiceProvider } from '../providers/group-service/group-service';
+import { NoteServiceProvider } from '../providers/note-service/note-service';
+import { MomentServiceProvider } from '../providers/moment-service/moment-service';
 
 @NgModule({
   declarations: [
@@ -54,7 +56,6 @@ import {SQLite} from "@ionic-native/sqlite";
     ImgServiceProvider,
     FileOpener,
     HTTP,
-    SQLite,
     File,
     FileTransfer,
     Contacts,
@@ -68,7 +69,10 @@ import {SQLite} from "@ionic-native/sqlite";
     PhotoViewer,
     BarcodeScanner,
     Geolocation,
-    SQLitePorter
+    ContactServiceProvider,
+    GroupServiceProvider,
+    NoteServiceProvider,
+    MomentServiceProvider
   ]
 })
 export class AppModule {

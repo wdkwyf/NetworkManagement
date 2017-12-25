@@ -3,6 +3,7 @@ import {IonicPage, NavController, NavParams, ViewController, ActionSheetControll
 import {AuthServiceProvider} from "../../providers/auth-service/auth-service";
 import {ImgServiceProvider} from "../../providers/img-service/img-service";
 import {PhotoViewer} from "@ionic-native/photo-viewer";
+import {MomentServiceProvider} from "../../providers/moment-service/moment-service";
 
 /**
  * Generated class for the PostMomentPage page.
@@ -20,8 +21,9 @@ export class PostMomentPage {
 
   imgs = [];
   data;
-  postContent;
-  constructor(private photoViewer:PhotoViewer,private imgService:ImgServiceProvider,public navCtrl: NavController,private imgservice: ImgServiceProvider,  public navParams: NavParams,private view: ViewController, public actionSheetCtrl: ActionSheetController, public alertCtrl: AlertController) {
+  momentContent;
+  momentTitle;
+  constructor(private momentService:MomentServiceProvider,private photoViewer:PhotoViewer,private imgService:ImgServiceProvider,public navCtrl: NavController,private imgservice: ImgServiceProvider,  public navParams: NavParams,private view: ViewController, public actionSheetCtrl: ActionSheetController, public alertCtrl: AlertController) {
   }
 
   addPhoto(){
@@ -41,11 +43,13 @@ export class PostMomentPage {
   }
 
   closeModal() {
-    const data = {
-      name: 'John Doe',
-      occupation: 'Milkman'
-    };
-    this.view.dismiss(data);
+    this.view.dismiss();
+  }
+
+  postMoment(){
+    this.momentService.postMoment().subscribe(data=>{
+      this.view.dismiss(data);
+    })
   }
 
 

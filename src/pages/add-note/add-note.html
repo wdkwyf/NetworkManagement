@@ -1,5 +1,5 @@
 <!--
-  Generated template for the PostMomentPage page.
+  Generated template for the AddNotePage page.
 
   See http://ionicframework.com/docs/components/#navigation for more info on
   Ionic pages and navigation.
@@ -7,7 +7,17 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>postMoment</ion-title>
+    <ion-title>addNote</ion-title>
+    <ion-buttons start>
+      <button ion-button icon-only (click)="closeModal()">
+        取消
+      </button>
+    </ion-buttons>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="postButtonClicked()">
+        确认
+      </button>
+    </ion-buttons>
   </ion-navbar>
 
 </ion-header>
@@ -21,22 +31,19 @@
   <button class="addPhotoBtn" (click)="addPhoto()">
     <ion-icon name="add"></ion-icon>
   </button>
-  <ion-list class="momentList">
+  <ion-list class="noteList">
     <ion-item>
       <ion-label>标题</ion-label>
-      <ion-input class="noteTitleInput" [(ngModel)]="momentTitle" placeholder="标题"></ion-input>
+      <ion-input class="noteTitleInput" [(ngModel)]="noteTitle" placeholder="标题"></ion-input>
     </ion-item>
     <ion-item>
       <ion-label>内容</ion-label>
       <ion-textarea class="noteContentTextArea" #note_input
-                    placeholder="添加动态..."
-                    [(ngModel)]="momentContent"
+                    placeholder="新建笔记..."
+                    [(ngModel)]="noteContent"
                     (focus)="onFocus()">
       </ion-textarea>
     </ion-item>
   </ion-list>
-  <button ion-button (click)="closeModal()">Close</button>
-  <button ion-button (click)="postMoment()">Create</button>
+
 </ion-content>
-
-

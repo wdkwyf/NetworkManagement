@@ -8,12 +8,14 @@
 
   <ion-navbar>
     <ion-title>personalInfo</ion-title>
-    <ion-buttons end>
-      <!--<button ion-button icon-only (click)="editBtnClicked()">-->
-        <!--<ion-icon name="create"></ion-icon>-->
-      <!--</button>-->
+    <ion-buttons *ngIf="relation==0" end>
+      <button ion-button icon-only (click)="editBtnClicked()">
+        <ion-icon name="create"></ion-icon>
+      </button>
     </ion-buttons>
-
+    <!--<button class="editBtn" (click)="editBtnClicked()">-->
+      <!--<ion-icon name="create"></ion-icon>-->
+    <!--</button>-->
   </ion-navbar>
 
 </ion-header>
@@ -23,7 +25,7 @@
 
 
   <div class="avatar">
-    <img height="80px" width="80px" src="{{user.avatar}}"/>
+    <img height="80px" width="80px" src="{{personalUserInfo.avatar}}"/>
   </div>
   <!--<div class="nameDiv">{{user.name}}</div>-->
   <ion-card class="myCard">
@@ -32,19 +34,19 @@
       <!--<ion-avatar item-start>-->
       <!--<img src="{{user.avatar}}">-->
       <!--</ion-avatar>-->
-      <h2>姓名：{{user.name}}</h2>
-      <h2 class="infoDetail">职位：{{user.occupation}}</h2>
-      <h2 class="infoDetail">职业：{{user.jobStr}} </h2>
-      <h2 class="infoDetail">组织：{{user.organization}}</h2>
-      <h2 class="infoDetail"><a navPush="InfluencePage">影响力：{{user.influence}}</a></h2>
+      <h2>姓名：{{personalUserInfo.include.name}}</h2>
+      <h2 class="infoDetail">职位：{{personalUserInfo.occupation}}</h2>
+      <h2 class="infoDetail">职业：{{personalUserInfo.job}} </h2>
+      <h2 class="infoDetail">组织：{{personalUserInfo.organization}}</h2>
+      <h2 class="infoDetail"><a navPush="InfluencePage">影响力：{{personalUserInfo.influence}}</a></h2>
     </ion-item>
 
 
   </ion-card>
-  <ion-list>
+  <ion-list *ngIf="relation==1">
     <button ion-item (click)="addGroup()">
       <ion-icon style="margin-right: 10px" name="pricetag"></ion-icon>
-      分组
+      {{inGroup==''?'分组':inGroup}}
     </button>
 
     <button ion-item (click)="viewNote()">
@@ -52,8 +54,9 @@
       查看笔记
     </button>
   </ion-list>
-  <button (click)="sendMessage()" class="myBtn funcBtn">发消息</button>
-
+  <button *ngIf="relation==1" (click)="sendMessage()" class="myBtn funcBtn">发消息</button>
+  <button *ngIf="relation==2" class="myBtn funcBtn">添加好友
+  </button>
   <button *ngIf="!showDetail" class="myBtn detailBtn showDetailBtn" (click)="showInfoDetail()">显示详细信息
     <ion-icon name="arrow-down"></ion-icon>
   </button>
@@ -63,6 +66,7 @@
       <ion-label>{{userValues[i]}}</ion-label>
     </ion-item>
   </ion-list>
+
   <button *ngIf="showDetail" class="myBtn detailBtn hideDetailBtn" (click)="showInfoDetail()">隐藏详细信息
     <ion-icon name="arrow-up"></ion-icon>
   </button>
