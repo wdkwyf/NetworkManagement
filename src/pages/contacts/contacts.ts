@@ -10,7 +10,7 @@ import {FileOpener} from "@ionic-native/file-opener";
 import {File} from "@ionic-native/file";
 import {FileTransfer} from "@ionic-native/file-transfer";
 import {CardServiceProvider} from "../../providers/card-service/card-service";
-import {FileChooser} from "@ionic-native/file-chooser";
+// import {FileChooser} from "@ionic-native/file-chooser";
 import {AuthServiceProvider} from "../../providers/auth-service/auth-service";
 
 @IonicPage()
@@ -33,7 +33,6 @@ export class ContactsPage {
               private file: File,
               private toastCtrl: ToastController,
               private alertCtrl: AlertController,
-              private fileChooser: FileChooser,
               private cardService: CardServiceProvider,
               private auth: AuthServiceProvider,
               public navParams: NavParams) {

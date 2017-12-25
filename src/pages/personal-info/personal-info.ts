@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import {IonicPage, Modal, ModalController, ModalOptions, NavController, NavParams} from 'ionic-angular';
 import {ChatPage} from "../chat/chat";
-import {NoteListPage} from "../note-list/note-list";
+import {MeetTimeListPage} from "../meettime-list/note-list";
 import { App } from 'ionic-angular';
 
 /**
@@ -33,19 +33,19 @@ export class PersonalInfoPage {
     //todo get from数据库
     console.log("will load");
     this.user ={
-      avatar : "../assets/imgs/avatar.jpg",
-      name:"anna",
-      phone :null,// "15221530965",
-      email:"593880978@qq.com",
-      workPlaceStr:"上海市 市辖区 闵行区",
+      avatar : "assets/imgs/mahuateng.jpg",
+      name:"马化腾",
+      phone : "15221530965",
+      email:"10001@qq.com",
+      workPlaceStr:"深圳市 南山区 高新科技园",
       influence:10,
-      occupation : "工程师",
-      jobStr : "IT/互联网 研发",
-      organization : "上海交通大学",
-      university : "上海交通大学",
-      qq : "593880978",
-      wechat:"anna",
-      weibo:"15221530965",
+      occupation : "CEO",
+      jobStr : "IT/互联网 管理",
+      organization : "腾讯",
+      university : "浙江大学",
+      qq : "10001",
+      wechat:"无",
+      weibo:"马化腾",
     };
     this.updateUserValues();
 
@@ -57,7 +57,7 @@ export class PersonalInfoPage {
   }
 
   viewNote(){
-    this.app.getRootNav().push('NoteListPage')
+    this.app.getRootNav().push('MeetTimeListPage')
   }
   sendMessage(){
     this.app.getRootNav().push('ChatPage');

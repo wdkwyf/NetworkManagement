@@ -26,7 +26,7 @@ export class MyApp {
     // set our app's pages
     this.pages = [
       {title: '云端名片管理', component: 'CloudCardListPage', icon: 'cloud'},
-      {title: '相遇一刻', component: 'NoteListPage', icon: 'heart'},
+      {title: '相遇一刻', component: 'MeetTimeListPage', icon: 'heart'},
     ];
   }
 

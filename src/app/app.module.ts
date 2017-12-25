@@ -12,20 +12,22 @@ import {ImgServiceProvider} from '../providers/img-service/img-service';
 import {CardServiceProvider} from '../providers/card-service/card-service';
 import {FileOpener} from "@ionic-native/file-opener";
 import {HTTP} from "@ionic-native/http";
-import {FileChooser} from "@ionic-native/file-chooser";
+import {Geolocation} from '@ionic-native/geolocation';
+import {SQLitePorter} from '@ionic-native/sqlite-porter';
 import {Contacts} from "@ionic-native/contacts";
 import {FileTransfer} from "@ionic-native/file-transfer";
 import {File} from '@ionic-native/file';
 import {MultiPickerModule} from 'ion-multi-picker';
-import { SelectorDataProvider } from '../providers/selector-data/selector-data';
+import {SelectorDataProvider} from '../providers/selector-data/selector-data';
 import {ChartsModule} from "ng2-charts";
 import {NativeStorage} from "@ionic-native/native-storage";
 import {QQSDK} from "@ionic-native/qqsdk";
 import {NgxQRCodeModule} from "ngx-qrcode2";
 import {Toast} from "@ionic-native/toast";
 import {Screenshot} from '@ionic-native/screenshot';
-import { PhotoViewer } from '@ionic-native/photo-viewer';
+import {PhotoViewer} from '@ionic-native/photo-viewer';
 import {BarcodeScanner} from "@ionic-native/barcode-scanner";
+import {SQLite} from "@ionic-native/sqlite";
 
 @NgModule({
   declarations: [
@@ -52,7 +54,7 @@ import {BarcodeScanner} from "@ionic-native/barcode-scanner";
     ImgServiceProvider,
     FileOpener,
     HTTP,
-    FileChooser,
+    SQLite,
     File,
     FileTransfer,
     Contacts,
@@ -64,7 +66,9 @@ import {BarcodeScanner} from "@ionic-native/barcode-scanner";
     Toast,
     Screenshot,
     PhotoViewer,
-    BarcodeScanner
+    BarcodeScanner,
+    Geolocation,
+    SQLitePorter
   ]
 })
 export class AppModule {

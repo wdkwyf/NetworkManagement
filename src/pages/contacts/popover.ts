@@ -33,7 +33,7 @@ declare var qrcode;
 export class PopoverPage {
   username: string = '';
 
-  constructor(private app:App,
+  constructor(private app: App,
               private navParams: NavParams,
               private camera: Camera,
               private navCtrl: NavController,
@@ -63,14 +63,40 @@ export class PopoverPage {
       }
       if (vcfName != '') {
         // ask if user want to search user according to this business card.
-        this.cardService.showSearchConfirm(vcfName, this.username);
+        this.showSearchConfirm(vcfName, this.username);
       }
     });
   }
 
+  public showSearchConfirm(vcfName, username) {
+    let confirm = this.alertCtrl.create({
+      title: '搜索人脉',
+      message: '你想要根据扫描名片信息搜索人脉吗？',
+      buttons: [
+        {
+          text: '不用了',
+          handler: () => {
+            this.cardService.showSyncConfirm(vcfName, username);
+            console.log('Disagree clicked');
+          }
+        },
+        {
+          text: '好的',
+          handler: () => {
+            this.navCtrl.push('PersonalInfoPage');
+            this.cardService.showSyncConfirm(vcfName, username);
+            console.log('Agree clicked');
+          }
+        }
+      ]
+    });
+    confirm.present();
+    this.cardService.dismissLoading();
+  }
+
   public scanQR() {
     let pictureOptions = {
-      maximumImagesCount: 1
+      maximumImagesCount: 1,
     };
     //choose from image or camera
     let confirm = this.alertCtrl.create({
@@ -84,15 +110,15 @@ export class PopoverPage {
               console.log('QR Image URI: ' + imageUrl);
               qrcode.callback = (data) => {
                 console.log('QR: ', data);
-                // data = 'http://120.79.42.137:8080/file/Ud7adca934ab4e/Card/Cards/1513695710642';
-                // url is cloud card
                 if (data.indexOf('http://') == -1) {
-                  console.log('download cloud card');
-                  this.cardService.downloadCard(data);
-                }
-                else {
                   // TODO url is friend name
                   // data: FRIEND_NAME
+                }
+                else {
+                  // data = 'http://120.79.42.137:8080/file/Ud7adca934ab4e/Card/Cards/1513695710642';
+                  // url is cloud card
+                  console.log('download cloud card');
+                  this.cardService.downloadCard(data);
                 }
               };
               // this method MUST be in production mode(no liveReload)
@@ -108,7 +134,7 @@ export class PopoverPage {
           handler: () => {
             console.log('Agree clicked');
             this.barcodeScanner.scan().then(barcodeData => {
-              console.log('QR: ',barcodeData.text);
+              console.log('QR: ', barcodeData.text);
               if (barcodeData.text.indexOf('http://') == -1) {
                 console.log('download cloud card');
                 this.cardService.downloadCard(barcodeData.text);

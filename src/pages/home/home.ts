@@ -4,7 +4,7 @@ import {AuthServiceProvider} from "../../providers/auth-service/auth-service";
 import {CameraOptions, Camera} from "@ionic-native/camera";
 import {HttpClient} from '@angular/common/http';
 import {isUndefined} from "ionic-angular/util/util";
-import {FileChooser} from "@ionic-native/file-chooser";
+// import {FileChooser} from "@ionic-native/file-chooser";
 import {FileOpener} from "@ionic-native/file-opener";
 import {FileTransfer, FileTransferObject} from "@ionic-native/file-transfer";
 import {File} from '@ionic-native/file';
@@ -29,7 +29,7 @@ export class HomePage {
               private fileOpener: FileOpener,
               private file: File,
               private alertCtrl: AlertController,
-              private fileChooser: FileChooser,
+              // private fileChooser: FileChooser,
               private cardService: CardServiceProvider,
               private auth: AuthServiceProvider) {
     this.auth.getUserName().subscribe(name => {

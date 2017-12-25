@@ -6,8 +6,9 @@ import {File} from "@ionic-native/file";
 import {FileOpener} from "@ionic-native/file-opener";
 import {Observable} from "rxjs/Observable";
 import vcf from 'vcf';
-import {AlertController, Loading, LoadingController} from "ionic-angular";
+import {AlertController, Loading, LoadingController, NavController} from "ionic-angular";
 import {isUndefined} from "ionic-angular/util/util";
+import { ToastController } from 'ionic-angular';
 
 /*
   Generated class for the CardServiceProvider provider.
@@ -29,6 +30,7 @@ export class CardServiceProvider {
               private alertCtrl: AlertController,
               private transfer: FileTransfer,
               private fileOpener: FileOpener,
+              public toastCtrl: ToastController,
               private loadingCtrl: LoadingController,
               private file: File,) {
     console.log('Hello CardServiceProvider Provider');
@@ -136,7 +138,6 @@ export class CardServiceProvider {
   }
 
   public syncCard(userName, vcfName) {
-    this.showLoading('名片同步中，请稍后');
     console.log('userName', userName);
     console.log('vcfName', vcfName);
     let friendname = vcfName.split('>')[0];
@@ -152,9 +153,16 @@ export class CardServiceProvider {
         let id = data["Cards"][0]['id'];
         console.log('id', id);
         // upload file
+        this.showLoading('名片同步中，请稍后');
         const fileTransfer: FileTransferObject = this.transfer.create();
         fileTransfer.upload(this.file.externalDataDirectory + vcfName, this.postCardURL + id).then(response => {
           console.log(response.response);
+          let toast = this.toastCtrl.create({
+            message: '同步成功',
+            duration: 3000
+          });
+          toast.present();
+
         });
       });
     });
@@ -186,31 +194,10 @@ export class CardServiceProvider {
 
   }
 
-  public showSearchConfirm(vcfName, username) {
-    let confirm = this.alertCtrl.create({
-      title: '搜索人脉',
-      message: '你想要根据扫描名片信息搜索人脉吗？',
-      buttons: [
-        {
-          text: '不用了',
-          handler: () => {
-            this.showSyncConfirm(vcfName, username);
-            console.log('Disagree clicked');
-          }
-        },
-        {
-          text: '好的',
-          handler: () => {
-            this.showSyncConfirm(vcfName, username);
-            console.log('Agree clicked');
-          }
-        }
-      ]
-    });
-    confirm.present();
+
+  public dismissLoading(){
     this.loading.dismiss();
   }
-
   // ask if user want to sync user according to this business card.
   public showSyncConfirm(vcfName, username) {
     let confirm = this.alertCtrl.create({
@@ -234,6 +221,4 @@ export class CardServiceProvider {
     });
     confirm.present();
   }
-
-
 }

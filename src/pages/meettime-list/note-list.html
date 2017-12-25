@@ -1,0 +1,29 @@
+<!--
+  Generated template for the MeetTimeListPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>相遇时刻</ion-title>
+
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+
+
+  <ion-list>
+    <ion-card ion-item *ngFor="let note of noteList;let i =index">
+      <img src="{{note['imageuri']}}" (click)="viewMeettime(i)"/>
+    </ion-card>
+  </ion-list>
+  <button class="addPhotoBtn" (click)="addMeetTime()">
+    <ion-icon name="add"></ion-icon>
+  </button>
+
+</ion-content>
