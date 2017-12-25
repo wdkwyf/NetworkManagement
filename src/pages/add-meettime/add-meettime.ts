@@ -15,8 +15,8 @@ import {CardServiceProvider} from "../../providers/card-service/card-service";
 
 @IonicPage()
 @Component({
-  selector: 'page-add-note',
-  templateUrl: 'add-note.html',
+  selector: 'page-add-meettime',
+  templateUrl: 'add-meettime.html',
 })
 export class AddMeetTimePage {
   username: string;

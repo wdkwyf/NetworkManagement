@@ -14,8 +14,8 @@ import {HttpClient} from "@angular/common/http";
 
 @IonicPage()
 @Component({
-  selector: 'page-note-list',
-  templateUrl: 'note-list.html',
+  selector: 'page-meettime-list',
+  templateUrl: 'meettime-list.html',
 })
 export class MeetTimeListPage {
   public noteList: any;

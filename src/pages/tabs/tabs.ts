@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import {Component} from '@angular/core';
+import {IonicPage, NavController, NavParams} from 'ionic-angular';
+import {AuthServiceProvider} from "../../providers/auth-service/auth-service";
 
 /**
  * Generated class for the TabsPage page.
@@ -17,9 +18,11 @@ export class TabsPage {
   tab1Root: any = 'ContactsPage';
   tab2Root: any = 'MessagePage';
   tab3Root: any = 'CommunityPage';
-  tab4Root:any = 'PersonalInfoPage';
+  tab4Root: any = 'PersonalInfoPage';
+  username: string = '';
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private auth: AuthServiceProvider) {
+
   }
 
   ionViewDidLoad() {

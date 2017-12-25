@@ -31,19 +31,14 @@ export class LoginPage {
   }
 
   public createAccount() {
-    //for now
-    this.fileOpener.open('path/to/file.pdf', 'application/pdf')
-      .then(() => console.log('File is opened'))
-      .catch(e => console.log('Error openening file', e));
     this.navCtrl.push('RegisterPage');
-
   }
 
   public login() {
     this.showLoading();
     this.auth.login(this.loginCredentials).subscribe(allowed => {
       if (allowed) {
-        this.navCtrl.setRoot('TabsPage');
+        this.navCtrl.setRoot('ContactsPage');
       } else {
         this.showError('登录失败');
       }

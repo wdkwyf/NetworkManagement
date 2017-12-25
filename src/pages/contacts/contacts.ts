@@ -50,8 +50,6 @@ export class ContactsPage {
       }
     });
     this.userInfo = AppConfig.getUserInfo();
-
-
   }
 
   presentPopover(ev) {
