@@ -33,20 +33,63 @@
   <!--</button>-->
 
   <div class="avatar">
-    <img (click)="changeAvatar()" id='avatarDiv' height="80px" width="80px" src="{{user.avatar}}">
+    <img (click)="changeAvatar()" id='avatarDiv' height="80px" width="80px" src="assets/imgs/avatar.jpg">
   </div>
+
+  <ion-list>
+
+    <ion-item>
+      <ion-label color="primary" fixed>手机号</ion-label>
+      <ion-input type="tel" [(ngModel)]="user.phone" placeholder="{{user.phone}}"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label color="primary" fixed>邮箱</ion-label>
+      <ion-input type="email" [(ngModel)]="user.include.email" placeholder="{{user.include.email}}"></ion-input>
+    </ion-item>
+    <!--<ion-item>-->
+      <!--<ion-label color="primary" fixed>手机号</ion-label>-->
+      <!--<ion-input type="tel" placeholder="手机号"></ion-input>-->
+    <!--</ion-item>-->
+    <ion-item>
+      <!--<ion-icon name="pin" item-start></ion-icon>-->
+      <!--<ion-label>工作地</ion-label>-->
+      <ion-label color="primary" fixed>工作地</ion-label>
+      <ion-multi-picker placeholder="{{user.workplace}}" [(ngModel)]="workplace" id="cities" item-content
+                        [multiPickerColumns]="cityColumns" [cancelText]="'取消'" [doneText]="'完成'"></ion-multi-picker>
+    </ion-item>
+    <ion-item>
+      <ion-label color="primary" fixed>职位</ion-label>
+      <ion-input type="text" [(ngModel)]="user.occupation" placeholder="{{user.occupation}}"></ion-input>
+    </ion-item>
   <ion-item>
-    <ion-icon name="briefcase" item-start></ion-icon>
-    <ion-label>职业</ion-label>
-    <ion-multi-picker placeholder="{{user.job}}" [(ngModel)]="job" id="jobs" item-content
+    <!--<ion-icon name="briefcase" item-start></ion-icon>-->
+    <ion-label color="primary" fixed>职业</ion-label>
+    <ion-multi-picker placeholder="{{user.job}}" [(ngModel)]="user.job" id="jobs" item-content
                       [multiPickerColumns]="jobColumns" [cancelText]="'取消'" [doneText]="'完成'"></ion-multi-picker>
   </ion-item>
-  <ion-item>
-    <ion-icon name="pin" item-start></ion-icon>
-    <ion-label>工作地</ion-label>
-    <ion-multi-picker placeholder="{{user.workplace}}" [(ngModel)]="workplace" id="cities" item-content
-                      [multiPickerColumns]="cityColumns" [cancelText]="'取消'" [doneText]="'完成'"></ion-multi-picker>
-  </ion-item>
+    <ion-item>
+      <ion-label color="primary" fixed>组织</ion-label>
+      <ion-input type="text" [(ngModel)]="user.organization" placeholder="{{user.organization}}"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label color="primary" fixed>大学</ion-label>
+      <ion-input type="text" [(ngModel)]="user.university" placeholder="{{user.university}}"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label color="primary" fixed>QQ</ion-label>
+      <ion-input type="number" [(ngModel)]="user.qq" placeholder="{{user.qq}}"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label color="primary" fixed>微信</ion-label>
+      <ion-input type="text" [(ngModel)]="user.wechat" placeholder="{{user.wechat}}"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label color="primary" fixed>微博</ion-label>
+      <ion-input type="text" [(ngModel)]="user.weibo" placeholder="{{user.weibo}}"></ion-input>
+    </ion-item>
+
+  </ion-list>
+
 
   <!--<button (click)="saveBtnClicked()">aaa</button>-->
   <!--<p>{{workplace}}</p>-->

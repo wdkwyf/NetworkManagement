@@ -3,6 +3,7 @@ import {ActionSheetController, IonicPage, NavController, NavParams, ViewControll
 import {SelectorDataProvider} from "../../providers/selector-data/selector-data";
 import {ImgServiceProvider} from "../../providers/img-service/img-service";
 import {ContactServiceProvider} from "../../providers/contact-service/contact-service";
+import {AuthServiceProvider} from "../../providers/auth-service/auth-service";
 
 
 
@@ -21,6 +22,7 @@ import {ContactServiceProvider} from "../../providers/contact-service/contact-se
 export class EditInfoPage {
 
   // avatar = "../assets/imgs/avatar.jpg";
+  avatar = null;
   cityColumns;//用于构造selector
   workplace = null;
   // workPlaceStr="上海市 市辖区 杨浦区";//选择的工作地
@@ -29,9 +31,10 @@ export class EditInfoPage {
   // editing = false;
   user;
 
-  constructor(private contactService:ContactServiceProvider,public navCtrl: NavController,private view: ViewController, public navParams: NavParams,private selectorData:SelectorDataProvider,private imgservice: ImgServiceProvider, public actionSheetCtrl: ActionSheetController) {
+  constructor(private authService:AuthServiceProvider,public navCtrl: NavController,private view: ViewController, public navParams: NavParams,private selectorData:SelectorDataProvider,private imgservice: ImgServiceProvider, public actionSheetCtrl: ActionSheetController) {
     this.cityColumns = this.selectorData.cities;
     this.jobColumns = this.selectorData.jobs;
+    this.user = this.navParams.get('user');
 
   }
 
@@ -41,19 +44,12 @@ export class EditInfoPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad EditInfoPage');
-    // this.getRequestContact();
   }
 
   ionViewWillLoad(){
     this.user = this.navParams.get('user');
   }
 
-  // editInfo(){
-  //   console.log("editInfo");
-  //   this.editing = true;
-  //   // document.getElementById('avatarDiv').setAttribute('tappable','true');
-  //   document.getElementById('avatarDiv').addEventListener("click",evt => {this.changeAvatar();});
-  // }
 
   changeAvatar(){
     console.log("change avatar");
@@ -66,13 +62,13 @@ export class EditInfoPage {
         text: '拍照',
         role: 'takePhoto',
         handler: () => {
-          this.user.avatar = this.imgservice.takePicture();
+          this.avatar = this.imgservice.takePicture();
         }
       }, {
         text: '从相册选择',
         role: 'chooseFromAlbum',
         handler: () => {
-          this.user.avatar = this.imgservice.chooseFromAlbum();
+          this.avatar = this.imgservice.chooseFromAlbum();
         }
       }, {
         text: '取消',
@@ -88,47 +84,28 @@ export class EditInfoPage {
   }
 
   saveBtnClicked() {
-    // if(this.workplace==null){
-    //   alert("请选择工作地");
-    //   return;
-    // }
-    // this.workPlaceArr = "";
-    if(!this.workplace){
-      this.closeModal();
-      return;
-    }
     this.user.workplace = "";
-    let workplaceArrTmp = this.workplace.split(' ');
-    for(let k =0;k<workplaceArrTmp.length;k++){
-      let j = 0;
-      let a = this.cityColumns;
+    if(this.workplace){
+      let workplaceArrTmp = this.workplace.split(' ');
+      for(let k =0;k<workplaceArrTmp.length;k++){
+        let j = 0;
+        let a = this.cityColumns;
         for (j = 0; j < a[k].options.length; j++) {
           if (a[k].options[j].value === workplaceArrTmp[k]) {
             break;
           }
         }
-      this.user.workplace = this.user.workplace + " " + (a[k].options[j].text);
-      console.log(this.user.workplace);
+        this.user.workplace = this.user.workplace + " " + (a[k].options[j].text);
+        console.log(this.user.workplace);
+      }
     }
-    //todo 更新数据库
-    this.contactService.updateUserInfo(this.user).subscribe(data=>{});
-
-
-      //  a.forEachItem((level) => {level.options.filter((item) =>{
-      //     return (item.value.toLowerCase().indexOf("110000") > -1);
-      //   });
-      // });
-
+    // //todo 更新数据库
+    this.authService.updateUserInfo(this.user,this.avatar).subscribe(data=>{
+      console.log(data);
+      this.closeModal();
+    });
 
   }
-  // getRequestContact(){
-  //   this.selectorData.getCityList()
-  //     .subscribe(res => {
-  //       this.cityColumns = res;
-  //
-  //     }, error => {
-  //       console.log(error);
-  //     });
-  // }
+
 
 }

@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams,Modal, ModalController, ModalOptions  } from 'ionic-angular';
 import {MomentServiceProvider} from "../../providers/moment-service/moment-service";
+import {AuthServiceProvider} from "../../providers/auth-service/auth-service";
+import {AppConfig} from "../../app/app.config";
 
 /**
  * Generated class for the CommunityPage page.
@@ -18,15 +20,27 @@ export class CommunityPage {
   showComments = {};
   commentContent="";
   placeholder={};
-  posts;
+  posts=[];
+  //posts : [{id:string,title:string,content:string,likenum:Number,commentnum:Number,posttime:Number,user:{name:string},comments:[{content:string,commenter:{targetuser:{name:string}}}]}]=null;
+  userInfo;
+  username;
+  parentComment = -1;
+  targetUser;
+  private readonly picURL:string = 'http://120.79.42.137:8080/file/Ud7adca934ab4e/Card/Moments/';
 
   // commentListDiv = null;
 
-  constructor(private momentService:MomentServiceProvider,public navCtrl: NavController, public navParams: NavParams,private modal: ModalController) {
+  constructor(private authService:AuthServiceProvider,private momentService:MomentServiceProvider,public navCtrl: NavController, public navParams: NavParams,private modal: ModalController) {
+
+    this.username = AppConfig.getUsername();
+
     momentService.getMomentList().subscribe(data=>{
       this.posts = data;
+      this.updateArrs();
     });
-    this.updateArrs();
+    authService.getUserInfoByName(this.username).subscribe(data=>{
+      this.userInfo = data;
+    })
 
   }
 
@@ -73,8 +87,6 @@ export class CommunityPage {
         console.log("I'm about to dismiss");
         console.log(data);
       });
-
-
 
   }
 
@@ -126,8 +138,10 @@ export class CommunityPage {
   //   return commentListDiv;
   // }
   //
-  replyClicked(post,comment,commentInput){
+  replyClicked(targetuser,post,comment,commentInput){
     this.placeholder[post.id] = "@"+comment.commenter.name+" ";
+    this.parentComment = comment.id;
+    this.targetUser = targetuser;
     commentInput.setFocus();
   }
   //

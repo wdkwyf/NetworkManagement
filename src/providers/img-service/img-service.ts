@@ -21,7 +21,7 @@ export class ImgServiceProvider {
 
 
   public takePicture():string[]{
-    let imgs = [];
+    let img = null;// = [];
     //相机参数配置
     const options = {
       quality: 50,  //照片质量，1-100，默认50
@@ -34,37 +34,38 @@ export class ImgServiceProvider {
     this.camera.getPicture(options).then((imageData) => {
       // imageData is either a base64 encoded string or a file URI
       // If it's base64:
-      imgs.push('data:image/jpeg;base64,' + imageData);
-      console.log(imgs);
+      img = 'data:image/jpeg;base64,' + imageData;
+      console.log(img);
     }, (err) => {
       // Handle error
       console.log(err)
     });
-    return imgs;
+    return img;
 
 
   }
   public chooseFromAlbum():string[]{
-    let imgs = [];
+    let img = null;
     //相机参数配置
     const options = {
+      maximumImagesCount: 1,
       quality: 50,  //照片质量，1-100，默认50
       destinationType: this.camera.DestinationType.DATA_URL,  //返回的数据类型，默认DATA_URL
       enodingType: this.camera.EncodingType.JPEG,  //照片格式，默认JPEG，还有PNG可选
       mediaType: this.camera.MediaType.PICTURE,  //媒体类型，默认PICTURE->照片，还有VIDEO等可以选
       sourceType: this.camera.PictureSourceType.PHOTOLIBRARY//来源类型，默认CAMERA->相机，还有PHOTOLIBRARY->相册等可以选
-    }
+    };
 
     this.camera.getPicture(options).then((imageData) => {
       // imageData is either a base64 encoded string or a file URI
       // If it's base64:
-      imgs.push( 'data:image/jpeg;base64,' + imageData);
-      console.log(imgs)
+      img = 'data:image/jpeg;base64,' + imageData;
+      console.log(img)
     }, (err) => {
       // Handle error
       console.log(err);
     });
-    return imgs;
+    return img;
 
   }
 

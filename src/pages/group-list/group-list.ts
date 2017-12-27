@@ -19,7 +19,7 @@ export class GroupListPage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
     this.userInfo = navParams.get('userInfo');
-    this.groupLists = this.userInfo.hasGroups;
+    this.groupLists = this.userInfo.hasgroup;
 
   }
 

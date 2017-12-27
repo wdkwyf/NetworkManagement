@@ -15,6 +15,7 @@ import {FileChooser} from "@ionic-native/file-chooser";
 import {AuthServiceProvider} from "../../providers/auth-service/auth-service";
 import {AppConfig} from "../../app/app.config";
 import {GroupServiceProvider} from "../../providers/group-service/group-service";
+import {ContactServiceProvider} from "../../providers/contact-service/contact-service";
 
 @IonicPage()
 @Component({
@@ -28,8 +29,10 @@ export class ContactsPage {
   username = '';
   userInfo;
   inGroupsId=[];
+  refresh = true;
 
-  constructor(private popoverCtrl: PopoverController,
+  constructor(private contactService:ContactServiceProvider,
+              private popoverCtrl: PopoverController,
               private camera: Camera,
               public menu: MenuController,
               private navCtrl: NavController,
@@ -43,17 +46,19 @@ export class ContactsPage {
               private auth: AuthServiceProvider,
               private groupService:GroupServiceProvider,
               public navParams: NavParams) {
-    this.initializeItems();
     this.auth.getUserName().subscribe(name => {
       console.log(name, 'name');
       this.username = name;
     });
-    this.userInfo = AppConfig.getUserInfo();
-
+    auth.getUserInfoByName(AppConfig.getUsername()).subscribe(data=>{
+      this.userInfo = data;
+    });
+    // this.initializeItems();
 
   }
 
   presentPopover(ev) {
+    this.refresh = true;
 
     let popover = this.popoverCtrl.create('PopoverPage', {
       username: this.username,
@@ -71,57 +76,108 @@ export class ContactsPage {
   }
 
   showGroupList() {
+    console.log(this.userInfo);
     this.navCtrl.push("GroupListPage",{'userInfo':this.userInfo});
   }
 
   initializeItems() {
 
-    //todo 数据库 userName->contactName->contactInfo
-    this.contactsList = [
-      {
-        'phone': '15221530965',
-        'workplace': '上海市 市辖区 杨浦区',
-        'occupation': '学生',
-        'job': 'IT/互联网 研发',
-        'influence': 10,
-        'organization': '上海交通大学',
-        'university': '上海交通大学',
-        'qq': '593880978',
-        'wechat': 'anna',
-        'weibo': '15221530965',
-        'avatar':'./assets/imgs/user.jpg',
-        'include': {'id': 2, 'name': 'haha','email':'593880978@qq.com'}
-      },
-      {
-        'phone': '15221530965',
-        'workplace': '上海市 市辖区 杨浦区',
-        'occupation': '学生',
-        'job': 'IT/互联网 研发',
-        'influence': 10,
-        'organization': '上海交通大学',
-        'university': '上海交通大学',
-        'qq': '593880978',
-        'wechat': 'anna',
-        'weibo': '15221530965',
-        'avatar': './assets/imgs/avatar.jpg',
-        'include': {'id': 3, 'name': 'hhh','email':'593880978@qq.com'}},
-      {
-        'phone': '15221530965',
-        'workplace': '上海市 市辖区 杨浦区',
-        'occupation': '学生',
-        'job': 'IT/互联网 研发',
-        'influence': 10,
-        'organization': '上海交通大学',
-        'university': '上海交通大学',
-        'qq': '593880978',
-        'wechat': 'anna',
-        'weibo': '15221530965',
-        'avatar': './assets/imgs/to-user.jpg',
-        'include': {'id': 4, 'name': 'aa','email':'593880978@qq.com'}}]
+    this.contactService.findContactsByUsername(AppConfig.getUsername()).subscribe(contactsList=>{
+      this.contactsList = contactsList;
+    });
+  //   //todo 数据库 userName->contactName->contactInfo
+  //   // this.contactsList = [
+  //   //   {
+  //   //     "id": 1514103055481,
+  //   //     "phone": "15221530965",
+  //   //     "workplace": "上海市 市辖区 杨浦区",
+  //   //     "occupation": "学生",
+  //   //     "job": "IT/互联网 研发",
+  //   //     "influence": 10,
+  //   //     "organization": "同济大学",
+  //   //     "university": "同济大学",
+  //   //     "qq": "593880978",
+  //   //     "wechat": "gavin",
+  //   //     "weibo": "15221530965",
+  //   //     "include": {
+  //   //       "id": 1514101735335,
+  //   //       "name": "Gavin",
+  //   //       "password": "1996",
+  //   //       "email": "2831730038@qq.com",
+  //   //       "createtime": 1514101735335,
+  //   //       "cardid": "1",
+  //   //       "flag": 0,
+  //   //       "reason": "发表黄色言论"
+  //   //     },
+  //   //     "hasgroup": []
+  //   //   },
+  //   //   {
+  //   //     "id": 1514205158334,
+  //   //     "phone": "15255530965",
+  //   //     "workplace": "杭州市 市辖区 余杭区",
+  //   //     "occupation": "总裁",
+  //   //     "job": "IT/互联网 管理",
+  //   //     "influence": 10,
+  //   //     "organization": "阿里巴巴",
+  //   //     "university": "杭州师范大学",
+  //   //     "qq": "593880978",
+  //   //     "wechat": "gavin",
+  //   //     "weibo": "15221530965",
+  //   //     "include": {
+  //   //       "id": 1513250372495,
+  //   //       "name": "马小云",
+  //   //       "password": "1996",
+  //   //       "email": "123@qq.com",
+  //   //       "createtime": 1513250372495,
+  //   //       "cardid": "1",
+  //   //       "flag": 1,
+  //   //       "reason": ""
+  //   //     },
+  //   //     "hasgroup": []
+  //   //   }
+  //   //   // {
+  //   //   //   'phone': '15221530965',
+  //   //   //   'workplace': '上海市 市辖区 杨浦区',
+  //   //   //   'occupation': '学生',
+  //   //   //   'job': 'IT/互联网 研发',
+  //   //   //   'influence': 10,
+  //   //   //   'organization': '上海交通大学',
+  //   //   //   'university': '上海交通大学',
+  //   //   //   'qq': '593880978',
+  //   //   //   'wechat': 'anna',
+  //   //   //   'weibo': '15221530965',
+  //   //   //   'avatar': './assets/imgs/avatar.jpg',
+  //   //   //   'include': {'id': 3, 'name': 'hhh','email':'593880978@qq.com'}},
+  //   //   // {
+  //   //   //   'phone': '15221530965',
+  //   //   //   'workplace': '上海市 市辖区 杨浦区',
+  //   //   //   'occupation': '学生',
+  //   //   //   'job': 'IT/互联网 研发',
+  //   //   //   'influence': 10,
+  //   //   //   'organization': '上海交通大学',
+  //   //   //   'university': '上海交通大学',
+  //   //   //   'qq': '593880978',
+  //   //   //   'wechat': 'anna',
+  //   //   //   'weibo': '15221530965',
+  //   //   //   'avatar': './assets/imgs/to-user.jpg',
+  //   //   //   'include': {'id': 4, 'name': 'aa','email':'593880978@qq.com'}}
+  //   // ]
   }
+
+  // ionViewWillLoad(){
+  //   console.log("ion will load");
+  //   this.initializeItems();
+  // }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad ContactsPage');
+  }
+
+  ionViewWillEnter(){
+    console.log("will enter");
+    if(this.refresh){
+      this.initializeItems();
+    }
   }
 
 
@@ -131,7 +187,6 @@ export class ContactsPage {
 
   }
 
-  a = 'aa';
 
   addGroup(contactName) {
     console.log("addGroupClicked");
@@ -159,17 +214,23 @@ export class ContactsPage {
 
   getItems(ev: any) {
     // Reset items back to all of the items
-    this.initializeItems();
+    // this.initializeItems();
+    this.refresh = false;
 
-    // set val to the value of the searchbar
-    let val = ev.target.value;
+    this.contactService.findContactsByUsername(AppConfig.getUsername()).subscribe(contactsList=>{
+      this.contactsList = contactsList;
+      // set val to the value of the searchbar
+      let val = ev.target.value;
 
-    // if the value is an empty string don't filter the items
-    if (val && val.trim() != '') {
-      this.contactsList = this.contactsList.filter((item) => {
-        return (item.include.name.toLowerCase().indexOf(val.toLowerCase()) > -1);
-      })
-    }
+      // if the value is an empty string don't filter the items
+      if (val && val.trim() != '') {
+        this.contactsList = this.contactsList.filter((item) => {
+          return (item.include.name.toLowerCase().indexOf(val.toLowerCase()) > -1);
+        })
+      }
+
+    });
+
   }
 
 }

@@ -1,6 +1,7 @@
 import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {Observable} from "rxjs/Observable";
+import {FileTransfer, FileTransferObject} from "@ionic-native/file-transfer";
 
 /*
   Generated class for the MomentServiceProvider provider.
@@ -11,86 +12,59 @@ import {Observable} from "rxjs/Observable";
 @Injectable()
 export class MomentServiceProvider {
 
-  constructor(public http: HttpClient) {
+  private readonly momentURL:string = 'http://120.79.42.137:8080/Entity/Ud7adca934ab4e/Card/Moments/';
+
+  constructor(private transfer: FileTransfer,public http: HttpClient) {
     console.log('Hello MomentServiceProvider Provider');
   }
 
-  getMomentList() {
+  getMomentList(){
     return Observable.create(observer => {
-      let posts = [
-        {
-          id: 1, user: {id: '1', name: 'anna'},
-          title:'title1',
-          content: 'first',
-          likeNum: 5,
-          commentNum: 10,
-          postTime: '2017-10-12 08:00',
-          // comments:[{id:1,content:'hhh',commenter:{id:1,name:'anna',avatar:'../assets/imgs/avatar.jpg'},subComments:[{id:2,content:'ooo',commenter:{id:2,name:'ann'},subComments:[]}]}]
-          comments: [{
-            id: 1,
-            level_num: 0,
-            target_level_num: -1,
-            target_user: null,
-            content: 'hhh',
-            commenter: {id: 1, name: 'anna', avatar: '../assets/imgs/avatar.jpg'}
-          }, {
-            id: 2,
-            level_num: 1,
-            target_level_num: 0,
-            target_user: {id: 1, name: 'anna'},
-            content: 'ooo',
-            commenter: {id: 2, name: 'ann'}
-          }]
-        }, {
-          id: 2, user: {id: '1', name: 'anna'},
-          title:'title2',
-          content: 'second',
-          likeNum: 5,
-          commentNum: 10,
-          postTime: '2017-10-12 08:00',
-          comments: [{
-            id: 1,
-            level_num: 0,
-            target_level_num: -1,
-            target_user: null,
-            content: 'hhh',
-            commenter: {id: 1, name: 'anna', avatar: '../assets/imgs/avatar.jpg'}
-          }, {
-            id: 2,
-            level_num: 1,
-            target_level_num: 0,
-            target_user: {id: 1, name: 'anna'},
-            content: 'ooo',
-            commenter: {id: 2, name: 'ann', avatar: '../assets/imgs/avatar.jpg'}
-          }]
-        }];
-      observer.next(posts);
-      observer.complete();
+      this.http.get(this.momentURL).subscribe(data=>{
+        let moments = data['Moments'];
+        observer.next(moments);
+        observer.complete();
+      })
+    })
+  }
+
+  getMomentListByName(name) {
+    return Observable.create(observer => {
+      // let posts;
+      this.http.get(this.momentURL+"?Moments.user.include.name="+name).subscribe(data=>{
+        let posts = data['Moment'];
+        observer.next(posts);
+        observer.complete();
+      });
     })
 
   }
 
-  postMoment() {
+  postMoment(userInfoId,title,content,img) {
     return Observable.create(observer => {
-      let post = {
-        id:3,
-        user: {id: '1', name: 'anna'},
-        title:'title1',
-        content: 'first',
-        likeNum: 0,
-        commentNum: 0,
-        postTime: '2017-10-12 08:00',
-        comments: [{
-          id: 1,
-          level_num: 0,
-          target_level_num: -1,
-          target_user: null,
-          content: 'hhh',
-          commenter: {id: 1, name: 'anna', avatar: '../assets/imgs/avatar.jpg'}
-        }]
+      let json = {
+        "user": {"id": userInfoId},
+        "title":title,
+        "content": content,
+        "likenum": 0,
+        "commentnum": 0,
+        "posttime": new Date().toLocaleString(),
       };
-      observer.next(post);
-      observer.complete();
+      json['haspic'] = img?1:0;
+      this.http.post(this.momentURL,json).subscribe(data=>{
+        console.log(data);
+        if(img) {
+          const fileTransfer: FileTransferObject = this.transfer.create();
+          fileTransfer.upload(img, this.momentURL + data['id']).then(response => {
+            console.log(response.response);
+            observer.next(data);
+            observer.complete();
+          });
+        }else {
+          observer.next(data);
+          observer.complete();
+        }
+      });
     })
   }
 

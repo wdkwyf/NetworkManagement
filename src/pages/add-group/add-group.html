@@ -23,7 +23,7 @@
 
 <ion-content padding>
   <button class="createGroupBtn" (click)="createGroup()">新建分组</button>
-  <ion-list class="groupList">
+  <ion-list *ngIf="groupList.length>0" class="groupList">
     <ion-item *ngFor="let group of groupList">
       <ion-label>{{group.name}}</ion-label>
       <ion-checkbox color="dark" [(ngModel)]="group.checked"></ion-checkbox>

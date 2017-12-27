@@ -16,7 +16,7 @@ import {GroupServiceProvider} from "../../providers/group-service/group-service"
 })
 export class GroupDetailPage {
 
-  contactsList:any[];
+  contactsList=[];
   groupId;
 
   constructor(private groupService:GroupServiceProvider,private app:App,public navCtrl: NavController, public navParams: NavParams) {

@@ -25,20 +25,20 @@
 
 
   <div class="avatar">
-    <img height="80px" width="80px" src="{{personalUserInfo.avatar}}"/>
+    <img height="80px" *ngIf="personalUserInfo!=null" width="80px" src="{{personalUserInfo.hasavatar?(avatarURL+personalUserInfo.id):'assets/imgs/avatar.jpg'}}" />
   </div>
   <!--<div class="nameDiv">{{user.name}}</div>-->
   <ion-card class="myCard">
 
     <ion-item>
       <!--<ion-avatar item-start>-->
-      <!--<img src="{{user.avatar}}">-->
+      <!--<img src="assets/imgs/avatar.jpg">-->
       <!--</ion-avatar>-->
-      <h2>姓名：{{personalUserInfo.include.name}}</h2>
-      <h2 class="infoDetail">职位：{{personalUserInfo.occupation}}</h2>
-      <h2 class="infoDetail">职业：{{personalUserInfo.job}} </h2>
-      <h2 class="infoDetail">组织：{{personalUserInfo.organization}}</h2>
-      <h2 class="infoDetail"><a navPush="InfluencePage">影响力：{{personalUserInfo.influence}}</a></h2>
+      <h2>姓名：{{personalUserInfo?personalUserInfo.include.name:''}}</h2>
+      <h2 class="infoDetail">职位：{{personalUserInfo?personalUserInfo.occupation:''}}</h2>
+      <h2 class="infoDetail">职业：{{personalUserInfo?personalUserInfo.job:''}} </h2>
+      <h2 class="infoDetail">组织：{{personalUserInfo?personalUserInfo.organization:''}}</h2>
+      <h2 class="infoDetail"><a navPush="InfluencePage">影响力：{{personalUserInfo?personalUserInfo.influence:''}}</a></h2>
     </ion-item>
 
 
@@ -55,7 +55,7 @@
     </button>
   </ion-list>
   <button *ngIf="relation==1" (click)="sendMessage()" class="myBtn funcBtn">发消息</button>
-  <button *ngIf="relation==2" class="myBtn funcBtn">添加好友
+  <button *ngIf="relation==2" (click)="addFriend()" class="myBtn funcBtn">添加好友
   </button>
   <button *ngIf="!showDetail" class="myBtn detailBtn showDetailBtn" (click)="showInfoDetail()">显示详细信息
     <ion-icon name="arrow-down"></ion-icon>

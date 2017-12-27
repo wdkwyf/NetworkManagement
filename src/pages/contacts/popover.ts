@@ -51,9 +51,9 @@ export class PopoverPage {
 
   /* ------------- Popover action -------------- */
   public addContact() {
-    this.app.getRootNav().push("SearchUserPage");
+    this.navCtrl.push("SearchUserPage");
     console.log("添加人脉");
-    this.view.dismiss();
+    // this.view.dismiss();
   }
 
   public scanCard() {

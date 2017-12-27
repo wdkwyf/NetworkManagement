@@ -54,16 +54,21 @@ page-community {
     padding-left: 10px;
     display: flex;
     justify-items: center;
+    margin-bottom: 5px;
   }
 
   .commentInput{
     border-radius: 10px;
     border: 1px solid gray;
     padding-left: 8px;
-    font-size: 15px;
+    font-size: 12px;
   }
   .commentList .commentItem{
     border-bottom: 1px solid lightgray;
+  }
+
+  h2.title{
+    border-bottom: 1px solid gray
   }
 
   .commentItem{

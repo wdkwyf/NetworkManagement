@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import {AlertController, IonicPage, NavController, NavParams} from 'ionic-angular';
 import {GroupServiceProvider} from "../../providers/group-service/group-service";
 import {AppConfig} from "../../app/app.config";
+import {AuthServiceProvider} from "../../providers/auth-service/auth-service";
 
 /**
  * Generated class for the AddGroupPage page.
@@ -17,25 +18,46 @@ import {AppConfig} from "../../app/app.config";
 })
 export class AddGroupPage {
 
-  groupList;
-  groups;
-  contactName;
   userInfo;
-  inGroupIdList;
   personalInfoPage;
+  personalUserInfo;
+  inGroupIdList=[];//好友所在的所有group的id
+  groupList=[];//用户建的所有组
+  joinGroups;//好友所在的所有group对应的Ingroup
 
-  constructor(private groupService:GroupServiceProvider,private alertCtrl: AlertController,public navCtrl: NavController, public navParams: NavParams) {
-    this.contactName = navParams.get('contactName');
-    this.userInfo = AppConfig.getUserInfo();
-    this.inGroupIdList = navParams.get('inGroupsId');
-    this.groupList = this.userInfo.hasGroups;
+
+  constructor(private authService:AuthServiceProvider,private groupService:GroupServiceProvider,private alertCtrl: AlertController,public navCtrl: NavController, public navParams: NavParams) {
+    this.personalUserInfo = navParams.get('personalUser');
     this.personalInfoPage = navParams.get('personalInfoPage');
-    for(let group of this.groupList){
-      group.checked = this.inGroupIdList.indexOf(group.id)>-1;
-    }
+    authService.getUserInfoByName(AppConfig.getUsername()).subscribe(data=>{
+      this.userInfo = data;
+      this.groupList = this.userInfo.hasgroup;
+      this.updateIngroups();
+    });
 
-    console.log('navParam---contactName'+this.contactName);
-    console.log('navParam---inGroupsId'+this.inGroupIdList);
+  }
+
+  updateIngroups(){
+    this.groupService.getInGroupOfUser(this.personalUserInfo['include']['name']).subscribe(inGroups=>{
+
+        let hasGroupIds = [];
+        for(let hasGroup of this.groupList){
+          hasGroupIds.push(hasGroup.id);
+        }
+        let tmp = inGroups['groups'].filter(item=>{
+          return(hasGroupIds.indexOf(item.id)>-1);
+        });
+        this.joinGroups = inGroups['joinGroups'];
+        this.joinGroups = this.joinGroups.filter(item=>{
+          return(hasGroupIds.indexOf(item.group.id)>-1);
+        });
+        for (let group of tmp) {
+          this.inGroupIdList.push(group['id']);
+        }
+        for(let group of this.groupList){
+          group.checked = this.inGroupIdList.indexOf(group.id)>-1;
+        }
+    })
   }
 
   ionViewDidLoad() {
@@ -43,31 +65,28 @@ export class AddGroupPage {
 
   }
 
-  ionViewWillLoad(){
-    // this.groupList = this.userInfo.hasGroups;
-
-  }
-
   conformBtnClicked(){
-    // this.navCtrl.pop();
-    // this.callback(this.groupList);
-    // this.navCtrl.pop();
-
-    let inGroupIdList = [];
+    let newInGroupList = [];
     let groupStr = "";
     for(let group of this.groupList){
       if(group.checked){
         groupStr += group.name+" ";
-        inGroupIdList.push(group.id);
+        newInGroupList.push(group);
       }
     }
     if(this.personalInfoPage){
       this.personalInfoPage.inGroup = groupStr;
     }
-    this.groupService.modifyInGroupList(inGroupIdList,this.contactName);
+    for(let joinGroup of this.joinGroups){
+      this.groupService.deleteInGroup(joinGroup).subscribe(data=>{
+      })
+    }
+    for(let inGroup of newInGroupList){
+      this.groupService.addInGroup(this.personalUserInfo.id,inGroup).subscribe(data=>{
+      })
+    }
     this.navCtrl.pop();
 
-    // this.callback(groupStr).then((data)=>{ console.log(data);this.navCtrl.pop() });
   }
 
   createGroup(){
@@ -93,9 +112,11 @@ export class AddGroupPage {
               console.log(data.groupName);
               console.log('Saved clicked');
               //todo 存数据库
-              this.groupService.createGroup(this.userInfo,data.groupName).subscribe(success=>{
-                if(success){
+              this.groupService.createGroup(this.userInfo,data.groupName).subscribe(groupList=>{
+                console.log(groupList);
+                if(groupList.length>0){
                   alert("创建成功");
+                  this.groupList = groupList;
                 }
               })
             }

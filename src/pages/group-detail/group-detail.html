@@ -14,12 +14,13 @@
 
 
 <ion-content padding>
-  <ion-list>
+  <ion-list *ngIf="contactsList.length>0">
     <ion-item tappable="true" (tap)="contactTapped(contact.include.name)" *ngFor="let contact of contactsList">
       <ion-avatar item-left>
-        <img src="{{contact.avatar}}">
+        <img src="assets/imgs/avatar.jpg">
       </ion-avatar>
       <h2>{{contact.include.name}}</h2>
     </ion-item>
   </ion-list>
+  <p class="warnP" *ngIf="contactsList.length==0">该分组还没有好友</p>
 </ion-content>

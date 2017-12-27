@@ -23,16 +23,17 @@
 
 
 <ion-content class="cards-bg social-cards background">
-
+<div  *ngIf="posts.length>0">
   <ion-card *ngFor="let post of posts">
     <div class="upper">
-      <img class="avatar" src="../assets/imgs/avatar.jpg">
-      <span>{{post.user.name}}</span>
-      <span>2017-10-12 08:00</span>
+      <img class="avatar" src="assets/imgs/avatar.jpg">
+      <span>{{post.user.include.name}}</span>
+      <span>{{post.posttime}}</span>
     </div>
-    <img src="../assets/imgs/avatar.jpg">
+    <img *ngIf="post.haspic==1" src="{{picURL+post.id}}">
 
     <ion-card-content>
+      <h2 class="title">{{post.title}}</h2>
       <p class="postContent">{{post.content}}</p>
     </ion-card-content>
 
@@ -40,13 +41,13 @@
       <ion-col>
         <button (click)="like(post)" ion-button icon-left clear small>
           <ion-icon name="thumbs-up"></ion-icon>
-          <div>{{post.likeNum}} Likes</div>
+          <div>{{post.likenum}} Likes</div>
         </button>
       </ion-col>
       <ion-col>
         <button (click)="viewComments(post)" ion-button icon-left clear small>
           <ion-icon name="text"></ion-icon>
-          <div>{{post.commentNum}} Comments</div>
+          <div>{{post.commentnum}} Comments</div>
         </button>
       </ion-col>
 
@@ -63,17 +64,17 @@
       </div>
       <!--<div [innerHTML] = "commentListDiv"></div>-->
       <!--<div id="commentList"></div>-->
-      <div class="commentList">
+      <div *ngIf="comment!=null" class="commentList">
         <div class="commentItem" *ngFor="let comment of post.comments">
-          <div class="levelNum">#{{comment.level_num+1}}</div>
-          <img class="avatar" src="{{comment.commenter.avatar}}">
+          <!--<div class="levelNum">#{{comment.level_num+1}}</div>-->
+          <img class="avatar" src="assets/imgs/avatar.jpg">
           <div class="commentItemContent">
             <div class="info">
               <div class="infoContent">
                 <span>{{comment.commenter.name}}</span>
-                <span><span *ngIf="comment.target_level_num!=-1">@{{comment.target_user.name+'(#'+(comment.target_level_num+1)+')'}}</span>{{comment.content}}</span>
+                <span><span *ngIf="comment.targetuser!=null">@{{comment.targetuser.name+')'}}</span>{{comment.content}}</span>
               </div>
-              <button (click)="replyClicked(post,comment,commentInput)" ion-button clear>Reply</button>
+              <button (click)="replyClicked(comment.commenter,post,comment,commentInput)" ion-button clear>Reply</button>
             </div>
 
           </div>
@@ -83,6 +84,7 @@
     </div>
 
   </ion-card>
+</div>
 
 
 </ion-content>

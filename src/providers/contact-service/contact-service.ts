@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {Observable} from "rxjs/Observable";
+import {DateTime} from "ionic-angular";
 
 /*
   Generated class for the ContactServiceProvider provider.
@@ -10,61 +11,72 @@ import {Observable} from "rxjs/Observable";
 */
 @Injectable()
 export class ContactServiceProvider {
+  private readonly contactURL:string = "http://120.79.42.137:8080/Entity/Ud7adca934ab4e/Card/Contact/";
 
   constructor(public http: HttpClient) {
     console.log('Hello ContactServiceProvider Provider');
   }
 
-  getUserInfoByName(username){
+
+  areContacts(userInfoId,contactInfoId){
     return Observable.create(observer=>{
-      let userInfo = {
-        'phone': '15221530965',
-        'workplace': '上海市 市辖区 杨浦区',
-        'occupation': '学生',
-        'job': 'IT/互联网 研发',
-        'influence': 10,
-        'organization': '上海交通大学',
-        'university': '上海交通大学',
-        'qq': '593880978',
-        'wechat': 'anna',
-        'weibo': '15221530965',
-        'avatar': './assets/imgs/avatar.jpg',
-        'include': {'name': 'anna', 'email': 'huanganna@sjtu.edu.cn'},
-        'hasGroups': [{'id':1,'name':'同学','count':10},{'id':2,'name':'同事','count':30}]
+      let result = false;
+      this.http.get(this.contactURL+"?Contact.user.id="+userInfoId+"&&Contact.contact.id="+contactInfoId).subscribe(data=>{
+        if(data['Contact']){
+          result = true;
+          observer.next(result);
+          observer.complete();
+        }else{
+          this.http.get(this.contactURL+"?Contact.user.id="+contactInfoId+"&&Contact.contact.id="+userInfoId).subscribe(data=>{
+            if(data['Contact']){
+              result = true;
+            }
+            observer.next(result);
+            observer.complete();
+          })
+        }
+      });
+    });
+  }
+
+  addContact(userInfoId,contactInfoId){
+    return Observable.create(observer=>{
+      let body = {
+        user:{
+          id:userInfoId
+        },
+        contact:{
+          id:contactInfoId
+        },
+        addtime:new Date().toLocaleString()
       };
-      observer.next(userInfo);
-      observer.complete();
+      this.http.post(this.contactURL,body).subscribe(data=>{
+
+      })
     })
-
   }
 
-  areContacts(name1,name2){
-    return true;
-  }
-
-  findUserInfoByUsername(username){
-    return {
-      'phone': '15221530965',
-      'workplace': '上海市 市辖区 杨浦区',
-      'occupation': '学生',
-      'job': 'IT/互联网 研发',
-      'influence': 10,
-      'organization': '上海交通大学',
-      'university': '上海交通大学',
-      'qq': '593880978',
-      'wechat': 'anna',
-      'weibo': '15221530965',
-      'avatar':'./assets/imgs/user.jpg',
-      'include': {'id': 2, 'name': 'haha','email':'593880978@qq.com'}
-    };
-  }
-
-  updateUserInfo(user){
+  findContactsByUsername(username){
     return Observable.create(observer=>{
-      observer.next();
-      observer.complete();
+      let contactsList = []
+      this.http.get(this.contactURL+"?Contact.user.include.name="+username).subscribe(contacts=>{
+        if(contacts['Contact']){
+          for(let contact of contacts['Contact']){
+            contactsList.push(contact["contact"]);
+          }
+        }
+        this.http.get(this.contactURL+"?Contact.contact.include.name="+username).subscribe(contacts=>{
+          if(contacts['Contact']){
+            for(let contact of contacts['Contact']){
+              contactsList.push(contact["user"]);
+            }
+          }
+          observer.next(contactsList);
+          observer.complete();
+        })
+      })
     })
-
   }
+
 
 }

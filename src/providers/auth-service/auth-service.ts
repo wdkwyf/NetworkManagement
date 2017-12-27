@@ -3,6 +3,8 @@ import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Rx';
 import {isUndefined} from "ionic-angular/util/util";
 import {NativeStorage} from "@ionic-native/native-storage";
+import {AppConfig} from "../../app/app.config";
+import {FileTransfer, FileTransferObject} from "@ionic-native/file-transfer";
 
 /*
   Generated class for the AuthServiceProvider provider.
@@ -14,6 +16,8 @@ import {NativeStorage} from "@ionic-native/native-storage";
 export class AuthServiceProvider {
   private readonly getSomeUserURL: string = 'http://120.79.42.137:8080/Entity/Ud7adca934ab4e/Card/User/?User.name=';
   private readonly postSomeUserURL: string = 'http://120.79.42.137:8080/Entity/Ud7adca934ab4e/Card/User/';
+  // private readonly postUserInfoURL: string = 'http://120.79.42.137:8080/Entity/Ud7adca934ab4e/Card/Userinfo/';
+  private readonly userInfoURL: string = 'http://120.79.42.137:8080/Entity/Ud7adca934ab4e/Card/Userinfo/';
   private readonly s_username: string = 'userName';
   public readonly unlogin = 'Guest';
 
@@ -28,6 +32,10 @@ export class AuthServiceProvider {
             this.nativeStorage.setItem(this.s_username, credentials.name).then(() => {
               console.log('stored item:', credentials.name);
             });
+            AppConfig.setUsername(credentials.name);
+            // this.http.get(this.userInfoURL+"?Userinfo.include.name=" + credentials.name).subscribe(data=>{
+            //   AppConfig.setUserInfo(data['Userinfo'][0]);
+            // })
           }
           observer.next(access);
           observer.complete();
@@ -52,9 +60,27 @@ export class AuthServiceProvider {
             'reason': ''
           };
           this.http.post(this.postSomeUserURL, body).subscribe(data => {
-            observer.next(true);
-            observer.complete();
-            console.log(data);
+            let jsonData = {
+              // 'phone':'',
+              // 'workplace':'',
+              // 'occupation':'',
+              // 'job':'',
+              'influence':0,
+              'hasAvatar':0,
+              // 'organization':'',
+              // 'university':'',
+              // 'qq':'',
+              // 'wechat':'',
+              // 'weibo':'',
+              'include':{
+                'id':data['id']
+              },
+            };
+            this.http.post(this.userInfoURL,jsonData).subscribe(result=>{
+              observer.next(true);
+              observer.complete();
+              console.log(data);
+            })
           });
         } else {
           observer.next(false);
@@ -63,6 +89,27 @@ export class AuthServiceProvider {
       });
     });
 
+  }
+
+  public getUserInfoByName(name){
+    return Observable.create(observer=>{
+      this.http.get(this.userInfoURL +"?Userinfo.include.name=" + name).subscribe(data=>{
+        let userInfo = data['Userinfo']?data['Userinfo'][0]:null;
+        observer.next(userInfo);
+        observer.complete();
+      })
+    })
+  }
+
+
+  public getUserInfoByNameLike(name){
+    return Observable.create(observer=>{
+      this.http.get(this.userInfoURL +"?Userinfo.include.name=(like)" + name).subscribe(data=>{
+        let userInfo = data['Userinfo']?data['Userinfo']:[];
+        observer.next(userInfo);
+        observer.complete();
+      })
+    })
   }
 
   public logout() {
@@ -88,7 +135,34 @@ export class AuthServiceProvider {
     });
   }
 
-  constructor(public http: HttpClient, private nativeStorage: NativeStorage) {
+  public getUserInfo(){
+    return Observable.create(observer=>{
+
+    })
+  }
+
+  updateUserInfo(user,avatar) {
+    return Observable.create(observer => {
+      if(avatar){
+        user['hasavatar'] = 1;
+      }
+      this.http.put(this.userInfoURL+user.id,user).subscribe(data=>{
+        if(avatar){
+          const fileTransfer: FileTransferObject = this.transfer.create();
+          fileTransfer.upload(avatar,this.userInfoURL+user.id).then(response=>{
+            console.log(response.response);
+            observer.next(true);
+            observer.complete();
+          });
+        }else{
+          observer.next(true);
+          observer.complete();
+        }
+      });
+    })
+  }
+
+  constructor(private transfer: FileTransfer,public http: HttpClient, private nativeStorage: NativeStorage) {
     console.log('Hello AuthServiceProvider Provider');
   }
 
