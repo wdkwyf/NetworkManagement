@@ -1,5 +1,7 @@
 import {Component} from '@angular/core';
-import {AlertController, IonicPage, Loading, LoadingController, NavController, NavParams} from 'ionic-angular';
+import {
+  AlertController, IonicPage, Loading, LoadingController, NavController, NavParams,
+} from 'ionic-angular';
 import {AuthServiceProvider} from "../../providers/auth-service/auth-service";
 import {FileOpener} from "@ionic-native/file-opener";
 import {NativeStorage} from "@ionic-native/native-storage";
@@ -25,22 +27,18 @@ export class LoginPage {
               private auth: AuthServiceProvider,
               private alertCtrl: AlertController,
               private loadingCtrl: LoadingController) {
+
   }
 
   public createAccount() {
-    //for now
-    this.fileOpener.open('path/to/file.pdf', 'application/pdf')
-      .then(() => console.log('File is opened'))
-      .catch(e => console.log('Error openening file', e));
     this.navCtrl.push('RegisterPage');
-
   }
 
   public login() {
     this.showLoading();
     this.auth.login(this.loginCredentials).subscribe(allowed => {
       if (allowed) {
-        this.navCtrl.setRoot('TabsPage');
+        this.navCtrl.setRoot('ContactsPage');
       } else {
         this.showError('登录失败');
       }

@@ -12,19 +12,19 @@ import {ImgServiceProvider} from '../providers/img-service/img-service';
 import {CardServiceProvider} from '../providers/card-service/card-service';
 import {FileOpener} from "@ionic-native/file-opener";
 import {HTTP} from "@ionic-native/http";
-import {FileChooser} from "@ionic-native/file-chooser";
+import {Geolocation} from '@ionic-native/geolocation';
 import {Contacts} from "@ionic-native/contacts";
 import {FileTransfer} from "@ionic-native/file-transfer";
 import {File} from '@ionic-native/file';
 import {MultiPickerModule} from 'ion-multi-picker';
-import { SelectorDataProvider } from '../providers/selector-data/selector-data';
+import {SelectorDataProvider} from '../providers/selector-data/selector-data';
 import {ChartsModule} from "ng2-charts";
 import {NativeStorage} from "@ionic-native/native-storage";
 import {QQSDK} from "@ionic-native/qqsdk";
 import {NgxQRCodeModule} from "ngx-qrcode2";
 import {Toast} from "@ionic-native/toast";
 import {Screenshot} from '@ionic-native/screenshot';
-import { PhotoViewer } from '@ionic-native/photo-viewer';
+import {PhotoViewer} from '@ionic-native/photo-viewer';
 import {BarcodeScanner} from "@ionic-native/barcode-scanner";
 import { ContactServiceProvider } from '../providers/contact-service/contact-service';
 import { GroupServiceProvider } from '../providers/group-service/group-service';
@@ -56,7 +56,6 @@ import { MomentServiceProvider } from '../providers/moment-service/moment-servic
     ImgServiceProvider,
     FileOpener,
     HTTP,
-    FileChooser,
     File,
     FileTransfer,
     Contacts,
@@ -69,6 +68,7 @@ import { MomentServiceProvider } from '../providers/moment-service/moment-servic
     Screenshot,
     PhotoViewer,
     BarcodeScanner,
+    Geolocation,
     ContactServiceProvider,
     GroupServiceProvider,
     NoteServiceProvider,

@@ -1,17 +1,16 @@
 import {Component, ElementRef, ViewChild} from '@angular/core';
 import {
   AlertController, App, IonicPage, MenuController, NavController, NavParams,
-  PopoverController
+  PopoverController, ToastController
 } from 'ionic-angular';
 import {ChatPage} from "../chat/chat";
 import {PopoverPage} from "./popover";
 import {HttpClient} from "@angular/common/http";
 import {FileOpener} from "@ionic-native/file-opener";
-import {Camera} from "@ionic-native/camera";
 import {File} from "@ionic-native/file";
 import {FileTransfer} from "@ionic-native/file-transfer";
 import {CardServiceProvider} from "../../providers/card-service/card-service";
-import {FileChooser} from "@ionic-native/file-chooser";
+// import {FileChooser} from "@ionic-native/file-chooser";
 import {AuthServiceProvider} from "../../providers/auth-service/auth-service";
 import {AppConfig} from "../../app/app.config";
 import {GroupServiceProvider} from "../../providers/group-service/group-service";
@@ -33,15 +32,14 @@ export class ContactsPage {
 
   constructor(private contactService:ContactServiceProvider,
               private popoverCtrl: PopoverController,
-              private camera: Camera,
               public menu: MenuController,
               private navCtrl: NavController,
               private http: HttpClient,
               private transfer: FileTransfer,
               private fileOpener: FileOpener,
               private file: File,
+              private toastCtrl: ToastController,
               private alertCtrl: AlertController,
-              private fileChooser: FileChooser,
               private cardService: CardServiceProvider,
               private auth: AuthServiceProvider,
               private groupService:GroupServiceProvider,
@@ -49,6 +47,9 @@ export class ContactsPage {
     this.auth.getUserName().subscribe(name => {
       console.log(name, 'name');
       this.username = name;
+      if (name == 'Guest') {
+        this.navCtrl.setRoot('LoginPage');
+      }
     });
 
     // this.initializeItems();

@@ -1,4 +1,4 @@
-page-add-note {
+page-add-meettime {
   .noteContentTextArea{
     textarea{
       height: 200px;
@@ -8,6 +8,7 @@ page-add-note {
   }
 
   .addPhotoBtn{
+    //display:none;
     border: 1px dashed;
     font-size: 20px;
     background-color: transparent;

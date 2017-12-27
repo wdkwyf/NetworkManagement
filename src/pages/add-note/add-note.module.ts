@@ -1,8 +1,7 @@
-import { NgModule } from '@angular/core';
-import { IonicPageModule } from 'ionic-angular';
-import { AddNotePage } from './add-note';
-
-
+import {NgModule} from '@angular/core';
+import {IonicPageModule} from 'ionic-angular';
+import {NgxQRCodeModule} from "ngx-qrcode2";
+import {AddNotePage} from "./add-note";
 
 @NgModule({
   declarations: [
@@ -10,6 +9,9 @@ import { AddNotePage } from './add-note';
   ],
   imports: [
     IonicPageModule.forChild(AddNotePage),
+    NgxQRCodeModule,
   ],
 })
-export class AddNotePageModule {}
+export class AddNotePageModule {
+}
+

@@ -15,7 +15,7 @@ export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
   // make HomePage the root (or first) page
-  rootPage = 'LoginPage';
+  rootPage = 'TabsPage';
   pages: Array<{ title: string, component: any, icon: string }>;
 
   constructor(public platform: Platform,
@@ -26,7 +26,7 @@ export class MyApp {
     // set our app's pages
     this.pages = [
       {title: '云端名片管理', component: 'CloudCardListPage', icon: 'cloud'},
-      {title: '相遇一刻', component: 'AddContactPage', icon: 'heart'},
+      {title: '相遇一刻', component: 'MeetTimeListPage', icon: 'heart'},
     ];
   }
 
