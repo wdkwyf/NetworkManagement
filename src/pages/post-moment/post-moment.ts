@@ -20,7 +20,7 @@ import {AppConfig} from "../../app/app.config";
 })
 export class PostMomentPage {
 
-  img = null;// = [];
+  imgs = [];
   data;
   momentContent='';
   momentTitle='';
@@ -53,14 +53,14 @@ export class PostMomentPage {
 
   postMoment(){
     console.log(this.userInfo)
-    this.momentService.postMoment(this.userInfo['id'],this.momentTitle,this.momentContent,this.img).subscribe(data=>{
+    this.momentService.postMoment(this.userInfo['id'],this.momentTitle,this.momentContent,this.imgs[0]).subscribe(data=>{
       this.view.dismiss(data);
     })
   }
 
 
-  public viewPhoto(){
-    this.photoViewer.show(this.img, '拍摄照片')
+  public viewPhoto(i){
+    this.photoViewer.show(this.imgs[i], '拍摄照片')
   }
   presentActionSheet() {
     let actionSheet = this.actionSheetCtrl.create({
@@ -68,13 +68,13 @@ export class PostMomentPage {
         text: '拍照',
         role: 'takePhoto',
         handler: () => {
-          this.img = this.imgService.takePicture();
+          this.imgs = this.imgService.takePicture();
         }
       }, {
         text: '从相册选择',
         role: 'chooseFromAlbum',
         handler: () => {
-          this.img = this.imgService.chooseFromAlbum();
+          this.imgs = this.imgService.chooseFromAlbum();
         }
       }, {
         text: '取消',

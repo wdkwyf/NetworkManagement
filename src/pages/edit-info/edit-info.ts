@@ -22,7 +22,7 @@ import {AuthServiceProvider} from "../../providers/auth-service/auth-service";
 export class EditInfoPage {
 
   // avatar = "../assets/imgs/avatar.jpg";
-  avatar = null;
+  avatar= [];
   cityColumns;//用于构造selector
   workplace = null;
   // workPlaceStr="上海市 市辖区 杨浦区";//选择的工作地
@@ -30,11 +30,13 @@ export class EditInfoPage {
   jobStr = "服务业 市场销售";
   // editing = false;
   user;
+  private readonly avatarURL: string = 'http://120.79.42.137:8080/file/Ud7adca934ab4e/Card/Userinfo/';
 
   constructor(private authService:AuthServiceProvider,public navCtrl: NavController,private view: ViewController, public navParams: NavParams,private selectorData:SelectorDataProvider,private imgservice: ImgServiceProvider, public actionSheetCtrl: ActionSheetController) {
     this.cityColumns = this.selectorData.cities;
     this.jobColumns = this.selectorData.jobs;
     this.user = this.navParams.get('user');
+
 
   }
 
@@ -100,7 +102,7 @@ export class EditInfoPage {
       }
     }
     // //todo 更新数据库
-    this.authService.updateUserInfo(this.user,this.avatar).subscribe(data=>{
+    this.authService.updateUserInfo(this.user,this.avatar[0]).subscribe(data=>{
       console.log(data);
       this.closeModal();
     });

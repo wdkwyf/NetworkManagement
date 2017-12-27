@@ -33,7 +33,7 @@
   <!--</button>-->
 
   <div class="avatar">
-    <img (click)="changeAvatar()" id='avatarDiv' height="80px" width="80px" src="assets/imgs/avatar.jpg">
+    <img (click)="changeAvatar()" id='avatarDiv' height="80px" width="80px" src="{{avatar[0]?avatar[0]:(user.hasavatar?(avatarURL+user.id):'assets/imgs/avatar.jpg')}}">
   </div>
 
   <ion-list>

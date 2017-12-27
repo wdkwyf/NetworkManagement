@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import {AuthServiceProvider} from "../../providers/auth-service/auth-service";
+import {AppConfig} from "../../app/app.config";
 
 /**
  * Generated class for the GroupListPage page.
@@ -17,9 +19,12 @@ export class GroupListPage {
   userInfo;
   groupLists;// = [{"name":"同事","count":20},{"name":"同学","count":30}];
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
-    this.userInfo = navParams.get('userInfo');
-    this.groupLists = this.userInfo.hasgroup;
+  constructor(private authService:AuthServiceProvider,public navCtrl: NavController, public navParams: NavParams) {
+    authService.getUserInfoByName(AppConfig.getUsername()).subscribe(data=>{
+      this.userInfo = data;
+      this.groupLists = this.userInfo.hasgroup;
+    })
+
 
   }
 

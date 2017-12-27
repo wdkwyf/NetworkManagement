@@ -50,9 +50,7 @@ export class ContactsPage {
       console.log(name, 'name');
       this.username = name;
     });
-    auth.getUserInfoByName(AppConfig.getUsername()).subscribe(data=>{
-      this.userInfo = data;
-    });
+
     // this.initializeItems();
 
   }
@@ -175,6 +173,9 @@ export class ContactsPage {
 
   ionViewWillEnter(){
     console.log("will enter");
+    this.auth.getUserInfoByName(AppConfig.getUsername()).subscribe(data=>{
+      this.userInfo = data;
+    });
     if(this.refresh){
       this.initializeItems();
     }

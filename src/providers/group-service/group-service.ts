@@ -91,18 +91,29 @@ export class GroupServiceProvider {
     })
   }
 
-  deleteInGroup(inGroup){
+  deleteInGroup(userInfoId,group){
+    console.log(group);
     return Observable.create(observer=>{
-      this.http.delete(this.joinGroupURL+inGroup['id']).subscribe(data=>{
-        let json = {
-          "name":inGroup['group']['name'],
-          "count":inGroup['group']['count']+1,
-          "createtime":inGroup['group']['createtime']
-        };
-        this.http.put(this.groupURL+inGroup['group']['id'],json).subscribe(data=>{
-          observer.next(true);
-          observer.complete();
-        })
+      this.http.get(this.joinGroupURL+'?Ingroup.user.id='+userInfoId+"&&Ingroup.group.id="+group.id).subscribe(data=>{
+        this.http.delete(this.joinGroupURL+data['Ingroup'][0]['id']).subscribe(data=>{
+          this.updateGroup(group,'count',group['count']-1).subscribe(data=>{
+            observer.next(true);
+            observer.complete();
+          })
+      })
+
+
+
+
+        // let json = {
+        //   "name":inGroup['group']['name'],
+        //   "count":inGroup['group']['count']+1,
+        //   "createtime":inGroup['group']['createtime']
+        // };
+        // this.http.put(this.groupURL+inGroup['group']['id'],json).subscribe(data=>{
+        //   observer.next(true);
+        //   observer.complete();
+        // })
       })
     })
   }
@@ -119,16 +130,32 @@ export class GroupServiceProvider {
         createtime:new Date().toLocaleString()
       };
       this.http.post(this.joinGroupURL,body).subscribe(data=>{
-        let json = {
-          "name":data['group']['name'],
-          "count":data['group']['count']-1,
-          // "createtime":group['createtime']
-        };
-        this.http.put(this.groupURL+data['group']['id'],json).subscribe(data=>{
+
+        let group = data['group'];
+        this.updateGroup(group,'count',group['count']+1).subscribe(data=>{
           observer.next(true);
           observer.complete();
-        })
+        });
+
+        // let json = {
+        //   "name":data['group']['name'],
+        //   "count":data['group']['count']-1,
+        //   // "createtime":group['createtime']
+        // };
+        // this.http.put(this.groupURL+data['group']['id'],json).subscribe(data=>{
+        //   observer.next(true);
+        //   observer.complete();
+        // })
       })
+    })
+  }
+
+  updateGroup(group,key,value){
+    return Observable.create(observer=>{
+      group[key] = value;
+      this.http.put(this.groupURL+group.id,group).subscribe(data=>{})
+      observer.next();
+      observer.complete();
     })
   }
 
