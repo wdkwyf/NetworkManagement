@@ -40,8 +40,8 @@
     <ion-row>
       <ion-col>
         <button (click)="like(post)" ion-button icon-left clear small>
-          <ion-icon name="thumbs-up"></ion-icon>
-          <div>{{post.likenum}} Likes</div>
+          <span class="{{likeOrNot[post.id]?'like':'unlike'}}"><ion-icon name="thumbs-up"></ion-icon></span>
+          <div  class="{{likeOrNot[post.id]?'like':'unlike'}}">{{post.likenum}} Likes</div>
         </button>
       </ion-col>
       <ion-col>

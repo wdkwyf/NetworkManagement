@@ -13,9 +13,52 @@ import {FileTransfer, FileTransferObject} from "@ionic-native/file-transfer";
 export class MomentServiceProvider {
 
   private readonly momentURL:string = 'http://120.79.42.137:8080/Entity/Ud7adca934ab4e/Card/Moments/';
+  private readonly likeMomentURL:string = 'http://120.79.42.137:8080/Entity/Ud7adca934ab4e/Card/Likemoment/';
 
   constructor(private transfer: FileTransfer,public http: HttpClient) {
     console.log('Hello MomentServiceProvider Provider');
+  }
+
+  addLikeMoment(userInfoId,momentId){
+    return Observable.create(observer=>{
+      let body = {
+        'user':{
+          'id':userInfoId
+        },
+        'moment':{
+          'id':momentId
+        },
+        'liketime':new Date().toLocaleString()
+      };
+      this.http.post(this.likeMomentURL,body).subscribe(data=>{
+          observer.next(true);
+          observer.complete();
+      })
+    })
+  }
+
+  cancelLikeMoment(userInfoId,momentId){
+    return Observable.create(observer=>{
+      this.http.get(this.likeMomentURL+'?Likemoment.user.id='+userInfoId+"&&Likemoment.moment.id="+momentId).subscribe(data=>{
+          let likeMomentId = data['Likemoment'][0]['id'];
+          this.http.delete(this.likeMomentURL+likeMomentId).subscribe(data=>{
+            observer.next(true);
+            observer.complete();
+          })
+      })
+    })
+  }
+
+  likeOrNot(userInfoId,momentId){
+    return Observable.create(observer=>{
+      let like = false;
+      this.http.get(this.likeMomentURL+'?Likemoment.user.id='+userInfoId+"&&Likemoment.moment.id="+momentId).subscribe(data=>{
+        if(data['Likemoment'])
+          like = true;
+        observer.next(like);
+        observer.complete();
+      })
+    })
   }
 
   getMomentList(){
@@ -70,10 +113,11 @@ export class MomentServiceProvider {
 
   updateMoment(moment,key,value){
     return Observable.create(observer=>{
+      moment[key] = value;
+      this.http.put(this.momentURL+moment.id,moment).subscribe(data=>{})
       observer.next();
       observer.complete();
     })
-
   }
 
 }

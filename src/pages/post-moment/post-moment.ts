@@ -59,7 +59,7 @@ export class PostMomentPage {
   }
 
 
-  public viewPhoto(i){
+  public viewPhoto(){
     this.photoViewer.show(this.img, '拍摄照片')
   }
   presentActionSheet() {

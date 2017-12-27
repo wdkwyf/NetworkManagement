@@ -14,9 +14,9 @@
 
 
 <ion-content padding>
-  <div *ngIf="imgs.length!=0">
-    <ion-img style="margin-right: 2px;" *ngFor="let img of imgs;let i = index" width="150" src={{img}}
-             (click)="viewPhoto(i)"></ion-img>
+  <div *ngIf="img!=null">
+    <ion-img style="margin-right: 2px;"width="150" src={{img}}
+             (click)="viewPhoto()"></ion-img>
   </div>
   <button class="addPhotoBtn" (click)="addPhoto()">
     <ion-icon name="add"></ion-icon>

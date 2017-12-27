@@ -26,6 +26,7 @@ export class CommunityPage {
   username;
   parentComment = -1;
   targetUser;
+  likeOrNot = [];
   private readonly picURL:string = 'http://120.79.42.137:8080/file/Ud7adca934ab4e/Card/Moments/';
 
   // commentListDiv = null;
@@ -34,12 +35,13 @@ export class CommunityPage {
 
     this.username = AppConfig.getUsername();
 
-    momentService.getMomentList().subscribe(data=>{
-      this.posts = data;
-      this.updateArrs();
-    });
+
     authService.getUserInfoByName(this.username).subscribe(data=>{
       this.userInfo = data;
+      momentService.getMomentList().subscribe(data=>{
+        this.posts = data;
+        this.updateArrs();
+      });
     })
 
   }
@@ -49,6 +51,9 @@ export class CommunityPage {
       let postId = this.posts[i].id;
       this.showComments[postId] = false;
       this.placeholder[postId] = 'comment';
+      this.momentService.likeOrNot(this.userInfo.id,postId).subscribe(isLike=>{
+        this.likeOrNot[postId] = isLike;
+      })
     }
   }
 
@@ -92,9 +97,18 @@ export class CommunityPage {
 
 
   like(post){
-    this.momentService.updateMoment(post,'likeNum',post.likeNum+1)
-    console.log("like "+post.id);
+    if(this.likeOrNot[post.id]){
+      this.momentService.cancelLikeMoment(this.userInfo.id,post.id).subscribe(data=>{
+        this.momentService.updateMoment(post,'likenum',post.likenum-1).subscribe(data=>{})
+      });
+      console.log("cancel like "+post.id);
 
+    }else{
+      this.momentService.addLikeMoment(this.userInfo.id,post.id).subscribe(data=>{
+        this.momentService.updateMoment(post,'likenum',post.likenum+1).subscribe(data=>{})
+      })
+    }
+    this.likeOrNot[post.id] = !this.likeOrNot[post.id];
   }
   viewComments(post){
     this.showComments[post.id] = !this.showComments[post.id];
