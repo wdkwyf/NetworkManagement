@@ -104,6 +104,9 @@ export class EditInfoPage {
     // //todo 更新数据库
     this.authService.updateUserInfo(this.user,this.avatar[0]).subscribe(data=>{
       console.log(data);
+      if(this.avatar[0]){
+        this.user['hasavatar'] = 1;
+      }
       this.closeModal();
     });
 
