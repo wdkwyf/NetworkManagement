@@ -38,7 +38,7 @@ export class LoginPage {
     this.showLoading();
     this.auth.login(this.loginCredentials).subscribe(allowed => {
       if (allowed) {
-        this.navCtrl.setRoot('ContactsPage');
+        this.navCtrl.setRoot('TabsPage');
       } else {
         this.showError('登录失败');
       }

@@ -16,11 +16,12 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 export class InfluencePage {
 
 
+  personalUsername = '';
   public lineChartData:Array<any> = [
-    {data: [65, 59, 80, 81, 56, 55, 40], label: '影响力'},
+    {data: [65, 59, 80, 81, 56, 55, 40,50,40,50,55], label: '影响力'},
 
   ];
-  public lineChartLabels:Array<any> = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
+  public lineChartLabels:Array<any> = ['1月', '2月', '3月', '4月', '5月', '6月', '7月','8月','9月','10月','11月'];
   public lineChartOptions:any = {
     responsive: true
   };
@@ -50,6 +51,7 @@ export class InfluencePage {
   }
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
+    this.personalUsername = navParams.get('username');
   }
 
   ionViewDidLoad() {

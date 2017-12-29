@@ -29,6 +29,8 @@ export class ContactsPage {
   userInfo;
   inGroupsId=[];
   refresh = true;
+  private readonly avatarURL: string = 'http://120.79.42.137:8080/file/Ud7adca934ab4e/Card/Userinfo/';
+
 
   constructor(private contactService:ContactServiceProvider,
               private popoverCtrl: PopoverController,
@@ -47,9 +49,9 @@ export class ContactsPage {
     this.auth.getUserName().subscribe(name => {
       console.log(name, 'name');
       this.username = name;
-      if (name == 'Guest') {
-        this.navCtrl.setRoot('LoginPage');
-      }
+      // if (name == 'Guest') {
+      //   this.navCtrl.setRoot('LoginPage');
+      // }
     });
 
     // this.initializeItems();

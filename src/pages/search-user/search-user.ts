@@ -41,6 +41,7 @@ export class SearchUserPage {
   getItems(ev: any) {
     // Reset items back to all of the items
     this.initializeItems();
+    this.contactsList = [];
 
     // set val to the value of the searchbar
     let val = ev.target.value;

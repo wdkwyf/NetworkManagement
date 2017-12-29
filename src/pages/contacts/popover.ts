@@ -53,7 +53,7 @@ export class PopoverPage {
   public addContact() {
     this.navCtrl.push("SearchUserPage");
     console.log("添加人脉");
-    // this.view.dismiss();
+    this.view.dismiss();
   }
 
   public scanCard() {

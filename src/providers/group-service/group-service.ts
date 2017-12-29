@@ -21,6 +21,7 @@ export class GroupServiceProvider {
     console.log('Hello GroupServiceProvider Provider');
   }
 
+  //获得组的所有好友
   getContactsInGroup(groupId) {
     return Observable.create(observer => {
       console.log((groupId));
@@ -91,18 +92,18 @@ export class GroupServiceProvider {
     })
   }
 
+  //将好友从某组移除
   deleteInGroup(userInfoId,group){
     console.log(group);
     return Observable.create(observer=>{
+      this.updateGroup(group,'count',group['count']-1).subscribe(data=>{
+        observer.next(true);
+        observer.complete();
+      });
       this.http.get(this.joinGroupURL+'?Ingroup.user.id='+userInfoId+"&&Ingroup.group.id="+group.id).subscribe(data=>{
-        this.http.delete(this.joinGroupURL+data['Ingroup'][0]['id']).subscribe(data=>{
-          this.updateGroup(group,'count',group['count']-1).subscribe(data=>{
-            observer.next(true);
-            observer.complete();
-          })
+        this.http.delete(this.joinGroupURL+data['Ingroup'][0]['id']).subscribe(success=>{
+
       })
-
-
 
 
         // let json = {
@@ -118,6 +119,7 @@ export class GroupServiceProvider {
     })
   }
 
+  //将好友添加至某一分组
   addInGroup(userInfoId,group){
     return Observable.create(observer=>{
       let body = {
@@ -150,6 +152,7 @@ export class GroupServiceProvider {
     })
   }
 
+  //更新分组信息
   updateGroup(group,key,value){
     return Observable.create(observer=>{
       group[key] = value;
@@ -184,6 +187,7 @@ export class GroupServiceProvider {
   //   })
   // }
 
+  //创建分组
   createGroup(userInfo,groupName) {
     return Observable.create(observer => {
       let body = {
@@ -193,7 +197,11 @@ export class GroupServiceProvider {
       };
       this.http.post(this.groupURL,body).subscribe(data=>{
         let groupId = data["id"];
-        let hasgroup = [userInfo.hasgroup,{"id":groupId,"name":groupName,"count":0}];
+        let hasgroup = [];
+        for(let group of userInfo.hasgroup){
+          hasgroup.push(group);
+        }
+        hasgroup.push({"id":groupId,"name":groupName,"count":0});
         // hasgroup.push({"id":groupId});
         userInfo.hasgroup = hasgroup;
         // AppConfig.setUserInfo(userInfo);

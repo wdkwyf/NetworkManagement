@@ -33,12 +33,13 @@ export class PersonalInfoPage {
   joinGroups=[];
   influence = "";
   relation = -1;
-  labelNames = ["手机号", "邮箱", "工作地", "影响力", "职位", "职业", "组织", "大学", "QQ", "Wechat", "Weibo"];
+  labelNames = ["手机号", "邮箱", "工作地", "影响力", "职位", "职业", "组织", "大学", "QQ", "Wechat"];
   userValues = [];//=[this.user.phone,this.user.email,this.user.workPlaceStr,this.user.occupation,this.user.jobStr,
   //this.user.organization,this.user.university,this.user.qq,this.user.wechat,this.user.weibo];
   private readonly avatarURL: string = 'http://120.79.42.137:8080/file/Ud7adca934ab4e/Card/Userinfo/';
 
   constructor(private authService: AuthServiceProvider, private groupService: GroupServiceProvider, private contactService: ContactServiceProvider, private app: App, public navCtrl: NavController, public navParams: NavParams, private modal: ModalController) {
+
 
     // console.log('constructor');
     if(!navParams.get('username')){
@@ -64,6 +65,10 @@ export class PersonalInfoPage {
         })
       }
     });
+  }
+
+  navToInfluence(username){
+    this.navCtrl.push('InfluencePage',{'username':username});
   }
 
   updateIngroups(){
@@ -120,7 +125,7 @@ export class PersonalInfoPage {
 
   updateUserValues() {
     this.userValues = [this.personalUserInfo.phone, this.personalUserInfo.include.email, this.personalUserInfo.workplace, this.personalUserInfo.influence, this.personalUserInfo.occupation, this.personalUserInfo.job,
-      this.personalUserInfo.organization, this.personalUserInfo.university, this.personalUserInfo.qq, this.personalUserInfo.wechat, this.personalUserInfo.weibo];
+      this.personalUserInfo.organization, this.personalUserInfo.university, this.personalUserInfo.qq, this.personalUserInfo.wechat];
   }
 
   showInfoDetail() {

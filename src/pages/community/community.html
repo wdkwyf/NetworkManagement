@@ -9,7 +9,7 @@
   <!--<ion-title>Community</ion-title>-->
   <!--</ion-navbar>-->
   <ion-navbar>
-    <ion-title>Community</ion-title>
+    <ion-title>社区</ion-title>
     <ion-buttons end>
       <button ion-button icon-only (click)="postButtonClicked()">
         <ion-icon name="md-add"></ion-icon>
@@ -26,9 +26,9 @@
 <div  *ngIf="posts.length>0">
   <ion-card *ngFor="let post of posts">
     <div class="upper">
-      <img class="avatar" src="assets/imgs/avatar.jpg">
+      <img class="avatar" src="{{post.user.hasavatar?(avatarURL+post.user.id):'assets/imgs/avatar.jpg'}}">
       <span>{{post.user.include.name}}</span>
-      <span>{{post.posttime}}</span>
+      <span>{{timeStampToString(post.posttime)}}</span>
     </div>
     <img *ngIf="post.haspic==1" src="{{picURL+post.id}}">
 
@@ -41,13 +41,13 @@
       <ion-col>
         <button (click)="like(post)" ion-button icon-left clear small>
           <span class="{{likeOrNot[post.id]?'like':'unlike'}}"><ion-icon name="thumbs-up"></ion-icon></span>
-          <div  class="{{likeOrNot[post.id]?'like':'unlike'}}">{{post.likenum}} Likes</div>
+          <div  class="{{likeOrNot[post.id]?'like':'unlike'}}">{{post.likenum}} 赞</div>
         </button>
       </ion-col>
       <ion-col>
         <button (click)="viewComments(post)" ion-button icon-left clear small>
           <ion-icon name="text"></ion-icon>
-          <div>{{post.commentnum}} Comments</div>
+          <div>{{post.commentnum}} 评论</div>
         </button>
       </ion-col>
 
@@ -57,24 +57,25 @@
     <div *ngIf="showComments[post.id]">
       <div class="commentDiv">
         <ion-input #commentInput value="{{commentContent}}" class="commentInput" type="text"
-                   placeholder="{{placeholder[post.id]}}" [(ngModel)]="commentContent"></ion-input>
-        <button style="background-color: transparent" (click)="submitComment()">
+                   placeholder="{{placeholder[post.id]}}" [(ngModel)]="commentContent" (focus)="inputOnFocus()"></ion-input>
+        <button style="background-color: transparent" (click)="submitComment(post)">
           <ion-icon style="font-size: 30px;color: #488aff;padding: 1px 5px 1px 1px;" name="ios-send"></ion-icon>
         </button>
       </div>
       <!--<div [innerHTML] = "commentListDiv"></div>-->
       <!--<div id="commentList"></div>-->
-      <div *ngIf="comment!=null" class="commentList">
+      <div *ngIf="post.comments" class="commentList">
         <div class="commentItem" *ngFor="let comment of post.comments">
           <!--<div class="levelNum">#{{comment.level_num+1}}</div>-->
-          <img class="avatar" src="assets/imgs/avatar.jpg">
+          <img class="avatar" src="{{comment.commenter.hasavatar?(avatarURL+comment.commenter.id):'assets/imgs/avatar.jpg'}}">
           <div class="commentItemContent">
             <div class="info">
               <div class="infoContent">
-                <span>{{comment.commenter.name}}</span>
-                <span><span *ngIf="comment.targetuser!=null">@{{comment.targetuser.name+')'}}</span>{{comment.content}}</span>
+                <span>{{comment.commenter.include.name}}</span>
+                <span style="color: gray">{{timeStampToString(comment.commenttime)}}</span>
+                <span><span *ngIf="comment.targetuser">@({{comment.targetuser.include.name}})</span>{{comment.content}}</span>
               </div>
-              <button (click)="replyClicked(comment.commenter,post,comment,commentInput)" ion-button clear>Reply</button>
+              <button (click)="replyClicked(comment.commenter,post,comment,commentInput)" ion-button clear>回复</button>
             </div>
 
           </div>

@@ -27,7 +27,10 @@ export class AuthServiceProvider {
     } else {
       return Observable.create(observer => {
         this.http.get(this.getSomeUserURL + credentials.name).subscribe(data => {
-          let access = credentials.password === data['User'][0]['password'];
+          let access = false;
+          if(data['User']){
+           access = credentials.password === data['User'][0]['password'];
+          }
           if (access) {
             this.nativeStorage.setItem(this.s_username, credentials.name).then(() => {
               console.log('stored item:', credentials.name);
@@ -135,11 +138,6 @@ export class AuthServiceProvider {
     });
   }
 
-  public getUserInfo(){
-    return Observable.create(observer=>{
-
-    })
-  }
 
   updateUserInfo(user,avatar) {
     return Observable.create(observer => {
@@ -166,4 +164,9 @@ export class AuthServiceProvider {
     console.log('Hello AuthServiceProvider Provider');
   }
 
+  // timetamp = new Date().getTime();
+  // console.log(timetamp);
+  // date = new Date();
+  // date.setTime(timetamp);
+  // console.log(date.getMonth()+1);
 }

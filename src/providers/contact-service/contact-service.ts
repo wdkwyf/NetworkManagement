@@ -48,7 +48,7 @@ export class ContactServiceProvider {
         contact:{
           id:contactInfoId
         },
-        addtime:new Date().toLocaleString()
+        addtime:new Date().getTime()
       };
       this.http.post(this.contactURL,body).subscribe(data=>{
 

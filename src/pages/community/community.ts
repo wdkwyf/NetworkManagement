@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams,Modal, ModalController, ModalOption
 import {MomentServiceProvider} from "../../providers/moment-service/moment-service";
 import {AuthServiceProvider} from "../../providers/auth-service/auth-service";
 import {AppConfig} from "../../app/app.config";
+import {computeMsgId} from "@angular/compiler/src/i18n/digest";
 
 /**
  * Generated class for the CommunityPage page.
@@ -24,10 +25,11 @@ export class CommunityPage {
   //posts : [{id:string,title:string,content:string,likenum:Number,commentnum:Number,posttime:Number,user:{name:string},comments:[{content:string,commenter:{targetuser:{name:string}}}]}]=null;
   userInfo;
   username;
-  parentComment = -1;
-  targetUser;
+  parentCommentId = -1;
+  targetUser = null;
   likeOrNot = [];
-  private readonly picURL:string = 'http://120.79.42.137:8080/file/Ud7adca934ab4e/Card/Moments/';
+  private readonly avatarURL: string = 'http://120.79.42.137:8080/file/Ud7adca934ab4e/Card/Userinfo/';
+  private readonly picURL:string = 'http://120.79.42.137:8080/file/Ud7adca934ab4e/Card/Posts/';
 
   // commentListDiv = null;
 
@@ -38,12 +40,15 @@ export class CommunityPage {
 
     authService.getUserInfoByName(this.username).subscribe(data=>{
       this.userInfo = data;
-      momentService.getMomentList().subscribe(data=>{
-        this.posts = data;
-        this.updateArrs();
-      });
+
     })
 
+  }
+
+  timeStampToString(time):string{
+    let date = new Date();
+    date.setTime(time);
+    return date.toLocaleString();
   }
 
   updateArrs(){
@@ -62,6 +67,17 @@ export class CommunityPage {
     console.log('ionViewDidLoad CommunityPage');
   }
 
+  ionViewWillEnter(){
+    this.momentService.getMomentList().subscribe(data=>{
+      this.posts = data;
+      // for(let post of this.posts){
+      //   let date = new Date();
+      //   date.setTime(post.posttime);
+      //   posttimeStr[post.id] = date.toLocaleString();
+      // }
+      this.updateArrs();
+    });
+  }
   postButtonClicked(){
 
       const myModalOptions: ModalOptions = {
@@ -153,8 +169,12 @@ export class CommunityPage {
   // }
   //
   replyClicked(targetuser,post,comment,commentInput){
-    this.placeholder[post.id] = "@"+comment.commenter.name+" ";
-    this.parentComment = comment.id;
+    // if(targetuser.id == this.userInfo.include.id){
+    //   alert("不可以回复自己！");
+    //   return;
+    // }
+    this.placeholder[post.id] = "@"+comment.commenter.include.name+" ";
+    this.parentCommentId = comment.id;
     this.targetUser = targetuser;
     commentInput.setFocus();
   }
@@ -162,8 +182,20 @@ export class CommunityPage {
   // tapEvent(e){
   //   console.log('tap');
   // }
-  submitComment()
+
+  inputOnFocus(){
+    this.commentContent = '';
+  }
+  submitComment(post)
   {
+    this.momentService.postComment(this.commentContent,this.parentCommentId,this.userInfo.id,this.targetUser).subscribe(comment=>{
+      post.comments.push(comment);
+      console.log(post);
+      post.commentnum += 1;
+      this.momentService.updateMoment(post,'comments',post.comments).subscribe(data=>{
+        console.log(data);
+      });
+    });
     console.log("submit comment");
   }
 
