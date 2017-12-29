@@ -68,15 +68,15 @@ export class CommunityPage {
   }
 
   ionViewWillEnter(){
-    this.momentService.getMomentList().subscribe(data=>{
-      this.posts = data;
-      // for(let post of this.posts){
-      //   let date = new Date();
-      //   date.setTime(post.posttime);
-      //   posttimeStr[post.id] = date.toLocaleString();
-      // }
-      this.updateArrs();
-    });
+    // this.momentService.getMomentList().subscribe(data=>{
+    //   this.posts = data;
+    //   // for(let post of this.posts){
+    //   //   let date = new Date();
+    //   //   date.setTime(post.posttime);
+    //   //   posttimeStr[post.id] = date.toLocaleString();
+    //   // }
+    //   this.updateArrs();
+    // });
   }
   postButtonClicked(){
 

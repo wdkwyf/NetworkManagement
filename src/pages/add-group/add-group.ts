@@ -21,6 +21,7 @@ export class AddGroupPage {
   userInfo;
   personalInfoPage;
   personalUserInfo;
+  inGroups;
   inGroupIdList=[];//好友所在的所有group的id
   groupList=[];//用户建的所有组
   joinGroups;//好友所在的所有group对应的Ingroup
@@ -44,14 +45,14 @@ export class AddGroupPage {
         for(let hasGroup of this.groupList){
           hasGroupIds.push(hasGroup.id);
         }
-        let tmp = inGroups['groups'].filter(item=>{
+        this.inGroups = inGroups['groups'].filter(item=>{
           return(hasGroupIds.indexOf(item.id)>-1);
         });
         this.joinGroups = inGroups['joinGroups'];
         this.joinGroups = this.joinGroups.filter(item=>{
           return(hasGroupIds.indexOf(item.group.id)>-1);
         });
-        for (let group of tmp) {
+        for (let group of this.inGroups) {
           this.inGroupIdList.push(group['id']);
         }
         for(let group of this.groupList){
@@ -77,12 +78,15 @@ export class AddGroupPage {
     if(this.personalInfoPage){
       this.personalInfoPage.inGroup = groupStr;
     }
-    for(let joinGroup of this.joinGroups){
-      this.groupService.deleteInGroup(joinGroup).subscribe(data=>{
+    let inGroups = this.inGroups;
+    for(let ingroup of inGroups){
+      this.groupService.deleteInGroup(this.personalUserInfo.id,ingroup).subscribe(group=>{
+        // this.groupService.updateGroup(group,'count',group['count']-1)
       })
     }
     for(let inGroup of newInGroupList){
-      this.groupService.addInGroup(this.personalUserInfo.id,inGroup).subscribe(data=>{
+      this.groupService.addInGroup(this.personalUserInfo.id,inGroup).subscribe(group=>{
+        // this.groupService.updateGroup(group,'count',group['count']+1)
       })
     }
     this.navCtrl.pop();
@@ -101,13 +105,13 @@ export class AddGroupPage {
         ],
         buttons: [
           {
-            text: 'Cancel',
+            text: '取消',
             handler: data => {
               console.log('Cancel clicked');
             }
           },
           {
-            text: 'Save',
+            text: '创建',
             handler: data => {
               console.log(data.groupName);
               console.log('Saved clicked');
